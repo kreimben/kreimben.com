@@ -1,17 +1,13 @@
 import Head from 'next/head';
 
-import Menu from '../components/Menu';
+import Layout from '../components/Layout'
 
 export default function Home() {
     return (
-        <>
-            <Head>
-                <title>Welcome to Kreimben.com!</title>
-            </Head>
-            <Menu />
+        <Layout>
             <main className="bg-red-300">
-                <h1 className="text-blue-200">Hello, World!</h1>
+                <h1 className="text-blue-200">Home page</h1>
             </main>
-        </>
+        </Layout>
     )
 }
