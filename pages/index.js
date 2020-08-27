@@ -9,8 +9,8 @@ export default function Home() {
                 <title>Welcome to Kreimben.com!</title>
             </Head>
             <Menu />
-            <main>
-                <h1 className="text-red-500">Hello, World!</h1>
+            <main className="bg-red-300">
+                <h1 className="text-blue-200">Hello, World!</h1>
             </main>
         </>
     )

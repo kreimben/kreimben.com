@@ -1,5 +1,5 @@
 "use strict";
 
 module.exports = {
-  plugins: [require('autoprefixer'), require('postcss-nested'), require('tailwindcss'), require('postcss-preset-env')]
+  plugins: [require('autoprefixer'), require('tailwindcss')]
 };

@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "autoprefixer": "^9.8.6",
     "next": "9.5.2",
     "postcss": "^7.0.32",
     "react": "16.13.1",
