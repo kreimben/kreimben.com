@@ -4,7 +4,7 @@ import Menu from '../components/Menu';
 
 export default function Layout(props) {
     return (
-        <nav>
+        <div>
             <Head>
                 <title> { props.title } </title>
             </Head>
@@ -12,6 +12,6 @@ export default function Layout(props) {
             <main>
                 { props.children }
             </main>
-        </nav>
+        </div>
     )
 }
