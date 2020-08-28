@@ -2,10 +2,15 @@ import Layout from '../components/Layout'
 
 export default function Home() {
     return (
-        <Layout title="Kreimben.com, Indie developer's website">
-            <main>
-                <h1 className="text-center">Home page</h1>
-            </main>
-        </Layout>
+        <>
+            <header className="container mx-auto">
+                <p>Hello, kreimben!</p>
+            </header>
+            <Layout title="Kreimben.com">
+                <main>
+                    <h1 className="">Home page</h1>
+                </main>
+            </Layout>
+        </>
     )
 }
