@@ -4,7 +4,7 @@ const elementStyle = "text-blue-800 font-extrabold text-xl text-center flex-grow
 
 export default function Menu() {
     return (
-        <nav className="bg-gray-300 items-center flex py-4 rounded-full divide-x divide-gray-500 fix">
+        <nav className="bg-gray-300 items-center flex py-4 divide-x divide-gray-500 sticky top-0">
             <Link href="/"><a className={elementStyle}>Home</a></Link>
             <Link href="/aboutme"><a className={elementStyle}>About me</a></Link>
             <Link href="/blog"><a className={elementStyle}>Blog</a></Link>
@@ -12,3 +12,5 @@ export default function Menu() {
         </nav>
     )
 }
+
+// TODO: Add search button and actual it's function.
