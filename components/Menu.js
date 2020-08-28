@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-const elementStyle = "text-blue-800 font-extrabold text-xl text-center flex-grow";
+const elementStyle = "text-blue-800 font-extrabold text-xl text-center flex-grow hover:text-blue-600";
 
 export default function Menu() {
     return (

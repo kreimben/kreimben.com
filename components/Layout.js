@@ -2,11 +2,11 @@ import Head from 'next/head'
 
 import Menu from '../components/Menu';
 
-export default function Layout({ children }) {
+export default function Layout(props, { children }) {
     return (
         <nav>
             <Head>
-                <title>Welcome to kreimben.com!</title>
+                <title> { props.title } </title>
             </Head>
             <Menu />
             <main>
