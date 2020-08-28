@@ -3,7 +3,7 @@ import Layout from '../components/Layout'
 export default function Home() {
     return (
         <>
-            <header className="container mx-auto">
+            <header className="container ">
                 <p>Hello, kreimben!</p>
             </header>
             <Layout title="Kreimben.com">
