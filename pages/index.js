@@ -3,9 +3,11 @@ import Layout from '../components/Layout'
 export default function Home() {
     return (
         <>
-            <header className="h-40 text-center bg-blue-400">
-                <img src="/images/kreimben_memoji.jpeg" className="rounded-full flex items-center justify-center w-24 h-24 "></img>
-                <p className="text-2xl font-thin pt-6">Kreimben.com, Indie developer's website</p>
+            <header className="text-center">
+                <div className="w-full flex justify-center py-8">
+                    <img src="/images/kreimben_memoji.jpeg" className="rounded-full flex justify-center w-40 h-40"></img>
+                </div>
+                <p className="text-2xl font-thin pb-4">Kreimben.com, Indie developer's website</p>
             </header>
             <Layout title="Kreimben.com">
                 <main>
