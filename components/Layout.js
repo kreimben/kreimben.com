@@ -2,7 +2,7 @@ import Head from 'next/head'
 
 import Menu from '../components/Menu';
 
-export default function Layout(props, { children }) {
+export default function Layout(props) {
     return (
         <nav>
             <Head>
@@ -10,7 +10,7 @@ export default function Layout(props, { children }) {
             </Head>
             <Menu />
             <main>
-                {children}
+                { props.children }
             </main>
         </nav>
     )
