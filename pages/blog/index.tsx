@@ -1,21 +1,26 @@
 import Layout from '../../components/Layout'
-import CardView from '.'
+import CardView from './CardView'
 
 import fs from 'fs'
 import matter from 'gray-matter'
 
-export default function index({ posts }) {
+type postsParams = { posts: [{ slug: string, frontmatter: { title: string, date: string } }] };
+type frontmatterParams = {
+
+}
+
+export default function index({ posts }: postsParams) {
     return (
         <Layout title="Kreimben::Blog">
-            <h1>This is my blog</h1>
+            <p className="text-lg text-red-600">This is my blog</p>
             {
                 posts.map(
-                    ({ frontmatter: { title, date } }) => {
+                    ({ frontmatter: { title, date } } ) => {
                         <CardView title={title} date={date} />
                     }
                 )
             }
-
+            <br />
             <CardView title="this is sample title" date={Date()} />
         </Layout>
     )
@@ -36,8 +41,11 @@ export async function getStaticProps() {
             const date = new Date(data.date);
             const formattedDate = date.toLocaleString("en-US", options);
 
+            const title = data.title;
+            console.log(title);
+
             const frontmatter = {
-                ...data,
+                title: title as string,
                 date: formattedDate
             };
 
@@ -47,6 +55,9 @@ export async function getStaticProps() {
             }; // this object is going to be `posts`.
         }
     );
+
+    console.log(typeof posts);
+    console.log(posts);
 
     return {
         props: {

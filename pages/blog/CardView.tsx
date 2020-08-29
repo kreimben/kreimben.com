@@ -1,12 +1,16 @@
 import Link from 'next/link';
 
-type blogParams = { title: string, date: Date };
+export type blogParams = { title: string, date: string };
 
-const CardView: React.FunctionComponent<blogParams> = ({ title, date }) => (
-    <Link href="/">
-        <div className="bg-gray-500" >
-            <p className="text-red-700 text-lg" >{title}</p>
-            <p>{date}</p>
-        </div>
-    </Link>
-);
+let newdate = new Date();
+
+export default function CardView(props: blogParams) {
+    return (
+        <Link href="/">
+            <div className="bg-gray-500" >
+                <p className="text-red-700 text-lg" >{props.title}</p>
+                <p>{props.date}</p>
+            </div>
+        </Link>
+    );
+}
