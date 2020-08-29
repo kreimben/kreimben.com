@@ -1,5 +1,5 @@
 import Layout from '../../components/Layout'
-import CardView from './CardView'
+import CardView from '.'
 
 import fs from 'fs'
 import matter from 'gray-matter'
@@ -10,11 +10,13 @@ export default function index({ posts }) {
             <h1>This is my blog</h1>
             {
                 posts.map(
-                    ( { frontmatter: { title, date } } ) => {
-                        //<CardView title={title} date={date} />
+                    ({ frontmatter: { title, date } }) => {
+                        <CardView title={title} date={date} />
                     }
                 )
             }
+
+            <CardView title="this is sample title" date={Date()} />
         </Layout>
     )
 }
