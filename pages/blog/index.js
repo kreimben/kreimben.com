@@ -1,5 +1,5 @@
 import Layout from '../../components/Layout'
-import CardView from './cardview'
+import CardView from './CardView'
 
 import fs from 'fs'
 import matter from 'gray-matter'
@@ -11,8 +11,7 @@ export default function index({ posts }) {
             {
                 posts.map(
                     ( { frontmatter: { title, date } } ) => {
-                        console.log("Title: ", title, "and Date: ", date);
-                        <CardView title={title} date={date} />
+                        //<CardView title={title} date={date} />
                     }
                 )
             }
