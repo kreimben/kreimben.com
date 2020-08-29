@@ -1,8 +1,6 @@
 ---
 title: Understanding strategy pettern
-date: 2020-05-17 17:00:00
-categories: ["Design Patterns"]
-tags: ["English"]
+date: 2020-05-17
 ---
 ## What is "Strategy Pattern"?
 

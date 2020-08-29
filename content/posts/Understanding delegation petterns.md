@@ -1,8 +1,6 @@
 ---
 title: Understanding delegation petterns
 date: 2020-03-02
-categories: ["Design Patterns"]
-tags: ["English"]
 ---
 ## What is "Delegation Pattern"?
 
@@ -31,7 +29,7 @@ protocol HumanDelegate: AnyObject {
     func takeARest()
 }
 ```
-    
+
 > **AnyObject** in declare of protocol means that **class only inherits this protocol**. If you want struct or enum to be inherited this protocol, remove **AnyObject**
 
 OK. and let's make class object.
@@ -107,7 +105,7 @@ extension someViewController: HumanDelegate {
     }
 }
 ```
-    
+
 > To connect implemented actual codes and delegate protocol, We have to pass **whole class** to delegate property. and THAT'S WHAT EXACTLY I DID like **humanBeign.delegate = self**
 
 

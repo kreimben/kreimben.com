@@ -1,8 +1,6 @@
 ---
 title: Understanding coordinator pettern
-date: 2020-05-17 19:00:00
-categories: ["Design Patterns"]
-tags: ["English"]
+date: 2020-05-17
 ---
 # What is "Coordinator Pattern"?
 

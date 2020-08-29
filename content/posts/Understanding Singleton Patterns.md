@@ -1,8 +1,6 @@
 ---
 title: Understanding singleton patterns
 date: 2020-03-04
-categories: ["Design Patterns"]
-tags: ["English"]
 ---
 
 ## Singleton is **EVERYWHERE**

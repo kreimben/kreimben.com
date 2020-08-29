@@ -1,8 +1,6 @@
 ---
 title: Understanding factory pettern
-date: 2020-05-17 20:40:00
-categories: ["Design Patterns"]
-tags: ["English"]
+date: 2020-05-17
 ---
 ## What is "Factory Pattern"?
 

@@ -1,8 +1,6 @@
 ---
 title: Advanced Closure
-date: 2020-03-08 15:50:00
-categories: ["Swift"]
-tags: ["English"]
+date: 2020-03-08
 ---
 
 > Closures are self-contained blocks of functionality that can be passed around and used in your code. - Swift.org

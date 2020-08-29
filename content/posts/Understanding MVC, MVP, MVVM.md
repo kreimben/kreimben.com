@@ -1,13 +1,6 @@
 ---
-
 title: Understanding MVC, MVP, MVVM
-
 date: 2020-05-08
-
-categories: ["Design Patterns"]
-
-tags: ["English"]
-
 ---
 
 Hello guys, I'm Kreimben! 🤚🏻

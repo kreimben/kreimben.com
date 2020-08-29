@@ -1,8 +1,6 @@
 ---
 title: What's new in Swift 5.2?
 date: 2020-02-01
-categories: ["Swift"]
-tags: ["English"]
 ---
 
 > This post is originally posted on [What’s new in Swift 5.2 – Hacking with Swift](https://www.hackingwithswift.com/articles/212/whats-new-in-swift-5-2)  and this post is **just copy**
