@@ -9,17 +9,15 @@ type postsParams = { posts: [{ slug: string, frontmatter: { title: string, date:
 export default function index({ posts }: postsParams) {
     return (
         <Layout title="Kreimben::Blog">
-            {
-                posts.map(
-                    ({ frontmatter: { title, date } }) => {
-                        if (title !== null) {
-                            return (
-                                <CardView title={title} date={date} />
-                            );
-                        }
+            {posts.map(
+                ({ frontmatter: { title, date } }) => {
+                    if (title !== null) {
+                        return (
+                            <CardView title={title} date={date} />
+                        );
                     }
-                )
-            }
+                }
+            )}
             <br />
         </Layout>
     )
