@@ -9,7 +9,7 @@ type postsParams = { posts: [{ slug: string, frontmatter: { title: string, date:
 export default function index({ posts }: postsParams) {
     return (
         <Layout title="Kreimben::Blog">
-            <div className="flex flex-wrap mt-4 justify-center">
+            <div className="flex flex-wrap mt-8 mb-8 justify-center">
             {posts.map(
                 ({ frontmatter: { title, date } }) => {
                     if (title !== null) {
