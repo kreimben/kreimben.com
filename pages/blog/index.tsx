@@ -12,7 +12,7 @@ export default function index({ posts }: postsParams) {
             <p className="text-lg text-red-600">This is my blog</p>
             {
                 posts.map(
-                    ({ frontmatter: { title, date } } ) => {
+                    ({ frontmatter: { title, date } }) => {
                         if (title === undefined) {
 
                             console.log("There is a null value in the title parameter.");
@@ -50,20 +50,20 @@ export async function getStaticProps() {
                 date: formattedDate
             };
 
-            if (filename === ".DS_Store" || title === undefined) {
-                return { 
-                    slug: null, 
+            if (filename === ".DS_Store") {
+                return {
+                    slug: null,
                     frontmatter: {
                         title: null,
                         date: null
                     }
                 };
-            };
-
-            return {
-                slug: filename.replace(".md", ""),
-                frontmatter,
-            }; // this object is going to be `posts`.
+            } else {
+                return {
+                    slug: filename.replace(".md", ""),
+                    frontmatter,
+                }; // this object is going to be `posts`.
+            }
         }
     );
 
