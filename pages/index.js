@@ -5,7 +5,7 @@ import {loremIpsum} from '../components/loremipsum'
 export default function Home() {
     return (
         <>
-            <Layout title="Kreimben.com">
+            <Layout title="Kreimben::Home">
                 <main>
                     <h1 className="">Home page</h1>
                     <p> { loremIpsum } </p>
