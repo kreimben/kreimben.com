@@ -47,10 +47,8 @@ export async function getStaticProps() {
             const date = new Date(data.date);
             const formattedDate = date.toLocaleString("en-US", options);
 
-            const title = data.title;
-
             const frontmatter = {
-                title: title as string,
+                title: data.title as string,
                 date: formattedDate
             };
 
