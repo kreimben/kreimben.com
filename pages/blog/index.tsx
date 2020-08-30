@@ -1,8 +1,8 @@
-import Layout from '../../components/Layout'
-import CardView from './CardView'
-
 import fs from 'fs'
 import matter from 'gray-matter'
+
+import Layout from '../../components/Layout'
+import CardView from './CardView'
 
 type postsParams = { posts: [{ slug: string, frontmatter: { title: string, date: string } }] };
 
