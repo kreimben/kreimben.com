@@ -5,9 +5,6 @@ import fs from 'fs'
 import matter from 'gray-matter'
 
 type postsParams = { posts: [{ slug: string, frontmatter: { title: string, date: string } }] };
-type frontmatterParams = {
-
-}
 
 export default function index({ posts }: postsParams) {
     return (
@@ -16,12 +13,17 @@ export default function index({ posts }: postsParams) {
             {
                 posts.map(
                     ({ frontmatter: { title, date } } ) => {
-                        <CardView title={title} date={date} />
+                        if (title === undefined) {
+
+                            console.log("There is a null value in the title parameter.");
+                        } else {
+
+                            <CardView title={title} date={date} />
+                        }
                     }
                 )
             }
             <br />
-            <CardView title="this is sample title" date={Date()} />
         </Layout>
     )
 }
@@ -42,11 +44,20 @@ export async function getStaticProps() {
             const formattedDate = date.toLocaleString("en-US", options);
 
             const title = data.title;
-            console.log(title);
 
             const frontmatter = {
                 title: title as string,
                 date: formattedDate
+            };
+
+            if (filename === ".DS_Store" || title === undefined) {
+                return { 
+                    slug: null, 
+                    frontmatter: {
+                        title: null,
+                        date: null
+                    }
+                };
             };
 
             return {
@@ -55,9 +66,6 @@ export async function getStaticProps() {
             }; // this object is going to be `posts`.
         }
     );
-
-    console.log(typeof posts);
-    console.log(posts);
 
     return {
         props: {
