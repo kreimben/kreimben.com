@@ -1,6 +1,6 @@
 import Layout from '../components/Layout'
 
-import {loremIpsum} from '../components/loremipsum'
+import { loremIpsum } from '../components/loremipsum'
 
 export default function Home() {
     return (
@@ -11,8 +11,8 @@ export default function Home() {
                         <p className="font-semibold text-6xl">iOS, macOS, and anything!</p>
                     </div>
                 </main>
-                    <p>{loremIpsum}</p>
-                    <p>{loremIpsum}</p>
+                <p>{loremIpsum}</p>
+                <p>{loremIpsum}</p>
             </Layout>
         </>
     )
