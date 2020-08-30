@@ -10,10 +10,10 @@ export default function Layout(props) {
             </Head>
 
             <header className="text-center bg-gradient-to-t from-teal-400 to-indigo-500">
-                <div className="w-full flex justify-center py-8">
-                    <img src="/images/kreimben_memoji.jpeg" className="rounded-full flex justify-center w-40 h-40 shadow-2xl"></img>
-                </div>
-                <p className="text-2xl font-thin pb-4">Kreimben.com, Indie developer's website</p>
+                    <div className="w-full flex justify-center py-8">
+                        <img src="/images/kreimben_memoji.jpeg" className="rounded-full flex justify-center w-40 h-40 shadow-2xl"></img>
+                    </div>
+                    <p className="text-2xl font-light font-mono pb-6">Kreimben.com, Indie developer's website</p>
             </header>
 
             <Menu />
