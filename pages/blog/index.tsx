@@ -9,6 +9,7 @@ type postsParams = { posts: [{ slug: string, frontmatter: { title: string, date:
 export default function index({ posts }: postsParams) {
     return (
         <Layout title="Kreimben::Blog">
+            <div className="bg-blue-500 flex flex-wrap justify-center">
             {posts.map(
                 ({ frontmatter: { title, date } }) => {
                     if (title !== null) {
@@ -18,7 +19,7 @@ export default function index({ posts }: postsParams) {
                     }
                 }
             )}
-            <br />
+            </div>
         </Layout>
     )
 }
