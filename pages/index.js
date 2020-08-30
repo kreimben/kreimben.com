@@ -11,6 +11,14 @@ export default function Home() {
                         <p className="font-semibold text-6xl">iOS, macOS, and anything!</p>
                     </div>
                 </main>
+                <div className="flex justify-center" key="mainContent">
+                    <div className="bg-gray-300 w-4/5 rounded-lg m-8 p-4 inline-block shadow-xl text-center">
+                        <p className="text-3xl">Hello! I'm iOS, macOS developer!</p>
+                        <br />
+                        <p></p>
+                    </div>
+                </div>
+
                 <p>{loremIpsum}</p>
                 <p>{loremIpsum}</p>
             </Layout>
