@@ -9,7 +9,7 @@ export default function Layout(props) {
                 <title> {props.title} </title>
             </Head>
 
-            <header className="text-center">
+            <header className="text-center bg-gradient-to-t from-teal-400 to-indigo-500">
                 <div className="w-full flex justify-center py-8">
                     <img src="/images/kreimben_memoji.jpeg" className="rounded-full flex justify-center w-40 h-40 shadow-2xl"></img>
                 </div>
@@ -21,6 +21,7 @@ export default function Layout(props) {
             <main>
                 {props.children}
             </main>
+
         </div>
     )
 }
