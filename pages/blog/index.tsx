@@ -12,17 +12,10 @@ export default function index({ posts }: postsParams) {
             {
                 posts.map(
                     ({ frontmatter: { title, date } }) => {
-                        if (title === null) {
-
-                            console.log("There is a null value in the title parameter.");
-                        } else {
-
-                            console.log("title: ", title);
-                            console.log("date: ", date);
-                            //<CardView title={title} date={date} />
-                            <div>
-                                <p>Test</p>
-                            </div>
+                        if (title !== null) {
+                            return (
+                                <CardView title={title} date={date} />
+                            );
                         }
                     }
                 )
