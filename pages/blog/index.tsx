@@ -9,16 +9,20 @@ type postsParams = { posts: [{ slug: string, frontmatter: { title: string, date:
 export default function index({ posts }: postsParams) {
     return (
         <Layout title="Kreimben::Blog">
-            <p className="text-lg text-red-600">This is my blog</p>
             {
                 posts.map(
                     ({ frontmatter: { title, date } }) => {
-                        if (title === undefined) {
+                        if (title === null) {
 
                             console.log("There is a null value in the title parameter.");
                         } else {
 
-                            <CardView title={title} date={date} />
+                            console.log("title: ", title);
+                            console.log("date: ", date);
+                            //<CardView title={title} date={date} />
+                            <div>
+                                <p>Test</p>
+                            </div>
                         }
                     }
                 )
