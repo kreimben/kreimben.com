@@ -38,7 +38,7 @@ function HomeHeader(props) {
     return (
         <div>
             <header className="text-center bg-fixed bg-center h-screen items-center">
-                <div className="w-full flex justify-center py-16">
+                <div className="flex justify-center pt-8 pb-8">
                     <img src="/images/kreimben_memoji.jpeg" className="rounded-full flex justify-center w-40 h-40 shadow-2xl"></img>
                 </div>
                 <p className="text-2xl font-light font-mono bg-white bg-opacity-50 rounded-lg px-3 py-2 inline-block">Kreimben.com, Indie developer's website</p>
