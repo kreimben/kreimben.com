@@ -12,15 +12,17 @@ export default function Home() {
                     </div>
                 </main>
                 <div className="flex justify-center" key="mainContent">
-                    <div className="bg-gray-300 w-4/5 rounded-lg m-8 p-4 inline-block shadow-xl text-center">
-                        <p className="text-3xl">Hello! I'm iOS, macOS developer!</p>
+                    <div className="bg-gray-300 w-4/5 rounded-lg m-8 p-4 inline-block shadow-xl text-center font-mono">
+                        <p className="text-3xl">Hello! I'm iOS, macOS and Web developer!</p>
                         <br />
-                        <p></p>
+                        <p className="font-serif text-xl">I've been programming whatever I can express my-self.</p>
                     </div>
                 </div>
 
-                <p>{loremIpsum}</p>
-                <p>{loremIpsum}</p>
+                <div className="bg-gray-300 rounded-lg m-8 p-4 inline-block shadow-xl text-center">
+                    <p>{loremIpsum}</p>
+                    <p>{loremIpsum}</p>
+                </div>
             </Layout>
         </>
     )
