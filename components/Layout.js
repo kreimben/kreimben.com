@@ -31,7 +31,7 @@ export default function Layout(props) {
                         </a>
                     </div>
 
-                    <p className="font-mono text-sm mb-4">Copyright(C) 2019 - 2020. Aksidion Kreimben. All right reserved.</p>
+                    <p className="font-mono text-sm mb-8">Copyright(C) 2019 - 2020. Aksidion Kreimben. All right reserved.</p>
                 </div>
             </footer>
 
