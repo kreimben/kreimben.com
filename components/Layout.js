@@ -17,18 +17,21 @@ export default function Layout(props) {
                 {props.children}
             </main>
 
-            <footer className="shadow-outter h-auto py-4 flex justify-center items-center space-x-8 bg-gray-300">
-                <div className="bg-blue-200 flex-row justify-center">
-                    <div className="overflow-hidden shadow-2xl w-40 my-8 inline-block">
-                        <a className="float-left" href="https://paypal.me/kreimben" target="_blank">
+            <footer className="shadow-outter h-auto py-2 flex justify-center items-center bg-gray-300">
+                <div className="flex-row justify-center">
+                    <div className="mx-auto w-auto py-12 flex justify-center space-x-8">
+                        <a className="" href="https://paypal.me/kreimben" target="_blank">
                             <img src="paypal_favicon.png" className="bg-transparent w-16 h-16" />
                         </a>
-                        <a className="float-right" href="https://github.com/kreimben" target="_blank">
+                        <a className="" href="https://github.com/kreimben" target="_blank">
                             <img src="github_favicon.png" className="bg-transparent w-16 h-16" />
+                        </a>
+                        <a className="" href="mailto:aksidion@kreimben.com">
+                            <img src="mail_favicon.png" className="bg-transparent w-16 h-16" />
                         </a>
                     </div>
 
-                    <p className="font-mono text-sm">Copyright(C) 2019 - 2020. Aksidion Kreimben. All right reserved.</p>
+                    <p className="font-mono text-sm mb-4">Copyright(C) 2019 - 2020. Aksidion Kreimben. All right reserved.</p>
                 </div>
             </footer>
 
