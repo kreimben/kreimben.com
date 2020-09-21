@@ -4,7 +4,9 @@ import path from 'path';
 import matter from 'gray-matter';
 import Layout from '../../components/Layout';
 
-export default function Post(props: { title: string, date: string, content: string}) {
+import ReactMarkdown from 'react-markdown/with-html'
+
+export default function Post(props: { title: string, date: string, content: string } ) {
     return (
         <Layout>
             <article>
@@ -52,8 +54,8 @@ export async function getStaticProps(props: propsType) {
 
     return (
         props: {
-            content: "${data.title}${content}",
-            frontmatter: { title: string, date: string, content: string},
+            content: `${data.title} ${content}`,
+            frontmatter: { title: string, date: string, content: string },
         },
     );
 }

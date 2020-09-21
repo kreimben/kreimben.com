@@ -14,7 +14,7 @@ export default function index({ posts }: postsParams) {
                 ({ frontmatter: { title, date } }) => {
                     if (title !== null) {
                         return (
-                            <CardView title={title} date={date} />
+                            <CardView title={title} date={date} as={`./${title}`} />
                         );
                     }
                 }
