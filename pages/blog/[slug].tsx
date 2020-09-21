@@ -6,11 +6,13 @@ import Layout from '../../components/Layout';
 
 import ReactMarkdown from 'react-markdown/with-html'
 
-export default function Post(props: { title: string, date: string, content: string } ) {
+export default function Post(props: { content: string, frontmatter: { title: string, date: string, content: string } } ) {
     return (
         <Layout>
             <article>
-
+                <div>
+                    <ReactMarkdown escapeHtml={false} source={ props.content } />
+                </div>
             </article>
         </Layout>
     );
@@ -34,7 +36,8 @@ export async function getStaticPaths() {
 }
 
 type propsType = { paths: { params: { slug: string } } };
-export async function getStaticProps(props: propsType) {
+
+export async function getStaticProps(props: propsType): { content: string; frontmatter: { title: string; date: string; content: string; } } {
     const markdownWithMetadata = fs
     .readFileSync(path.join("content/posts", props.paths.params.slug + ".md"))
     .toString();
@@ -54,8 +57,8 @@ export async function getStaticProps(props: propsType) {
 
     return (
         props: {
-            content: `${data.title} ${content}`,
-            frontmatter: { title: string, date: string, content: string },
-        },
+            content: string,
+            frontmatter: { title: string, date: string, content: string }
+        }
     );
 }
