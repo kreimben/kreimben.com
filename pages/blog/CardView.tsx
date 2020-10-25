@@ -15,7 +15,7 @@ export default function CardView(props: blogParams) {
 
 function DateWrapper(props: { date: string }) {
     return (
-        <div className="rounded-lg bg-blue-300 inline-block mt-4">
+        <div className="rounded-lg bg-blue-300 inline-block mt-4" key={props.date}>
             <p className="text-blue-500 px-2 text-xs">{props.date}</p>
         </div>
     );

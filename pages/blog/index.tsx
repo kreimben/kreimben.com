@@ -1,6 +1,5 @@
 import fs from 'fs'
 import matter from 'gray-matter'
-import Link from 'next/link'
 
 import Layout from '../../components/Layout'
 import CardView from './CardView'
@@ -15,7 +14,7 @@ export default function index({ posts }: postsParams) {
                     ({ frontmatter: { title, date }, slug }) => {
                         if (title !== null) {
                             return (
-                                <CardView title={title} date={date} slug={slug} />
+                                <CardView title={title} date={date} slug={slug} key={date} />
                             );
                         }
                     }
@@ -62,11 +61,11 @@ export async function getStaticProps() {
         }
     );
 
-    // console.log(posts);
+    const result = posts.filter((post) => post.slug !== null);
 
     return {
         props: {
-            posts,
+            result
         },
     };
 }

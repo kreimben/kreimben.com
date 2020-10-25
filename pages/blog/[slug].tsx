@@ -6,7 +6,7 @@ import Layout from '../../components/Layout';
 
 import ReactMarkdown from 'react-markdown/with-html'
 
-export type postPropsType = {content: string, frontmatter: { title: string, date: string }};
+export type postPropsType = {content: string }; //, frontmatter: { title: string, date: string }};
 
 export default function Post(props: postPropsType) {
     return (
@@ -54,7 +54,7 @@ export async function getStaticProps(props: { slug: string }) {
         date: formattedDate
     };
 
-    alert(frontmatter);
+    console.log("type of content is " + content);
 
     return {
         props: {
