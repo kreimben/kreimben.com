@@ -14,7 +14,7 @@ export default function index({ posts }: postsParams) {
                     ({ frontmatter: { title, date }, slug }) => {
                         if (title !== null) {
                             return (
-                                <CardView title={title} date={date} slug={slug} key={date} />
+                                <CardView title={title} date={date} slug={slug} key={`${title}-${date}`} />
                             );
                         }
                     }
@@ -61,11 +61,12 @@ export async function getStaticProps() {
         }
     );
 
-    const result = posts.filter((post) => post.slug !== null);
+    // let results = posts.filter((post) => post.slug !== null);
+    // console.log(results);
 
     return {
         props: {
-            result
+            posts,
         },
     };
 }

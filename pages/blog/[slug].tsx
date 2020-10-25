@@ -5,29 +5,32 @@ import matter from 'gray-matter';
 import Layout from '../../components/Layout';
 
 import ReactMarkdown from 'react-markdown/with-html'
+// import { GetStaticProps, InferGetStaticPropsType, GetStaticPaths } from 'next'
 
-export type postPropsType = {content: string }; //, frontmatter: { title: string, date: string }};
+type PostType = {
+    content: string,
+    frontmatter: {
+        title: string,
+        date: string
+    }
+};
 
-export default function Post(props: postPropsType) {
-    return (
-        <Layout>
-            <article>
-                <ReactMarkdown escapeHtml={false} source={props.content} />
-            </article>
-        </Layout>
-    );
-}
-
-export async function getStaticPaths() {
-    const files = fs.readdirSync("content/posts");
+export const getStaticPaths = async () => {
+    let files = fs.readdirSync("content/posts");
+    console.log("\nDate: " + Date().toString() + "\n");
+    files = files.filter((name) => name !== ".DS_Store");
+    console.log("Files are " + files + "\n");
 
     const paths = files.map(
-        (filename) => {
+        function (filename) {
             params: {
                 slug: filename.replace(".md", "");
             }
+            //filename.replace(".md", "") as string;
         }
     );
+
+    console.log("Paths are " + typeof(paths) + "\n");
 
     return {
         paths,
@@ -35,9 +38,9 @@ export async function getStaticPaths() {
     }
 }
 
-export async function getStaticProps(props: { slug: string }) {
+export const getStaticProps = async (props: any) => { //: { params: { slug: string } }) => {
     const markdownWithMetadata = fs
-        .readFileSync(path.join("content/posts", props.slug + ".md")) // props.paths.params.slug
+        .readFileSync(path.join("content/posts", props.slug + ".md"))
         .toString();
 
     const { data, content } = matter(markdownWithMetadata);
@@ -60,6 +63,17 @@ export async function getStaticProps(props: { slug: string }) {
         props: {
             content: `# ${data.title}\n${content}`,
             frontmatter
-        },
+        } as PostType,
+        //revalidate: 1,
     };
+}
+
+export default function Post(props: PostType ) {
+    return (
+        <Layout>
+            <article>
+                <ReactMarkdown escapeHtml={false} source={props.content} />
+            </article>
+        </Layout>
+    );
 }
