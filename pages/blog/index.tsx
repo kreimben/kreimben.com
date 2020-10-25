@@ -1,5 +1,6 @@
 import fs from 'fs'
 import matter from 'gray-matter'
+import Link from 'next/link'
 
 import Layout from '../../components/Layout'
 import CardView from './CardView'
@@ -10,15 +11,15 @@ export default function index({ posts }: postsParams) {
     return (
         <Layout title="Kreimben::Blog" isHome={false}>
             <div className="flex flex-wrap mt-8 mb-8 justify-center">
-            {posts.map(
-                ({ frontmatter: { title, date } }) => {
-                    if (title !== null) {
-                        return (
-                            <CardView title={title} date={date} as={`./${title}`} />
-                        );
+                {posts.map(
+                    ({ frontmatter: { title, date }, slug }) => {
+                        if (title !== null) {
+                            return (
+                                <CardView title={title} date={date} slug={slug} />
+                            );
+                        }
                     }
-                }
-            )}
+                )}
             </div>
         </Layout>
     )
@@ -60,6 +61,8 @@ export async function getStaticProps() {
             }
         }
     );
+
+    // console.log(posts);
 
     return {
         props: {

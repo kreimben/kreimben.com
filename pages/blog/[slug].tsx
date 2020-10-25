@@ -6,13 +6,13 @@ import Layout from '../../components/Layout';
 
 import ReactMarkdown from 'react-markdown/with-html'
 
-export default function Post(props: { content: string, frontmatter: { title: string, date: string, content: string } } ) {
+export type postPropsType = {content: string, frontmatter: { title: string, date: string }};
+
+export default function Post(props: postPropsType) {
     return (
         <Layout>
             <article>
-                <div>
-                    <ReactMarkdown escapeHtml={false} source={ props.content } />
-                </div>
+                <ReactMarkdown escapeHtml={false} source={props.content} />
             </article>
         </Layout>
     );
@@ -35,12 +35,10 @@ export async function getStaticPaths() {
     }
 }
 
-type propsType = { paths: { params: { slug: string } } };
-
-export async function getStaticProps(props: propsType): { content: string; frontmatter: { title: string; date: string; content: string; } } {
+export async function getStaticProps(props: { slug: string }) {
     const markdownWithMetadata = fs
-    .readFileSync(path.join("content/posts", props.paths.params.slug + ".md"))
-    .toString();
+        .readFileSync(path.join("content/posts", props.slug + ".md")) // props.paths.params.slug
+        .toString();
 
     const { data, content } = matter(markdownWithMetadata);
 
@@ -50,15 +48,18 @@ export async function getStaticProps(props: propsType): { content: string; front
     const formattedDate = date.toLocaleString("en-US", options);
 
     const frontmatter = {
-        title: data.title,
-        date: formattedDate,
-        content: data.content
+        //title: data.title,
+        //date: formattedDate,
+        ...data,
+        date: formattedDate
     };
 
-    return (
+    alert(frontmatter);
+
+    return {
         props: {
-            content: string,
-            frontmatter: { title: string, date: string, content: string }
-        }
-    );
+            content: `# ${data.title}\n${content}`,
+            frontmatter
+        },
+    };
 }
