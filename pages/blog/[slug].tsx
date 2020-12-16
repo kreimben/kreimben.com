@@ -22,6 +22,7 @@ export async function getStaticPaths() {
     const files = fs.readdirSync("content/posts");
 
     const paths = files.map(
+<<<<<<< Updated upstream
         (filename) => {
             params: {
                 slug: filename.replace(".md", "");
@@ -29,16 +30,32 @@ export async function getStaticPaths() {
         }
     );
 
+=======
+        function (filename) {
+            return { params : {
+                slug: filename.replace(".md", "")
+            } }
+        }
+    );
+
+    // console.log("Paths are " + typeof(paths) + "\n");
+
+>>>>>>> Stashed changes
     return {
         paths,
         fallback: false,
     }
 }
 
+<<<<<<< Updated upstream
 export async function getStaticProps(props: { slug: string }) {
     const markdownWithMetadata = fs
         .readFileSync(path.join("content/posts", props.slug + ".md")) // props.paths.params.slug
         .toString();
+=======
+export const getStaticProps = async (props: any) => { //: { params: { slug: string } }) => {
+    const markdownWithMetadata = fs.readFileSync(path.join("content/posts", props.slug + ".md")).toString();
+>>>>>>> Stashed changes
 
     const { data, content } = matter(markdownWithMetadata);
 
@@ -53,8 +70,6 @@ export async function getStaticProps(props: { slug: string }) {
         ...data,
         date: formattedDate
     };
-
-    console.log("type of content is " + content);
 
     return {
         props: {
