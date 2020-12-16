@@ -3,8 +3,9 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import Layout from '../../components/Layout';
+import { useRouter } from 'next/router';
 
-import ReactMarkdown from 'react-markdown/with-html'
+// import ReactMarkdown from 'react-markdown/with-html'
 // import { GetStaticProps, InferGetStaticPropsType, GetStaticPaths } from 'next'
 
 type PostType = {
@@ -16,6 +17,10 @@ type PostType = {
 };
 
 export const getStaticPaths = async () => {
+    const router = useRouter();
+    const uri = router.asPath;
+    alert(uri);
+
     let files = fs.readdirSync("content/posts");
     console.log("\nDate: " + Date().toString() + "\n");
     files = files.filter((name) => name !== ".DS_Store");

@@ -1,7 +1,5 @@
 import Layout from '../components/Layout'
 
-import { loremIpsum } from '../components/loremipsum'
-
 export default function Home() {
     return (
         <>

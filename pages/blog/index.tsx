@@ -25,7 +25,6 @@ export default function index({ posts }: postsParams) {
 }
 
 export async function getStaticProps() {
-
     const files = fs.readdirSync(`${process.cwd()}/content/posts`);
 
     const posts = files.map(
@@ -60,9 +59,6 @@ export async function getStaticProps() {
             }
         }
     );
-
-    // let results = posts.filter((post) => post.slug !== null);
-    // console.log(results);
 
     return {
         props: {
