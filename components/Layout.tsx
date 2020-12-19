@@ -1,9 +1,9 @@
-import type Head from 'next/head'
+import Head from 'next/head'
 
 import Menu from './Menu';
 
-type MainProps = { title:String, isHome: Boolean, children: any };
-type HeaderProps = { isHome: Boolean };
+type MainProps = { title: string, isHome: boolean, children?: any };
+type HeaderProps = { isHome: boolean };
 
 export default function Layout(props: MainProps) {
     return (
