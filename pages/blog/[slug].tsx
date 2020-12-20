@@ -5,7 +5,7 @@ import matter from 'gray-matter';
 import Layout from '../../components/Layout';
 import { useRouter } from 'next/router';
 
-// import ReactMarkdown from 'react-markdown/with-html'
+import ReactMarkdown from 'react-markdown/with-html'
 // import { GetStaticProps, InferGetStaticPropsType, GetStaticPaths } from 'next'
 
 type PostType = {
@@ -75,7 +75,7 @@ export const getStaticProps = async (props: any) => { //: { params: { slug: stri
 
 export default function Post(props: PostType ) {
     return (
-        <Layout>
+        <Layout title={ props.frontmatter.title } isHome={ false }>
             <article>
                 <ReactMarkdown escapeHtml={false} source={props.content} />
             </article>
