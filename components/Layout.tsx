@@ -1,8 +1,11 @@
 import Head from 'next/head'
 
-import Menu from '../components/Menu';
+import Menu from './Menu';
 
-export default function Layout(props) {
+type MainProps = { title: string, isHome: boolean, children?: any };
+type HeaderProps = { isHome: boolean };
+
+export default function Layout(props: MainProps) {
     return (
         <div>
             <Head>
@@ -39,7 +42,7 @@ export default function Layout(props) {
     )
 }
 
-function Header(props) {
+function Header(props: HeaderProps) {
     if (props.isHome) {
         return (
             <HomeHeader />
@@ -51,7 +54,7 @@ function Header(props) {
     }
 }
 
-function HomeHeader(props) {
+function HomeHeader() {
     return (
         <div>
             <header className="text-center bg-fixed bg-center h-screen items-center">
@@ -73,7 +76,7 @@ function HomeHeader(props) {
     );
 }
 
-function JustHeader(props) {
+function JustHeader() {
     return (
         <div>
             <header className="text-center bg-cover bg-center h-auto items-center">
