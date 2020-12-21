@@ -20,7 +20,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     console.log("Files are " + files + "\n");
 
     const paths = files.map(
-        function (filename) {
+        (filename) => {
             params: {
                 slug: filename.replace(".md", "");
             }
@@ -56,8 +56,6 @@ export const getStaticProps: GetStaticProps = async (props: PropsType ) => {
         ...data,
         date: formattedDate
     };
-
-    console.log("type of content is " + content);
 
     return {
         props: {
