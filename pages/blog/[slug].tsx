@@ -69,11 +69,11 @@ export const getStaticProps: GetStaticProps = async (props: PropsType ) => {
 
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
 
-    if (context.params.title) {
+    if (context.req.url) {
 
-        const title = context.params.title;
+        const title = context.req.url;
 
-        alert("title is " + title);
+        console.log("title is " + title);
 
         return {
             props: {
@@ -83,6 +83,9 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
         }
 
     } else {
+        console.log("Not found!");
+        console.log("context info:");
+        console.log(context.req.url);
         return {
             notFound: true,
         }
