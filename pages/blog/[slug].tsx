@@ -1,23 +1,16 @@
-import React from 'react';
+import * as React from 'react';
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import Layout from '../../components/Layout';
-import { useRouter } from 'next/router';
+import { withRouter } from 'next/router'
+import ReactMarkdown from 'react-markdown/with-html';
+import { GetStaticProps, GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
 
-import ReactMarkdown from 'react-markdown/with-html'
-// import { GetStaticProps, InferGetStaticPropsType, GetStaticPaths } from 'next'
+/*
+export const getStaticPaths: GetStaticPaths = async () => {
 
-type PostType = {
-    content: string,
-    frontmatter: {
-        title: string,
-        date: string
-    }
-};
-
-export const getStaticPaths = async () => {
-    const router = useRouter();
+    const router = withRouter();
     const uri = router.asPath;
     alert(uri);
 
@@ -37,15 +30,17 @@ export const getStaticPaths = async () => {
 
     console.log("Paths are " + typeof(paths) + "\n");
 
-    return {
-        paths,
-        fallback: false,
-    }
+    return new Promise< GetStaticPathsResult >(() => {
+        return {
+            paths,
+            fallback: false
+        }
+    });
 }
 
-export const getStaticProps = async (props: any) => { //: { params: { slug: string } }) => {
+export const getStaticProps: GetStaticProps = async (props: PropsType ) => {
     const markdownWithMetadata = fs
-        .readFileSync(path.join("content/posts", props.slug + ".md"))
+        .readFileSync(path.join("content/posts", props.paths.slug + ".md"))
         .toString();
 
     const { data, content } = matter(markdownWithMetadata);
@@ -70,12 +65,40 @@ export const getStaticProps = async (props: any) => { //: { params: { slug: stri
         //revalidate: 1,
     };
 }
+*/
 
-export default function Post(props: PostType ) {
+export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
+
+    if (context.params.title) {
+
+        const title = context.params.title;
+
+        alert("title is " + title);
+
+        return {
+            props: {
+                slug: title,
+                isTest: true,
+            }
+        }
+
+    } else {
+        return {
+            notFound: true,
+        }
+    }
+}
+
+export default function Post(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
     return (
-        <Layout title={ props.frontmatter.title } isHome={ false }>
+        <Layout title={ props.slug } isHome={ false }>
             <article>
-                <ReactMarkdown escapeHtml={false} source={props.content} />
+                {
+                    props.isTest === true ?
+                        <p>"Pass the test!"</p>
+                    :
+                        <p>Fail to test!</p>
+                }
             </article>
         </Layout>
     );
