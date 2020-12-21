@@ -1,61 +1,47 @@
-import React from 'react';
+import * as React from 'react';
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import Layout from '../../components/Layout';
+import { withRouter } from 'next/router'
+import ReactMarkdown from 'react-markdown/with-html';
+import { GetStaticProps, GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
 
-import ReactMarkdown from 'react-markdown/with-html'
+/*
+export const getStaticPaths: GetStaticPaths = async () => {
 
-export type postPropsType = {content: string }; //, frontmatter: { title: string, date: string }};
+    const router = withRouter();
+    const uri = router.asPath;
+    alert(uri);
 
-export default function Post(props: postPropsType) {
-    return (
-        <Layout>
-            <article>
-                <ReactMarkdown escapeHtml={false} source={props.content} />
-            </article>
-        </Layout>
-    );
-}
-
-export async function getStaticPaths() {
-    const files = fs.readdirSync("content/posts");
+    let files = fs.readdirSync("content/posts");
+    console.log("\nDate: " + Date().toString() + "\n");
+    files = files.filter((name) => name !== ".DS_Store");
+    console.log("Files are " + files + "\n");
 
     const paths = files.map(
-<<<<<<< Updated upstream
         (filename) => {
             params: {
                 slug: filename.replace(".md", "");
             }
+            //filename.replace(".md", "") as string;
         }
     );
 
-=======
-        function (filename) {
-            return { params : {
-                slug: filename.replace(".md", "")
-            } }
+    console.log("Paths are " + typeof(paths) + "\n");
+
+    return new Promise< GetStaticPathsResult >(() => {
+        return {
+            paths,
+            fallback: false
         }
-    );
-
-    // console.log("Paths are " + typeof(paths) + "\n");
-
->>>>>>> Stashed changes
-    return {
-        paths,
-        fallback: false,
-    }
+    });
 }
 
-<<<<<<< Updated upstream
-export async function getStaticProps(props: { slug: string }) {
+export const getStaticProps: GetStaticProps = async (props: PropsType ) => {
     const markdownWithMetadata = fs
-        .readFileSync(path.join("content/posts", props.slug + ".md")) // props.paths.params.slug
+        .readFileSync(path.join("content/posts", props.paths.slug + ".md"))
         .toString();
-=======
-export const getStaticProps = async (props: any) => { //: { params: { slug: string } }) => {
-    const markdownWithMetadata = fs.readFileSync(path.join("content/posts", props.slug + ".md")).toString();
->>>>>>> Stashed changes
 
     const { data, content } = matter(markdownWithMetadata);
 
@@ -75,6 +61,45 @@ export const getStaticProps = async (props: any) => { //: { params: { slug: stri
         props: {
             content: `# ${data.title}\n${content}`,
             frontmatter
-        },
+        } as PostType,
+        //revalidate: 1,
     };
+}
+*/
+
+export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
+
+    if (context.params.title) {
+
+        const title = context.params.title;
+
+        alert("title is " + title);
+
+        return {
+            props: {
+                slug: title,
+                isTest: true,
+            }
+        }
+
+    } else {
+        return {
+            notFound: true,
+        }
+    }
+}
+
+export default function Post(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
+    return (
+        <Layout title={ props.slug } isHome={ false }>
+            <article>
+                {
+                    props.isTest === true ?
+                        <p>"Pass the test!"</p>
+                    :
+                        <p>Fail to test!</p>
+                }
+            </article>
+        </Layout>
+    );
 }

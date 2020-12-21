@@ -1,8 +1,11 @@
 module.exports = {
-  theme: {},
-  variants: {},
-  plugins: [],
-  future: {
-    removeDeprecatedGapUtilities: true,
+  purge: ['./**/*.tsx'],
+  darkMode: false, // or 'media' or 'class'
+  theme: {
+    extend: {},
   },
+  variants: {
+    extend: {},
+  },
+  plugins: [],
 }

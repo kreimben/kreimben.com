@@ -14,7 +14,7 @@ export default function index({ posts }: postsParams) {
                     ({ frontmatter: { title, date }, slug }) => {
                         if (title !== null) {
                             return (
-                                <CardView title={title} date={date} slug={slug} key={date} />
+                                <CardView title={title} date={date} slug={slug} key={`${title}-${date}`} />
                             );
                         }
                     }
@@ -25,7 +25,6 @@ export default function index({ posts }: postsParams) {
 }
 
 export async function getStaticProps() {
-
     const files = fs.readdirSync(`${process.cwd()}/content/posts`);
 
     const posts = files.map(
@@ -61,11 +60,9 @@ export async function getStaticProps() {
         }
     );
 
-    const result = posts.filter((post) => post.slug !== null);
-
     return {
         props: {
-            result
+            posts,
         },
     };
 }
