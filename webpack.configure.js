@@ -1,3 +1,5 @@
+const { node } = require("webpack")
+
 module.exports = {
     module: {
         rules: [
