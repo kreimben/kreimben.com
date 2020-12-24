@@ -10,4 +10,4 @@ RUN npm install
 COPY . /usr/src/front-end
 
 EXPOSE 3000
-CMD npm run build && npm run start
+CMD npm run build && npm run customStart

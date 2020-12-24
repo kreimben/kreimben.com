@@ -6,8 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "go": "next build && next start",
-    "debug": "NODE_OPTIONS='--inspect' next dev"
+    "customStart": "NODE_ENV=production node server.js",
+    "go": "next build && next start"
   },
   "dependencies": {
     "@apollo/client": "^3.3.6",
