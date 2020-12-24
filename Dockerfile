@@ -9,6 +9,5 @@ RUN npm install
 
 COPY . /usr/src/front-end
 
-EXPOSE 3000
-EXPOSE 80
+EXPOSE 9321
 CMD npm run build && npm run start
