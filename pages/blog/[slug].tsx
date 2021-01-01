@@ -1,49 +1,30 @@
 import * as React from 'react';
-import Layout from '../../components/Layout';
 import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
-import getPost, { titleConverter } from '../../model/getPost';
-import MDX from '@mdx-js/runtime';
+
+import PostLayout from './Post/PostLayout';
+import { getPost } from '../../model/Posts';
+import Layout from '../../components/Layout';
 
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
 
-    if (context.req.url) {
+    const id = context.query.slug.toString();
 
-        const title = context.req.url;
+    const result = await getPost(id);
 
-        try {
-            const result = await getPost(title);
-
-            return {
-                props: {
-                    slug: title,
-                    content: result,
-                }
-            }
-        } catch (error) {
-            console.log(error);
-            return {
-                notFound: true,
-            }
-        }
-    } else {
-        return {
-            notFound: true,
-        }
-    }
-}
-
-const scope = {
-    some: 'value'
+    return {
+        props: {
+            result,
+        },
+    };
 }
 
 export default function Post(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
     return (
-        <Layout title={titleConverter(props.slug)} isHome={false}>
-            <article>
-                <MDX scope={scope}>
-                    {props.content}
-                </MDX>
-            </article>
+        <Layout title="Kreimben::blog" isHome={false}>
+            <PostLayout props={props.result} />
+            <div className="bg-blue-500">
+                {props.result.html}
+            </div>
         </Layout>
     );
 }
