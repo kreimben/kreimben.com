@@ -22,7 +22,7 @@ const getPost = async (id: string) => {
 
     const api = new GhostContentAPI({
         url: 'http://localhost:2368',
-        key: '776f6f8450894ea1173376f49f',
+        key: APIKey,
         version: 'v3'
     })
 
