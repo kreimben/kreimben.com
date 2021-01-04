@@ -1,22 +1,18 @@
-import fs from 'fs'
-import matter from 'gray-matter'
+import { GetStaticProps } from 'next';
 
-import Layout from '../../components/Layout'
-import CardView from './CardView'
+import Layout from '../../components/Layout';
+import CardView from './CardView';
+import { getPosts } from '../../model/Posts';
 
-type postsParams = { posts: [{ slug: string, frontmatter: { title: string, date: string } }] };
-
-export default function index({ posts }: postsParams) {
+export default function index(props: any) {
     return (
         <Layout title="Kreimben::Blog" isHome={false}>
             <div className="flex flex-wrap mt-8 mb-8 justify-center">
-                {posts.map(
-                    ({ frontmatter: { title, date }, slug }) => {
-                        if (title !== null) {
-                            return (
-                                <CardView title={title} date={date} slug={slug} key={`${title}-${date}`} />
-                            );
-                        }
+                {props.posts.map(
+                    (post) => {
+                        return (
+                            <CardView title={post.title} date={post.created_at} id={post.id} slug={post.slug} key={`${post.title}-${post.created_at}`} />
+                        );
                     }
                 )}
             </div>
@@ -24,45 +20,11 @@ export default function index({ posts }: postsParams) {
     )
 }
 
-export async function getStaticProps() {
-    const files = fs.readdirSync(`${process.cwd()}/content/posts`);
+export const getStaticProps: GetStaticProps = async () => {
 
-    const posts = files.map(
-        (filename) => {
-
-            const markdownWithMetadata = fs.readFileSync(`content/posts/${filename}`).toString();
-
-            const { data } = matter(markdownWithMetadata);
-
-            const options = { year: "numeric", month: "long", day: "numeric" };
-            const date = new Date(data.date);
-            const formattedDate = date.toLocaleString("en-US", options);
-
-            const frontmatter = {
-                title: data.title as string,
-                date: formattedDate
-            };
-
-            if (filename === ".DS_Store") {
-                return {
-                    slug: null,
-                    frontmatter: {
-                        title: null,
-                        date: null
-                    }
-                };
-            } else {
-                return {
-                    slug: filename.replace(".md", ""),
-                    frontmatter,
-                }; // this object is going to be `posts`.
-            }
-        }
-    );
+    const posts = await getPosts();
 
     return {
-        props: {
-            posts,
-        },
+        props: { posts },
     };
 }
