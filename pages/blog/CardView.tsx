@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { backgroundColor, textColor } from '../../styles/globalColorSets';
 import DateParser from './DateParser';
 
 export type blogParams = { title: string, date: string, id: string, slug: string };
@@ -6,8 +7,8 @@ export type blogParams = { title: string, date: string, id: string, slug: string
 export default function CardView(props: blogParams) {
     return (
         <Link href='/blog/[slug]' as={`/blog/${props.id}`}>
-            <div className="bg-gray-300 w-1/4 items-center text-center py-12 m-4 rounded-lg shadow-xl">
-                <p className="text-black hover:text-gray-600 mx-4 font-bold text-2xl">{props.title}</p>
+            <div className="w-1/4 items-center text-center py-12 m-4 rounded-lg shadow-xl" style={{backgroundColor:backgroundColor}}>
+                <p className="mx-4 font-bold text-2xl" style={{color:textColor}}>{props.title}</p>
                 <DateWrapper date={props.date} />
             </div>
         </Link>

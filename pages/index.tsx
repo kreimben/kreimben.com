@@ -1,4 +1,5 @@
 import Layout from '../components/Layout'
+import { backgroundColor, textColor } from '../styles/globalColorSets';
 
 export default () => (
     <>
@@ -9,9 +10,9 @@ export default () => (
                 </div>
             </div>
             <main className="flex justify-center">
-                <div className="w-4/5 py-32 mb-12 shadow-xl rounded-lg bg-gradient-to-r from-teal-300 to-blue-500 text-center">
-                    <p className="text-4xl font-serif">I code</p>
-                    <p className="font-semibold text-6xl">iOS, macOS, and anything!</p>
+                <div className="w-4/5 py-32 mb-12 shadow-xl rounded-lg text-center" style={{backgroundColor:backgroundColor}}>
+                    <p className="text-4xl font-serif" style={{color:textColor}} >I code</p>
+                    <p className="font-semibold text-5xl" style={{color:textColor}} >iOS, Front-End and anything!</p>
                 </div>
             </main>
         </Layout>
