@@ -35,7 +35,7 @@ export default function Post(props: InferGetServerSidePropsType<typeof getServer
             </div>
 
             <div className="pt-6 pb-12 flex justify-center">
-                <div className="w-3/5 shadow-2xl px-8 py-8 bg-blue-300 rounded-2xl font-serif text-lg leading-loose" dangerouslySetInnerHTML={{ __html: props.result.html }} />
+                <div className="w-3/5 shadow-2xl px-8 py-8 bg-blue-300 rounded-2xl font-serif text-lg select-none leading-loose" dangerouslySetInnerHTML={{ __html: props.result.html }} />
             </div>
         </Layout>
     );
