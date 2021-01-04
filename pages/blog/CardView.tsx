@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import DateParser from './DateParser';
 
 export type blogParams = { title: string, date: string, id: string, slug: string };
 
@@ -14,9 +15,12 @@ export default function CardView(props: blogParams) {
 }
 
 function DateWrapper(props: { date: string }) {
+
+    const result = DateParser(props.date);
+
     return (
         <div className="rounded-lg bg-blue-300 inline-block mt-4" key={props.date}>
-            <p className="text-blue-500 px-2 text-xs">{props.date}</p>
+            <p className="text-blue-500 px-2 text-xs">{result[0]}  {result[1]}</p>
         </div>
     );
 }
