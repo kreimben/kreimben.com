@@ -5,7 +5,7 @@ export default () => (
     <>
         <Layout title="Kreimben::Home" isHome={true}>
             <div className="flex justify-center text-center">
-                <div className="bg-gray-300 p-8 m-12 rounded-lg w-4/5 text-4xl font-serif">
+                <div className="bg-gradient-to-r from-blue-400 to-indigo-400 p-8 m-12 rounded-lg w-4/5 text-4xl font-serif">
                                 Welcome to indie developer's website!
                 </div>
             </div>
