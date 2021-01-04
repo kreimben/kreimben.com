@@ -1,10 +1,11 @@
-import GhostContentAPI from '@tryghost/content-api'
+import GhostContentAPI from '@tryghost/content-api';
+import APIKey from './APIKey';
 
 const getPosts = async () => {
 
     const api = new GhostContentAPI({
         url: 'http://localhost:2368',
-        key: '776f6f8450894ea1173376f49f',
+        key: APIKey,
         version: 'v3'
     })
 
