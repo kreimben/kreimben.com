@@ -3,7 +3,7 @@ import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsT
 
 import { getPost } from '../../model/Posts';
 import Layout from '../../components/Layout';
-import DateParser from './DateParser';
+import DateParser from '../../model/DateParser';
 
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
 

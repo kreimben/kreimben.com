@@ -1,13 +1,13 @@
 import GhostContentAPI from '@tryghost/content-api';
 import APIKey from './APIKey';
 
-const getPosts = async () => {
+const api = new GhostContentAPI({
+    url: 'http://193.123.231.139:2368',
+    key: APIKey,
+    version: 'v3'
+})
 
-    const api = new GhostContentAPI({
-        url: 'http://localhost:2368',
-        key: APIKey,
-        version: 'v3'
-    })
+const getPosts = async () => {
 
     const posts = await api.posts.browse({ limit: 'all' })
         .then((posts) => {
@@ -19,12 +19,6 @@ const getPosts = async () => {
 }
 
 const getPost = async (id: string) => {
-
-    const api = new GhostContentAPI({
-        url: 'http://localhost:2368',
-        key: APIKey,
-        version: 'v3'
-    })
 
     const post = await api.posts.read({ id: id })
         .then(post => {

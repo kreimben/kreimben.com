@@ -1,7 +1,7 @@
 import { GetStaticProps } from 'next';
 
 import Layout from '../../components/Layout';
-import CardView from './CardView';
+import CardView from '../../components/CardView';
 import { getPosts } from '../../model/Posts';
 
 export default function index(props: any) {

@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { backgroundColor, textColor } from '../../styles/globalColorSets';
-import DateParser from './DateParser';
+import { backgroundColor, textColor } from '../styles/globalColorSets';
+import DateParser from '../model/DateParser';
 
 export type blogParams = { title: string, date: string, id: string, slug: string };
 
