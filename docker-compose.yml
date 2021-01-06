@@ -5,6 +5,14 @@ version: '3.1'
 
 services:
 
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - blog:/var/lib/mysql
+
   ghost:
     image: ghost:3-alpine
     restart: always
@@ -19,9 +27,8 @@ services:
       database__connection__database: ghost
       # this url value is just an example, and is likely wrong for your environment!
       url: http://localhost:2368
+    depends_on:
+      - db
 
-  db:
-    image: mysql:5.7
-    restart: always
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+volumes:
+  blog:
