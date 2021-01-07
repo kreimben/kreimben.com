@@ -1,31 +1,45 @@
 import * as React from 'react';
 import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
 
-import { getPost } from '../../model/Posts';
 import Layout from '../../components/Layout';
 import DateParser from '../../model/DateParser';
+import APIKey from '../../model/APIKey';
+import useSWR from 'swr';
+
+const fetcher = async (id: string) => {
+
+    //console.log("Id as parameter is: " + id);
+
+    const res = await fetch(`http://193.123.231.139:2368/ghost/api/v3/content/posts/${id}/?key=${APIKey}`);
+    const json = await res.json();
+
+    //console.log("result json is: " + json);
+
+    return json;
+}
 
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
 
     const id = context.query.slug.toString();
 
-    const result = await getPost(id);
+    console.log("id is: " + id);
+    const data = await fetcher(id);
 
-    return {
-        props: {
-            result,
-        },
-    };
+    return { props: { data, id } };
 }
 
 export default function Post(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
 
-    const result = DateParser(props.result.created_at);
+    const initialData = props.data;
+    const { data } = useSWR(`http://193.123.231.139:2368/ghost/api/v3/content/posts/${props.id}/?key=${APIKey}`, fetcher, { initialData });
+
+    console.log(data.posts[0].created_at);
+    const result = DateParser(data.posts[0].created_at);
 
     return (
         <Layout title="Kreimben::blog" isHome={false}>
             <div className="flex justify-center pt-12">
-                <div className="w-3/5 shadow-2xl py-6 text-center bg-indigo-400 rounded-2xl font-black text-4xl select-none">{props.result.title}</div>
+                <div className="w-3/5 shadow-2xl py-6 text-center bg-indigo-400 rounded-2xl font-black text-4xl select-none">{data.posts[0].title}</div>
             </div>
 
             <div className="flex justify-center pt-6">
@@ -35,7 +49,7 @@ export default function Post(props: InferGetServerSidePropsType<typeof getServer
             </div>
 
             <div className="pt-6 pb-12 flex justify-center">
-                <div className="w-3/5 shadow-2xl px-8 py-8 bg-blue-300 rounded-2xl font-serif text-lg select-none leading-loose" dangerouslySetInnerHTML={{ __html: props.result.html }} />
+                <div className="w-3/5 shadow-2xl px-8 py-8 bg-blue-300 rounded-2xl font-serif text-lg select-none leading-loose" dangerouslySetInnerHTML={{ __html: data.posts[0].html }} />
             </div>
         </Layout>
     );
