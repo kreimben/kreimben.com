@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Link from 'next/link'
 
 import Menu from './Menu';
 
@@ -20,21 +21,22 @@ export default function Layout(props: MainProps) {
                 {props.children}
             </main>
 
-            <footer className="shadow-outter h-auto py-2 flex justify-center items-center bg-gray-300">
-                <div className="flex-row justify-center">
-                    <div className="mx-auto w-auto py-12 flex justify-center space-x-8">
-                        <a className="" href="https://paypal.me/kreimben" target="_blank">
-                            <img src="paypal_favicon.png" className="bg-transparent w-16 h-16" />
-                        </a>
-                        <a className="" href="https://github.com/kreimben" target="_blank">
-                            <img src="github_favicon.png" className="bg-transparent w-16 h-16" />
-                        </a>
-                        <a className="" href="mailto:aksidion@kreimben.com">
-                            <img src="mail_favicon.png" className="bg-transparent w-16 h-16" />
-                        </a>
-                    </div>
+            <footer className="shadow-outter h-auto py-2 flex justify-center bg-blue-300">
+                <div>
+                    <div className="justify-center py-4 space-x-4">
+                        <Link href="https://paypal.me/kreimben">
+                            <a className="bg-red-400 font-mono px-1 py-1" target="_blank">Paypal</a>
+                        </Link>
 
-                    <p className="font-mono text-sm mb-8">Copyright(C) 2019 - 2020. Aksidion Kreimben. All right reserved.</p>
+                        <Link href="https://instagram.com/kreimben/">
+                            <a className="bg-red-400 font-mono px-1 py-1" target="_blank">Instagram</a>
+                        </Link>
+
+                        <Link href="https://github.com/kreimben">
+                            <a className="bg-red-400 font-mono px-1 py-1" target="_blank">Github</a>
+                        </Link>
+                    </div>
+                    <p className="font-mono text-sm mb-8 pt-4">Copyright(C) 2019 - 2021. Aksidion Kreimben. All right reserved.</p>
                 </div>
             </footer>
 
