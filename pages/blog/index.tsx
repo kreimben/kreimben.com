@@ -12,6 +12,7 @@ const index = (props: InferGetServerSidePropsType<typeof getServerSideProps>) =>
 
     if (error) {
         console.error(error);
+        alert(error);
         return (
             <Layout title="Kreimben::Error!" isHome={false}>
                 <div>

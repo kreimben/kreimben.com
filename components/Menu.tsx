@@ -7,7 +7,7 @@ const Menu = () => {
     return (
         <nav className="font-black items-center flex py-4 divide-x divide-gray-500 sticky top-0 shadow-lg" style={{backgroundColor:backgroundColor}}>
             <Link href="/"><a className={elementStyle} style={{ color: textColor }}>Home</a></Link>
-            <Link href="/blog"><a className={elementStyle} style={{ color: textColor }}>Blog</a></Link>
+            <Link href="/blog/"><a className={elementStyle} style={{ color: textColor }}>Blog</a></Link>
         </nav>
     )
 }
