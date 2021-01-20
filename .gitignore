@@ -36,3 +36,5 @@ yarn-error.log*
 # custom
 package-lock.json
 *.icloud
+cert/kreimben-com.crt
+cert/kreimben-com.key
