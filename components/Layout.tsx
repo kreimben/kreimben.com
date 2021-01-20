@@ -6,25 +6,21 @@ import Menu from './Menu';
 type MainProps = { title: string, isHome: boolean, children?: any };
 type HeaderProps = { isHome: boolean };
 
-const injectGA = () => {
-    if (typeof window == 'undefined') {
-        return;
-      }
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        window.dataLayer.push(arguments);
-      }
-      gtag('js', new Date());
-    
-      gtag('config','G-CGRVC93M1H');
-}
-
 export default function Layout(props: MainProps) {
     return (
         <div>
             <Head>
                 <title> {props.title} </title>
-                <script>{injectGA()}</script>
+                <script async src="https://www.googletagmanager.com/gtag/js?id=G-CGRVC93M1H"></script>
+                <script dangerouslySetInnerHTML={{
+                    __html: `
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                  
+                    gtag('config', 'G-CGRVC93M1H');
+                    `
+                }}/>
             </Head>
 
             <Header isHome={props.isHome} />
