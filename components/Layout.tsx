@@ -21,6 +21,7 @@ export default function Layout(props: MainProps) {
                     gtag('config', 'G-CGRVC93M1H');
                     `
                 }}/>
+                <script data-ad-client="ca-pub-4942689053880729" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
             </Head>
 
             <Header isHome={props.isHome} />
