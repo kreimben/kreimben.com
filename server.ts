@@ -9,7 +9,7 @@ const handle = app.getRequestHandler();
 
 const httpsOptions = {
   key: fs.readFileSync('./cert/kreimben-com.key'),
-  cert: fs.readFileSync('./cert/kreimben-com.crt')
+  cert: fs.readFileSync('./cert/kreimben-com.pem')
 };
 
 app.prepare().then(() => {
