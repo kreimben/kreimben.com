@@ -10,4 +10,4 @@ RUN npm install
 COPY . /usr/src/front-end
 
 EXPOSE 3000
-CMD node server.ts
+CMD npm run go
