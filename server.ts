@@ -1,24 +1,30 @@
-const { createServer } = require('https');
-const { parse } = require('url');
+const express = require('express');
 const next = require('next');
-const fs = require('fs');
 
 const dev = process.env.NODE_ENV !== 'production';
-const app = next({ dev });
+const prod = process.env.NODE_ENV === 'production';
+
+const app = next({ prod });
 const handle = app.getRequestHandler();
 
-const httpsOptions = {
-  key: fs.readFileSync('./cert/kreimben-com.key'),
-  cert: fs.readFileSync('./cert/kreimben-com.pem')
-};
+const PORT = 3060;
 
 app.prepare().then(() => {
-  createServer(httpsOptions, (req, res) => {
-    const parsedUrl = parse(req.url, true);
-    handle(req, res, parsedUrl);
-    
-  }).listen(3000, err => {
-    if (err) throw err;
-    console.log('> Ready on https://localhost:3000');
-  });
-});
+
+    const server = express();
+
+    server.get("*", (req, res) => {
+        return handle(req, res);
+    });
+
+    server.listen(PORT, (err) => {
+        if (err) throw err;
+        console.log(`Kreimben.com is running on: http://127.0.0.1:${PORT}/`);
+    });
+
+}).catch((ex) => {
+    console.error(ex.stack);
+    process.exit(1);
+})
+
+//export { }
