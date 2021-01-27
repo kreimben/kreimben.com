@@ -17,9 +17,9 @@ app.prepare().then(() => {
         return handle(req, res);
     });
 
-    server.listen(PORT, (err) => {
-        if (err) throw err;
-        console.log(`Kreimben.com is running on: http://127.0.0.1:${PORT}/`);
+    server.listen(PORT, '127.0.0.1', (err) => {
+        if (err) return console.error(err);
+        console.log(`> Kreimben.com is running on: http://127.0.0.1:${PORT}/`)
     });
 
 }).catch((ex) => {
