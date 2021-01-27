@@ -14,12 +14,13 @@ app.prepare().then(() => {
     const server = express();
 
     server.get("*", (req, res) => {
+        console.log(`${req.ip} is comming!`);
         return handle(req, res);
     });
 
     server.listen(PORT, '127.0.0.1', (err) => {
         if (err) return console.error(err);
-        console.log(`> Kreimben.com is running on: http://127.0.0.1:${PORT}/`)
+        console.log(`> Kreimben.com is running on: http://127.0.0.1:${PORT}/`);
     });
 
 }).catch((ex) => {
