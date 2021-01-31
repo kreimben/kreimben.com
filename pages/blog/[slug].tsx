@@ -6,11 +6,15 @@ import DateParser from '../../model/DateParser';
 import APIKey from '../../model/APIKey';
 import useSWR from 'swr';
 
+const url = (id: string) => {
+    return `http://193.123.231.139:2368/ghost/api/v3/content/posts/${id}/?key=${APIKey}`;
+}
+
 const fetcher = async (id: string) => {
 
     //console.log("Id as parameter is: " + id);
 
-    const res = await fetch(`http://193.123.231.139:2368/ghost/api/v3/content/posts/${id}/?key=${APIKey}`);
+    const res = await fetch(url(id));
     const json = await res.json();
 
     //console.log("result json is: " + json);
@@ -31,8 +35,12 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
 export default function Post(props: InferGetServerSidePropsType<typeof getServerSideProps>) {
 
     const initialData = props.data;
-    const { data } = useSWR(`http://193.123.231.139:2368/ghost/api/v3/content/posts/${props.id}/?key=${APIKey}`, fetcher, { initialData });
 
+    const URL = url(props.id);
+
+    const { data } = useSWR(URL, fetcher, { initialData: initialData, revalidateOnFocus: false });
+
+    console.log(`Requesting URL is: ${URL}`);
     console.log(data.posts[0].created_at);
     const result = DateParser(data.posts[0].created_at);
 
