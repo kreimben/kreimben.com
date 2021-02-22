@@ -1,4 +1,4 @@
-FROM node:15.4.0
+FROM node:buster
 
 MAINTAINER aksidionkreimben@gmail.com
 
