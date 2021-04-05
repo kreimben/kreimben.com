@@ -1,6 +1,8 @@
 <template>
-  <Menu current="this is value" />
-  <div>Hello, {{ name }}</div>
+  <div id="app">
+    <Menu />
+    <div>Hello, {{ name }}</div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -12,9 +14,11 @@ export default defineComponent({
   components: {
     Menu,
   },
-  data() {
+  setup() {
+    let name = "Aksidion Kreimben";
+
     return {
-      name: "Aksidion Kreimben!",
+      name,
     };
   },
 });
