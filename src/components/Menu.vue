@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app fixed elevate-on-scroll color="blue lighten-1" dark>
+  <v-app-bar app fixed elevate-on-scroll color="white" light>
     <router-link to="/">
       <v-img src="../../public/resized_logo.png" />
     </router-link>

@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar app fixed color="blue lighten-1">
+  <v-app-bar app fixed color="white">
     <router-link to="/">
       <v-img src="../../public/resized_favicon.png" contain />
     </router-link>
