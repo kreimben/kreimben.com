@@ -6,20 +6,18 @@
 
     <v-spacer />
 
-    <v-app-bar-nav-icon @click="drawer = true" app dark>
-
-    </v-app-bar-nav-icon>
+    <v-app-bar-nav-icon @click="drawer = true" app dark> </v-app-bar-nav-icon>
 
     <v-navigation-drawer app v-model="drawer" absolute right>
-        <v-list nav>
-            <v-list-item 
-                v-for="(element, index) in testMenuItems" 
-                :key="index"
-                @click="$router.push({ path: element.path })"
-            >
-                <v-list-item-title>{{element.title}}</v-list-item-title>
-            </v-list-item>
-        </v-list>
+      <v-list nav>
+        <v-list-item
+          v-for="(element, index) in testMenuItems"
+          :key="index"
+          @click="$router.push({ path: element.path })"
+        >
+          <v-list-item-title>{{ element.title }}</v-list-item-title>
+        </v-list-item>
+      </v-list>
     </v-navigation-drawer>
   </v-app-bar>
 </template>
@@ -29,17 +27,21 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component({})
 export default class MenuMobile extends Vue {
-    drawer = false;
+  drawer = false;
 
-    testMenuItems = [
-        {
-            title: "Home",
-            path: "/"
-        },
-        {
-            title: "About Me",
-            path: "/aboutme"
-        },
-    ];
+  testMenuItems = [
+    {
+      title: "Home",
+      path: "/",
+    },
+    {
+      title: "Tags",
+      path: "/tags",
+    },
+    {
+      title: "About Me",
+      path: "/aboutme",
+    },
+  ];
 }
 </script>
