@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Menu v-if="$vuetify.breakpoint.mobile === false"/>
+    <Menu v-if="$vuetify.breakpoint.mobile === false" />
     <MenuMobile v-else />
     <v-main>
       <router-view />
@@ -20,5 +20,5 @@ import MenuMobile from "./components/MenuMobile";
     MenuMobile,
   },
 })
-export default class App extends Vue { }
+export default class App extends Vue {}
 </script>
