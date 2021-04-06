@@ -2,6 +2,14 @@
   <div id="app">
     <Menu />
     <div>Hello, {{ name }}</div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <div>This is just test page for home view</div>
   </div>
 </template>
 
