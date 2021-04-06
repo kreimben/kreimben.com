@@ -1,33 +1,18 @@
 <template>
-  <div id="app">
-    <Menu />
-    <div>Hello, {{ name }}</div>
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <div>This is just test page for home view</div>
+  <div class="home">
+    <img alt="Vue logo" src="../assets/logo.png" />
+    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { Component, Vue } from "vue-property-decorator";
+import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
 
-import Menu from "../components/Menu.vue";
-
-export default defineComponent({
+@Component({
   components: {
-    Menu,
+    HelloWorld,
   },
-  setup() {
-    let name = "Aksidion Kreimben";
-
-    return {
-      name,
-    };
-  },
-});
+})
+export default class Home extends Vue {}
 </script>
