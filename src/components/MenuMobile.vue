@@ -18,6 +18,7 @@
           <v-list-item-title>{{ element.title }}</v-list-item-title>
         </v-list-item>
       </v-list>
+      <div class="gcse-searchbox-only"/>
     </v-navigation-drawer>
   </v-app-bar>
 </template>
