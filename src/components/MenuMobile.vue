@@ -6,7 +6,7 @@
 
     <v-spacer />
 
-    <v-app-bar-nav-icon @click="drawer = true" app dark> </v-app-bar-nav-icon>
+    <v-app-bar-nav-icon @click="drawer = true" app > </v-app-bar-nav-icon>
 
     <v-navigation-drawer app v-model="drawer" absolute right>
       <v-list nav>
