@@ -31,7 +31,7 @@
       </v-col>
 
       <!-- image -->
-      <v-col cols="12" sm="6" md="6" lg="6" xl="6">
+      <v-col cols="12" sm="6" md="6" lg="6" xl="4">
         <v-card tile color="amber accent-4" class="pa-6 mb-4 text--primary">
           <p class="white--text pb-1 font-weight-bold">
             Today's Photo from NASA.
@@ -52,7 +52,7 @@
         sm="6"
         md="6"
         lg="6"
-        xl="6"
+        xl="4"
         v-for="post in testPosts"
         :key="post"
       >
