@@ -5,13 +5,16 @@
         <v-card
           tile
           elevation="8"
-          color="deep-orange darken-1"
-          class="white--text pa-4 mb-4"
+          color="red"
+          class="white--text pa-4 mb-4 text-center"
         >
           <v-card-subtitle class="font-weight-bold">
             Indie Developer's Website.
           </v-card-subtitle>
-          <v-card-title class="font-weight-black" style="font-size: 1.4rem">
+          <v-card-title
+            class="justify-center font-weight-bold"
+            style="font-size: 1.4rem"
+          >
             Welcome to Kreimben.com!
           </v-card-title>
         </v-card>
@@ -23,7 +26,7 @@
           tile
           style="font-size: 1.4rem"
           class="pa-4 text--primary font-weight-bold"
-          color="red"
+          color="green darken-2"
         >
           <p class="white--text">I code what I want.</p>
           <p class="white--text">iOS, macOS, Fullstack Developer.</p>
@@ -59,23 +62,41 @@
         <v-card
           tile
           color="blue"
-          class="pa-4 text--primary"
-          @click="$router.push({ path: '/sdf' })"
+          class="pa-4 text--primary text-center"
+          @click="$router.push({ path: '/test_page' })"
         >
           <v-card-title
-            class="font-weight-bold white--text"
+            class="font-weight-bold white--text justify-center"
             style="font-size: 1.6rem"
             >{{ post.title }}</v-card-title
           >
+          <!-- Category -->
+          <v-hover v-slot="{ hover }" open-delay="100">
+            <v-card
+              tile
+              outlined
+              max-width="80"
+              :elevation="hover ? 2 : 0"
+              color="indigo accent-2"
+              class="mx-auto py-1 white--text rounded-xl"
+              @click="$router.push(`/tags/${post.category}/`)"
+            >
+              {{ post.category }}
+            </v-card >
+          </v-hover>
+          <!-- Description -->
           <v-card-subtitle class="white--text">{{ post.desc }}</v-card-subtitle>
+          <!-- Date -->
           <v-card
             tile
+            outlined
             width="110"
-            color="light-blue accent-1"
-            class="font-weight-bold pa-2"
+            color="indigo accent-2"
+            class="mx-auto py-1 justify-center rounded-xl"
             style="color: white"
-            >{{ getOnlyDate(post.date) }}</v-card
           >
+            {{ getOnlyDate(post.date) }}
+          </v-card>
         </v-card>
       </v-col>
     </v-row>
@@ -107,36 +128,43 @@ export default class MainView extends Vue {
       title: "First post",
       desc: "alskdjfjlskdj",
       date: "2021-03-21:04:56",
+      category: "swift",
     },
     {
       title: "Second post",
       desc: "sldkjlknamlsdkfj",
       date: "2021-03-21:04:56",
+      category: "swift",
     },
     {
       title: "Third post",
       desc: "sldkjlknamlsdkfj",
       date: "2021-03-21:04:56",
+      category: "swift",
     },
     {
       title: "Fourth post",
       desc: "sldkjlknamlsdkfj",
       date: "2021-03-21:04:56",
+      category: "swift",
     },
     {
       title: "Fivth post",
       desc: "sldkjlknamlsdkfj",
       date: "2021-03-21:04:56",
+      category: "swift",
     },
     {
       title: "Sixth post",
       desc: "sldkjlknamlsdkfj",
       date: "2021-03-21:04:56",
+      category: "swift",
     },
     {
       title: "Seventh post",
       desc: "sldkjlknamlsdkfj",
       date: "2021-03-21:04:56",
+      category: "swift",
     },
   ];
 }
