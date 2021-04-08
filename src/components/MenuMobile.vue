@@ -18,7 +18,19 @@
           <v-list-item-title>{{ element.title }}</v-list-item-title>
         </v-list-item>
       </v-list>
-      <div class="gcse-searchbox-only"/>
+
+      <v-btn
+        v-if="this.$auth.user !== undefined"
+        @click="$router.push({ path: '/manage_posts' })"
+        text
+        >Manage Posts</v-btn>
+
+      <v-btn icon>
+        <v-icon v-if="!$auth.isAuthenticated" @click="login()">mdi-login</v-icon>
+        <v-icon v-else @click="logout()">mdi-logout</v-icon>
+      </v-btn>
+
+      <div class="gcse-searchbox-only" />
     </v-navigation-drawer>
   </v-app-bar>
 </template>
@@ -44,5 +56,15 @@ export default class MenuMobile extends Vue {
       path: "/aboutme",
     },
   ];
+
+  login() {
+    this.$auth.loginWithRedirect();
+  }
+
+  logout() {
+    this.$auth.logout({
+      returnTo: window.location.origin,
+    });
+  }
 }
 </script>

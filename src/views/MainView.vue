@@ -82,7 +82,7 @@
               @click="$router.push(`/tags/${post.category}/`)"
             >
               {{ post.category }}
-            </v-card >
+            </v-card>
           </v-hover>
           <!-- Description -->
           <v-card-subtitle class="white--text">{{ post.desc }}</v-card-subtitle>
