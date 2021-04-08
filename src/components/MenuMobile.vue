@@ -20,14 +20,14 @@
       </v-list>
 
       <v-btn
-        v-if="this.$auth.user !== undefined"
+        v-if="1 === 1"
         @click="$router.push({ path: '/manage_posts' })"
         text
         >Manage Posts</v-btn
       >
 
       <v-btn icon>
-        <v-icon v-if="!$auth.isAuthenticated">mdi-login</v-icon>
+        <v-icon v-if="1 === 1">mdi-login</v-icon>
         <v-icon v-else>mdi-logout</v-icon>
       </v-btn>
 

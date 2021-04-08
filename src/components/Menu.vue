@@ -6,7 +6,6 @@
 
     <v-btn @click="$router.push({ path: '/tags' })" text>Tags</v-btn>
     <v-btn @click="$router.push({ path: '/aboutme' })" text>About Me</v-btn>
-    <v-btn text> ASMR Sound </v-btn>
 
     <v-spacer />
 
@@ -18,7 +17,7 @@
     >
 
     <v-btn icon>
-      <v-icon v-if="!$auth.isAuthenticated">mdi-login</v-icon>
+      <v-icon v-if="1 === 1">mdi-login</v-icon>
       <v-icon v-else>mdi-logout</v-icon>
     </v-btn>
 
@@ -31,5 +30,8 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class Menu extends Vue {
+  isAuthCredentialEmpty(): boolean {
+    return true;
+  }
 }
 </script>
