@@ -34,7 +34,7 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component({})
 export default class Footer extends Vue {
-  redirectTo(path: string) {
+  redirectTo(path: string): void {
     console.log(`Redirecting to: ${path}`);
     window.location.href = path;
   }

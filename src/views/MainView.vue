@@ -43,7 +43,7 @@
             class="mx-auto"
             min-height="500"
             type="image"
-            v-if="url === null"
+            v-if="url === ''"
           />
           <v-img :src="url" />
         </v-card>
@@ -110,9 +110,9 @@ import mainImage from "../api/FetchImage";
 
 @Component
 export default class MainView extends Vue {
-  url = null;
+  url = "";
 
-  async created() {
+  async created(): Promise<void> {
     this.url = await mainImage();
     console.log(`this is result: ${this.url}`);
   }

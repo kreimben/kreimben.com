@@ -23,11 +23,12 @@
         v-if="this.$auth.user !== undefined"
         @click="$router.push({ path: '/manage_posts' })"
         text
-        >Manage Posts</v-btn>
+        >Manage Posts</v-btn
+      >
 
       <v-btn icon>
-        <v-icon v-if="!$auth.isAuthenticated" @click="login()">mdi-login</v-icon>
-        <v-icon v-else @click="logout()">mdi-logout</v-icon>
+        <v-icon v-if="!$auth.isAuthenticated">mdi-login</v-icon>
+        <v-icon v-else>mdi-logout</v-icon>
       </v-btn>
 
       <div class="gcse-searchbox-only" />
@@ -56,15 +57,5 @@ export default class MenuMobile extends Vue {
       path: "/aboutme",
     },
   ];
-
-  login() {
-    this.$auth.loginWithRedirect();
-  }
-
-  logout() {
-    this.$auth.logout({
-      returnTo: window.location.origin,
-    });
-  }
 }
 </script>

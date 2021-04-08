@@ -13,8 +13,8 @@
 import { Component, Vue } from "vue-property-decorator";
 
 import Menu from "./components/Menu.vue";
-import MenuMobile from "./components/MenuMobile";
-import Footer from "./components/Footer";
+import MenuMobile from "./components/MenuMobile.vue";
+import Footer from "./components/Footer.vue";
 
 @Component({
   components: {

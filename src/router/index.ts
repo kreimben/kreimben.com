@@ -6,8 +6,6 @@ import AboutMeView from "../views/AboutMeView.vue";
 import TagsView from "../views/TagsView.vue";
 import ManagePostsView from "../views/ManagePostsView.vue";
 
-import { authGuard } from "../auth/authGuard";
-
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
@@ -26,8 +24,7 @@ const routes: Array<RouteConfig> = [
   {
     path: "/manage_posts",
     component: ManagePostsView,
-    beforeEnter: authGuard
-  }
+  },
 ];
 
 const router = new VueRouter({
