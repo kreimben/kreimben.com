@@ -28,7 +28,6 @@ const routes: Array<RouteConfig> = [
   {
     path: "/connect/google/redirect",
     redirect: (to) => {
-      console.log(JSON.stringify(to));
       Vue.prototype.$token = to.query.access_token;
       return "/";
     },

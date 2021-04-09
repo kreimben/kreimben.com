@@ -3,8 +3,8 @@
     <v-card flat tile color="transparent" class="ma-2 text-center flex">
       <v-card-text>
         <v-btn
-          v-for="icon in footerIcons"
-          :key="icon"
+          v-for="(icon, index) in footerIcons"
+          :key="index"
           class="mx-8 px-8 white--text"
           icon
           @click="redirectTo(icon.path)"

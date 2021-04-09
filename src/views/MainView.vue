@@ -56,8 +56,8 @@
         md="6"
         lg="6"
         xl="4"
-        v-for="post in testPosts"
-        :key="post"
+        v-for="(post, index) in testPosts"
+        :key="index"
       >
         <v-card
           tile
@@ -110,6 +110,7 @@ import mainImage from "../api/FetchImage";
 
 @Component
 export default class MainView extends Vue {
+
   url = "";
 
   async created(): Promise<void> {
