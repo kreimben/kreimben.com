@@ -29,6 +29,11 @@ const routes: Array<RouteConfig> = [
     path: "/connect/google/redirect",
     redirect: (to) => {
       Vue.prototype.$token = to.query.access_token;
+      //console.log(JSON.stringify(to));
+
+      const response = fetch(`https://strapi.kreimben.com/auth/google/callback?access_token=${Vue.prototype.$token}/`);
+      console.log(`callback response: ${JSON.stringify(response)}`);
+
       return "/";
     },
   },
