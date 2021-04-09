@@ -114,7 +114,6 @@ export default class MainView extends Vue {
 
   async created(): Promise<void> {
     this.url = await mainImage();
-    console.log(`this is result: ${this.url}`);
   }
 
   public getOnlyDate(date: string): string {

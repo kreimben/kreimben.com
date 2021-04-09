@@ -25,6 +25,14 @@ const routes: Array<RouteConfig> = [
     path: "/manage_posts",
     component: ManagePostsView,
   },
+  {
+    path: "/connect/google/redirect",
+    redirect: (to) => {
+      console.log(JSON.stringify(to));
+      Vue.prototype.$token = to.query.access_token;
+      return "/";
+    },
+  },
 ];
 
 const router = new VueRouter({

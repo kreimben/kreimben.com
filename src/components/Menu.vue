@@ -9,16 +9,15 @@
 
     <v-spacer />
 
-    <v-btn
-      v-if="isAuthCredentialEmpty()"
-      @click="$router.push({ path: '/manage_posts' })"
-      text
+    <v-btn v-if="isAvailableToken()" @click="$router.push({ path: '/manage_posts' })" text
       >Manage Posts</v-btn
     >
 
     <v-btn icon>
-      <v-icon v-if="1 === 1">mdi-login</v-icon>
-      <v-icon v-else>mdi-logout</v-icon>
+      <v-icon v-if="!isAvailableToken()" @click="login"
+        >mdi-login</v-icon
+      >
+      <v-icon v-else @click="logout">mdi-logout</v-icon>
     </v-btn>
 
     <div class="gcse-searchbox-only"></div>
@@ -30,8 +29,19 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class Menu extends Vue {
-  isAuthCredentialEmpty(): boolean {
-    return true;
+  login(): void {
+    window.location.href = "https://strapi.kreimben.com/connect/google";
+  }
+
+  logout(): void {
+    console.log("implement again!");
+  }
+
+  isAvailableToken(): boolean {
+    let result = false;
+    result = (Vue.prototype.$token !== undefined);
+    console.log(`isAvailableToken result: ${result}`)
+    return result;
   }
 }
 </script>

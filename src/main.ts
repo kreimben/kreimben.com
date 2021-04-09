@@ -10,4 +10,7 @@ new Vue({
   store,
   vuetify,
   render: (h) => h(App),
+  data() {
+    null;
+  },
 }).$mount("#app");
