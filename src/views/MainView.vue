@@ -84,9 +84,8 @@
               outlined
               max-width="80"
               :elevation="hover ? 2 : 0"
-              color="indigo accent-2"
-              class="mx-auto py-1 white--text rounded-xl"
-              sylte="overflow-x: auto; white-space: nowrap;"
+              color="blue accent-3"
+              class="mx-auto my-2 py-1 white--text rounded-xl"
               @click="$router.push(`/tags/${cat.name}`)"
             >
               {{ cat.name }}
@@ -103,7 +102,7 @@
             tile
             outlined
             width="110"
-            color="indigo accent-2"
+            color="indigo accent-3"
             class="mx-auto py-1 justify-center rounded-xl"
             style="color: white"
           >
