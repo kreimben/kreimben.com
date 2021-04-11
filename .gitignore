@@ -40,4 +40,4 @@ cert/kreimben-com.crt
 cert/kreimben-com.key
 
 # mongodb
-Backend/strapidata/*
+Backend/strapidata/
