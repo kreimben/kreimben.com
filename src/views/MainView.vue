@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <v-alert type="info">{{ JSON.stringify(this.posts) }}</v-alert>
     <v-row>
       <v-col cols="12" sm="4" md="4" lg="4" xl="4">
         <v-card
@@ -56,7 +57,7 @@
         md="6"
         lg="6"
         xl="4"
-        v-for="(post, index) in testPosts"
+        v-for="(post, index) in posts"
         :key="index"
       >
         <v-card
@@ -71,7 +72,10 @@
             >{{ post.title }}</v-card-title
           >
           <!-- Category -->
-          <v-hover v-slot="{ hover }" open-delay="100">
+          <v-hover
+            v-slot="{ hover }"
+            open-delay="100"
+          >
             <v-card
               tile
               outlined
@@ -79,13 +83,15 @@
               :elevation="hover ? 2 : 0"
               color="indigo accent-2"
               class="mx-auto py-1 white--text rounded-xl"
-              @click="$router.push(`/tags/${post.category}/`)"
+              @click="$router.push(`/tags/${post.categories}/`)"
             >
-              {{ post.category }}
+              {{ post.categories }}
             </v-card>
           </v-hover>
           <!-- Description -->
-          <v-card-subtitle class="white--text">{{ post.desc }}</v-card-subtitle>
+          <v-card-subtitle class="white--text">{{
+            post.description
+          }}</v-card-subtitle>
           <!-- Date -->
           <v-card
             tile
@@ -95,7 +101,7 @@
             class="mx-auto py-1 justify-center rounded-xl"
             style="color: white"
           >
-            {{ getOnlyDate(post.date) }}
+            {{ getOnlyDate(post.createdAt) }}
           </v-card>
         </v-card>
       </v-col>
@@ -116,7 +122,7 @@ export default class MainView extends Vue {
 
   async mounted(): Promise<void> {
     this.url = await mainImage();
-    this.posts = await FetchPostsFromMainView();
+    this.posts = await FetchPostsFromMainView("_limit=9");
   }
 
   public getToken(): string {
@@ -128,54 +134,25 @@ export default class MainView extends Vue {
   }
 
   public getOnlyDate(date: string): string {
-    const separate = date.split(":");
+    const separate = date.split("T");
 
     return separate[0];
   }
 
-  testPosts = [
-    {
-      title: "First post",
-      desc: "alskdjfjlskdj",
-      date: "2021-03-21:04:56",
-      category: "swift",
-    },
-    {
-      title: "Second post",
-      desc: "sldkjlknamlsdkfj",
-      date: "2021-03-21:04:56",
-      category: "swift",
-    },
-    {
-      title: "Third post",
-      desc: "sldkjlknamlsdkfj",
-      date: "2021-03-21:04:56",
-      category: "swift",
-    },
-    {
-      title: "Fourth post",
-      desc: "sldkjlknamlsdkfj",
-      date: "2021-03-21:04:56",
-      category: "swift",
-    },
-    {
-      title: "Fivth post",
-      desc: "sldkjlknamlsdkfj",
-      date: "2021-03-21:04:56",
-      category: "swift",
-    },
-    {
-      title: "Sixth post",
-      desc: "sldkjlknamlsdkfj",
-      date: "2021-03-21:04:56",
-      category: "swift",
-    },
-    {
-      title: "Seventh post",
-      desc: "sldkjlknamlsdkfj",
-      date: "2021-03-21:04:56",
-      category: "swift",
-    },
-  ];
+  get getOnlyCategories(): string[] {
+    let categories: string[];
+    let json = this.posts.categories;
+
+    console.log(JSON.stringify(json));
+
+    for (const element in json) {
+      console.log(element);
+      categories.push(element);
+    }
+
+    alert(categories);
+
+    return categories;
+  }
 }
 </script>

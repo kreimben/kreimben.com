@@ -41,17 +41,15 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component({})
 export default class MenuMobile extends Vue {
-
   logout(): void {
     sessionStorage.clear();
     this.$forceUpdate();
   }
 
   isAvailableToken(): boolean {
-
     const token = sessionStorage.getItem("aut");
-      
-    const result = (token != null || token != undefined);
+
+    const result = token != null || token != undefined;
 
     return result;
   }

@@ -55,7 +55,6 @@ export default class LoginView extends Vue {
   isLoading = false;
 
   async logInClicked(): Promise<void> {
-
     //this.$recaptcha();
 
     this.isLoading = true;
@@ -78,18 +77,19 @@ export default class LoginView extends Vue {
     const json = await response.json();
 
     if (json.jwt != null || json.jwt != undefined) {
+      this.$nextTick(() => {
+        sessionStorage.setItem("aut", json.jwt);
+      });
 
-        this.$nextTick(() => {sessionStorage.setItem("aut", json.jwt);})
-
-        this.$router.push({path: '/'});
+      this.$router.push({ path: "/" });
     } else {
-        alert(`Login fail`);
-        this.isLoading = false;
+      alert(`Login fail`);
+      this.isLoading = false;
 
-        this.id = '';
-        this.pw = '';
+      this.id = "";
+      this.pw = "";
 
-        return;
+      return;
     }
 
     this.isLoading = false;

@@ -40,10 +40,9 @@ export default class Menu extends Vue {
   }
 
   isAvailableToken(): boolean {
-
     const token = sessionStorage.getItem("aut");
-      
-    const result = (token != null || token != undefined);
+
+    const result = token != null || token != undefined;
 
     return result;
   }
