@@ -39,5 +39,5 @@ package-lock.json
 cert/kreimben-com.crt
 cert/kreimben-com.key
 
-# strapidata
-/Backend/strapidata
+# mongodb
+Backend/strapidata/
