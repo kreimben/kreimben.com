@@ -71,11 +71,9 @@
             style="font-size: 1.6rem"
             >{{ post.title }}</v-card-title
           >
+
           <!-- Category -->
-          <v-hover
-            v-slot="{ hover }"
-            open-delay="100"
-          >
+          <v-hover v-slot="{ hover }" open-delay="100">
             <v-card
               tile
               outlined
@@ -83,15 +81,17 @@
               :elevation="hover ? 2 : 0"
               color="indigo accent-2"
               class="mx-auto py-1 white--text rounded-xl"
-              @click="$router.push(`/tags/${post.categories}/`)"
+              @click="$router.push(`/tags/${1+1}/`)"
             >
-              {{ post.categories }}
+              {{ 1+1 }}
             </v-card>
           </v-hover>
+
           <!-- Description -->
           <v-card-subtitle class="white--text">{{
             post.description
           }}</v-card-subtitle>
+
           <!-- Date -->
           <v-card
             tile
@@ -101,7 +101,7 @@
             class="mx-auto py-1 justify-center rounded-xl"
             style="color: white"
           >
-            {{ getOnlyDate(post.createdAt) }}
+            {{ this.getOnlyDate(post.createdAt) }}
           </v-card>
         </v-card>
       </v-col>
@@ -137,22 +137,6 @@ export default class MainView extends Vue {
     const separate = date.split("T");
 
     return separate[0];
-  }
-
-  get getOnlyCategories(): string[] {
-    let categories: string[];
-    let json = this.posts.categories;
-
-    console.log(JSON.stringify(json));
-
-    for (const element in json) {
-      console.log(element);
-      categories.push(element);
-    }
-
-    alert(categories);
-
-    return categories;
   }
 }
 </script>
