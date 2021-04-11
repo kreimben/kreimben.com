@@ -40,4 +40,4 @@ cert/kreimben-com.crt
 cert/kreimben-com.key
 
 # strapidata
-./Backend/strapidata
+/Backend/strapidata
