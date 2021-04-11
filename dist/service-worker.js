@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.fb89799305239e45ca8de8819b5d32ca.js"
+  "/precache-manifest.38c7bca5c2f6be7dafdc8bfe0ca995f6.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "Kreimben.com"});

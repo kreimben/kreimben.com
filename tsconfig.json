@@ -35,7 +35,7 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
-  ],
+, "src/views/LoginView.vue"  ],
   "exclude": [
     "node_modules"
   ]

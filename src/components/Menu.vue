@@ -9,12 +9,17 @@
 
     <v-spacer />
 
-    <v-btn v-if="isAvailableToken()" @click="$router.push({ path: '/manage_posts' })" text
+    <v-btn
+      v-if="this.isAvailableToken()"
+      @click="$router.push({ path: '/manage_posts' })"
+      text
       >Manage Posts</v-btn
     >
 
     <v-btn icon>
-      <v-icon v-if="!isAvailableToken()" @click="login"
+      <v-icon
+        v-if="!this.isAvailableToken()"
+        @click="$router.push({ path: '/login' })"
         >mdi-login</v-icon
       >
       <v-icon v-else @click="logout">mdi-logout</v-icon>
@@ -29,18 +34,17 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class Menu extends Vue {
-  login(): void {
-    window.location.href = "https://strapi.kreimben.com/connect/google";
-  }
-
   logout(): void {
-    console.log("implement again!");
+    sessionStorage.clear();
+    this.$forceUpdate();
   }
 
   isAvailableToken(): boolean {
-    let result = false;
-    result = (Vue.prototype.$token !== undefined);
-    console.log(`isAvailableToken result: ${result}`)
+
+    const token = sessionStorage.getItem("aut");
+      
+    const result = (token != null || token != undefined);
+
     return result;
   }
 }

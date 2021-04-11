@@ -1,7 +1,5 @@
 <template>
   <v-container>
-    <v-alert type="info" contain>Google Token: {{ getToken() }}</v-alert>
-    <v-alert type="info">{{ JSON.stringify(this.posts) }}</v-alert>
     <v-row>
       <v-col cols="12" sm="4" md="4" lg="4" xl="4">
         <v-card
@@ -109,11 +107,10 @@
 import { Component, Vue } from "vue-property-decorator";
 
 import mainImage from "../api/FetchImage";
-import { FetchPostsFromMainView } from "../api/FetchPosts"
+import { FetchPostsFromMainView } from "../api/FetchPosts";
 
 @Component
 export default class MainView extends Vue {
-
   url = "";
   posts = null;
 

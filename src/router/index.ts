@@ -5,6 +5,7 @@ import MainView from "../views/MainView.vue";
 import AboutMeView from "../views/AboutMeView.vue";
 import TagsView from "../views/TagsView.vue";
 import ManagePostsView from "../views/ManagePostsView.vue";
+import LoginView from "../views/LoginView.vue";
 
 Vue.use(VueRouter);
 
@@ -22,20 +23,12 @@ const routes: Array<RouteConfig> = [
     component: AboutMeView,
   },
   {
-    path: "/manage_posts",
-    component: ManagePostsView,
+    path: "/login",
+    component: LoginView,
   },
   {
-    path: "/connect/google/redirect",
-    redirect: (to) => {
-      Vue.prototype.$token = to.query.access_token;
-      console.log(Vue.prototype.$token);
-
-      const response = fetch(`https://strapi.kreimben.com/auth/google/callback?access_token=${Vue.prototype.$token}/`);
-      console.log(`callback response: ${JSON.stringify(response)}`);
-
-      return "/";
-    },
+    path: "/manage_posts",
+    component: ManagePostsView,
   },
 ];
 
