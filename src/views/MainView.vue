@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-alert type="info">{{ JSON.stringify(this.posts) }}</v-alert>
+    <!-- <v-alert type="info">{{ JSON.stringify(this.posts) }}</v-alert> -->
     <v-row>
       <v-col cols="12" sm="4" md="4" lg="4" xl="4">
         <v-card
@@ -73,7 +73,12 @@
           >
 
           <!-- Category -->
-          <v-hover v-slot="{ hover }" open-delay="100">
+          <v-hover
+            v-for="(cat, index) in post.categories"
+            :key="index"
+            v-slot="{ hover }"
+            open-delay="100"
+          >
             <v-card
               tile
               outlined
@@ -81,9 +86,10 @@
               :elevation="hover ? 2 : 0"
               color="indigo accent-2"
               class="mx-auto py-1 white--text rounded-xl"
-              @click="$router.push(`/tags/${1+1}/`)"
+              sylte="overflow-x: auto; white-space: nowrap;"
+              @click="$router.push(`/tags/${cat.name}`)"
             >
-              {{ 1+1 }}
+              {{ cat.name }}
             </v-card>
           </v-hover>
 
@@ -101,7 +107,7 @@
             class="mx-auto py-1 justify-center rounded-xl"
             style="color: white"
           >
-            {{ this.getOnlyDate(post.createdAt) }}
+            {{ getOnlyDate(post.createdAt) }}
           </v-card>
         </v-card>
       </v-col>
@@ -126,6 +132,7 @@ export default class MainView extends Vue {
   }
 
   public getToken(): string {
+    console.log(JSON.stringify(this.posts));
     if (Vue.prototype.$token) {
       return Vue.prototype.$token;
     } else {
