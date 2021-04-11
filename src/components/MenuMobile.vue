@@ -20,14 +20,14 @@
       </v-list>
 
       <v-btn
-        v-if="1 === 1"
+        v-if="this.isAvailableToken()"
         @click="$router.push({ path: '/manage_posts' })"
         text
         >Manage Posts</v-btn
       >
 
       <v-btn icon>
-        <v-icon v-if="1 === 1">mdi-login</v-icon>
+        <v-icon v-if="!this.isAvailableToken()">mdi-login</v-icon>
         <v-icon v-else>mdi-logout</v-icon>
       </v-btn>
 
@@ -41,6 +41,21 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component({})
 export default class MenuMobile extends Vue {
+
+  logout(): void {
+    sessionStorage.clear();
+    this.$forceUpdate();
+  }
+
+  isAvailableToken(): boolean {
+
+    const token = sessionStorage.getItem("aut");
+      
+    const result = (token != null || token != undefined);
+
+    return result;
+  }
+
   drawer = false;
 
   testMenuItems = [
