@@ -9,13 +9,18 @@
         v-for="(category, index) in this.categories"
         :key="index"
       >
-        <v-card class="text-center ma-4 py-16" @click="$router.push({ path: `/categories/${category._id}`})">
+        <v-card
+          class="text-center ma-4 py-16"
+          @click="$router.push({ path: `/categories/${category._id}` })"
+        >
           <v-card-title
             class="justify-center mb-6 font-weight-black"
             style="font-size: 2.5rem"
             >{{ category.name }}</v-card-title
           >
-          <v-card-subtitle class="lightgray--text">{{ category.description }}</v-card-subtitle>
+          <v-card-subtitle class="lightgray--text">{{
+            category.description
+          }}</v-card-subtitle>
         </v-card>
       </v-col>
     </v-row>
