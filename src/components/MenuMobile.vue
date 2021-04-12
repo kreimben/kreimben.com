@@ -62,8 +62,8 @@ export default class MenuMobile extends Vue {
       path: "/",
     },
     {
-      title: "Tags",
-      path: "/tags",
+      title: "Categories",
+      path: "/Categories",
     },
     {
       title: "About Me",

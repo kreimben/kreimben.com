@@ -86,7 +86,7 @@
               :elevation="hover ? 2 : 0"
               color="blue accent-3"
               class="mx-auto my-2 py-1 white--text rounded-xl"
-              @click="$router.push(`/tags/${cat.name}`)"
+              @click="$router.push(`/categories/${cat.name}`)"
             >
               {{ cat.name }}
             </v-card>

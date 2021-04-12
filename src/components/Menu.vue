@@ -4,7 +4,9 @@
       <v-img src="../../public/resized_logo.png" />
     </router-link>
 
-    <v-btn @click="$router.push({ path: '/tags' })" text>Tags</v-btn>
+    <v-btn @click="$router.push({ path: '/categories' })" text
+      >Categories</v-btn
+    >
     <v-btn @click="$router.push({ path: '/aboutme' })" text>About Me</v-btn>
 
     <v-spacer />
