@@ -140,9 +140,7 @@ export default class MainView extends Vue {
   }
 
   public getOnlyDate(date: string): string {
-    const separate = date.split("T");
-
-    return separate[0];
+    return date.split("T")[0];
   }
 }
 </script>
