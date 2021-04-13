@@ -35,8 +35,8 @@
       "required": false
     },
     "categories": {
-      "collection": "category",
-      "via": "post"
+      "via": "posts",
+      "collection": "category"
     }
   }
 }
