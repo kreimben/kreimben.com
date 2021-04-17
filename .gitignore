@@ -41,3 +41,5 @@ cert/kreimben-com.key
 
 # mongodb
 Backend/strapidata/
+
+.log/
