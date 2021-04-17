@@ -12,40 +12,36 @@ import PostView from "@/views/PostView.vue";
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
-  {
-    path: "/",
-    component: MainView,
-  },
-  {
-    path: "/posts/:id",
-    component: PostView,
-  },
-  {
-    path: "/categories",
-    component: CategoriesView,
-  },
-  {
-    path: "/categories/:id",
-    component: CategoryView,
-  },
-  {
-    path: "/aboutme",
-    component: AboutMeView,
-  },
-  {
-    path: "/login",
-    component: LoginView,
-  },
-  {
-    path: "/manage_posts",
-    component: ManagePostsView,
-  },
+    {
+        path: "/",
+        component: MainView,
+    },
+    {
+        path: "/posts/:id",
+        component: PostView,
+    },
+    {
+        path: "/categories",
+        component: CategoriesView,
+    },
+    {
+        path: "/categories/:id",
+        component: CategoryView,
+    },
+    {
+        path: "/login",
+        component: LoginView,
+    },
+    {
+        path: "/manage_posts",
+        component: ManagePostsView,
+    },
 ];
 
 const router = new VueRouter({
-  mode: "history",
-  base: process.env.BASE_URL,
-  routes,
+    mode: "history",
+    base: process.env.BASE_URL,
+    routes,
 });
 
 export default router;
