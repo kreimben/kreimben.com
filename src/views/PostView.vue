@@ -39,7 +39,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import DateAndCategories from "@/components/DateAndCategories";
+import DateAndCategories from "@/components/DateAndCategories.vue";
 
 import { FetchPost } from "@/api/FetchPost";
 
@@ -64,7 +64,7 @@ export default class PostView extends Vue {
             xhtmlOut: true,
             breaks: true,
             typographer: true,
-            linkfy: true,
+            linkify: true,
         };
 
         const md = new MarkdownIt(options).use(emoji);

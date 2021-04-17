@@ -86,7 +86,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import DateAndCategories from "@/components/DateAndCategories";
+import DateAndCategories from "@/components/DateAndCategories.vue";
 
 import mainImage from "../api/FetchImage";
 import { FetchPostsFromMainView } from "../api/FetchPosts";
