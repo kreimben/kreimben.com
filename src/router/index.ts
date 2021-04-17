@@ -39,7 +39,7 @@ const routes: Array<RouteConfig> = [
 
     {
         path: "*",
-        redirect: (to: Route) => {
+        redirect: (to) => {
             return '/';
         },
     },
