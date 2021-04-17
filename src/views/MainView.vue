@@ -64,14 +64,14 @@
           tile
           color="blue"
           class="pa-4 text--primary text-center"
-          @click="$router.push({ path: '/test_page' })"
+          @click="$router.push({ path: `/posts/${post.id}` })"
         >
           <v-card-title
             class="font-weight-bold white--text justify-center"
             style="font-size: 1.6rem"
             >{{ post.title }}</v-card-title
           >
-
+          {{post.id}}
           <!-- Description -->
           <v-card-subtitle class="white--text">{{
             post.description
@@ -104,6 +104,9 @@ export default class MainView extends Vue {
     async mounted(): Promise<void> {
         this.url = await mainImage();
         this.posts = await FetchPostsFromMainView("_limit=9");
+
+        const json = JSON.stringify(this.posts[0].id);
+        console.log(`this is posts info: ${json}`)
     }
 
     public getToken(): string {
@@ -113,7 +116,7 @@ export default class MainView extends Vue {
         } else {
             return "N/A";
         }
-  }
+    }
 
     public getOnlyDate(date: string): string {
         return date.split("T")[0];
