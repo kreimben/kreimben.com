@@ -104,8 +104,7 @@ export default class MainView extends Vue {
         this.url = await mainImage();
         this.posts = await FetchPostsFromMainView("_limit=9");
 
-        const json = JSON.stringify(this.posts[0].id);
-        console.log(`this is posts info: ${json}`)
+        this.posts = this.posts.reverse();
     }
 
     public getToken(): string {

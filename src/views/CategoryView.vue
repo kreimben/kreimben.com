@@ -57,10 +57,12 @@ export default class CategoryView extends Vue {
 
     this.category = await FetchCategory(currentId);
     this.posts = this.category.posts;
+
+      this.posts = this.posts.reverse();
   }
 
-  public getOnlyDate(date: string): string {
-    return date.split("T")[0];
-  }
+    public getOnlyDate(date: string): string {
+        return date.split("T")[0];
+    }
 }
 </script>
