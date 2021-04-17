@@ -36,6 +36,13 @@ const routes: Array<RouteConfig> = [
         path: "/manage_posts",
         component: ManagePostsView,
     },
+
+    {
+        path: "*",
+        redirect: (to: Route) => {
+            return '/';
+        },
+    },
 ];
 
 const router = new VueRouter({

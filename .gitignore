@@ -43,3 +43,4 @@ cert/kreimben-com.key
 Backend/strapidata/
 
 .log/
+.log/tsserver.log
