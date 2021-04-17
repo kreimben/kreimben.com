@@ -107,15 +107,6 @@ export default class MainView extends Vue {
         this.posts = this.posts.reverse();
     }
 
-    public getToken(): string {
-        console.log(JSON.stringify(this.posts));
-        if (Vue.prototype.$token) {
-            return Vue.prototype.$token;
-        } else {
-            return "N/A";
-        }
-    }
-
     public getOnlyDate(date: string): string {
         return date.split("T")[0];
     }
