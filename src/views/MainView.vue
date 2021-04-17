@@ -64,14 +64,13 @@
           tile
           color="blue"
           class="pa-4 text--primary text-center"
-          @click="$router.push({ path: `/posts/${post.id}` })"
+            @click="$router.push({ path: `/posts/${post.id}` })"
         >
           <v-card-title
             class="font-weight-bold white--text justify-center"
             style="font-size: 1.6rem"
             >{{ post.title }}</v-card-title
           >
-          {{post.id}}
           <!-- Description -->
           <v-card-subtitle class="white--text">{{
             post.description
