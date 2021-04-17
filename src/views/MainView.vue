@@ -72,42 +72,13 @@
             >{{ post.title }}</v-card-title
           >
 
-          <!-- Category -->
-          <v-hover
-            v-for="(cat, index) in post.categories"
-            :key="index"
-            v-slot="{ hover }"
-            open-delay="100"
-          >
-            <v-card
-              tile
-              outlined
-              max-width="80"
-              :elevation="hover ? 2 : 0"
-              color="blue accent-3"
-              class="mx-auto my-2 py-1 white--text rounded-xl"
-              @click="$router.push(`/categories/${cat.name}`)"
-            >
-              {{ cat.name }}
-            </v-card>
-          </v-hover>
-
           <!-- Description -->
           <v-card-subtitle class="white--text">{{
             post.description
           }}</v-card-subtitle>
 
-          <!-- Date -->
-          <v-card
-            tile
-            outlined
-            width="110"
-            color="indigo accent-3"
-            class="mx-auto py-1 justify-center rounded-xl"
-            style="color: white"
-          >
-            {{ getOnlyDate(post.createdAt) }}
-          </v-card>
+          <!-- Date and Categories -->
+          <DateAndCategories class="my-4" :post="post" />
         </v-card>
       </v-col>
     </v-row>
@@ -116,31 +87,36 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import DateAndCategories from "@/components/DateAndCategories";
 
 import mainImage from "../api/FetchImage";
 import { FetchPostsFromMainView } from "../api/FetchPosts";
 
-@Component
+@Component({
+    components: {
+        DateAndCategories,
+    },
+})
 export default class MainView extends Vue {
-  url = "";
-  posts = null;
+    url = "";
+    posts = null;
 
-  async mounted(): Promise<void> {
-    this.url = await mainImage();
-    this.posts = await FetchPostsFromMainView("_limit=9");
-  }
-
-  public getToken(): string {
-    console.log(JSON.stringify(this.posts));
-    if (Vue.prototype.$token) {
-      return Vue.prototype.$token;
-    } else {
-      return "N/A";
+    async mounted(): Promise<void> {
+        this.url = await mainImage();
+        this.posts = await FetchPostsFromMainView("_limit=9");
     }
+
+    public getToken(): string {
+        console.log(JSON.stringify(this.posts));
+        if (Vue.prototype.$token) {
+            return Vue.prototype.$token;
+        } else {
+            return "N/A";
+        }
   }
 
-  public getOnlyDate(date: string): string {
-    return date.split("T")[0];
-  }
+    public getOnlyDate(date: string): string {
+        return date.split("T")[0];
+    }
 }
 </script>
