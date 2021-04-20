@@ -39,8 +39,8 @@ package-lock.json
 cert/kreimben-com.crt
 cert/kreimben-com.key
 
-# mongodb
-Backend/strapidata/
+# Posts server
+StrapiServer/strapidata/
 
 .log/
 .log/tsserver.log
