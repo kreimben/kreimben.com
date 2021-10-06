@@ -9,9 +9,4 @@ new Vue({
   store,
   vuetify,
   render: (h) => h(App),
-  data() {
-    return {
-      token: null,
-    };
-  },
 }).$mount("#app");
