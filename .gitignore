@@ -39,8 +39,5 @@ package-lock.json
 cert/kreimben-com.crt
 cert/kreimben-com.key
 
-# Posts server
-StrapiServer/strapidata/
-
 .log/
 .log/tsserver.log

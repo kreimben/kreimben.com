@@ -1,24 +1,5 @@
-# vue2
+# Kreimben.com
 
-## Project setup
-```
-npm install
-```
+## Minimalist as developer.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Personal blog for my life and thoughts.
