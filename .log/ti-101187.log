@@ -1,0 +1,75 @@
+[03:02:31.434] Global cache location '/home/kreimben/.cache/typescript/4.4', safe file path '/home/kreimben/.emacs.d/.local/etc/lsp/npm/typescript/lib/node_modules/typescript/lib/typingSafeList.json', types map path /home/kreimben/.emacs.d/.local/etc/lsp/npm/typescript/lib/node_modules/typescript/lib/typesMap.json
+[03:02:31.435] Processing cache location '/home/kreimben/.cache/typescript/4.4'
+[03:02:31.435] Trying to find '/home/kreimben/.cache/typescript/4.4/package.json'...
+[03:02:31.457] Loaded content of '/home/kreimben/.cache/typescript/4.4/package.json': {"private":true,"dependencies":{"types-registry":"^0.1.568"},"devDependencies":{"@types/abbrev":"^1.1.2","@types/balanced-match":"^1.0.1","@types/brace-expansion":"^1.1.0","@types/braces":"^3.0.1","@types/cacheable-request":"^6.0.2","@types/caniuse-lite":"^1.0.1","@types/color-convert":"^2.0.0","@types/color-name":"^1.1.1","@types/concat-map":"^0.0.1","@types/configstore":"^5.0.1","@types/convert-source-map":"^1.5.2","@types/debug":"^4.1.7","@types/deep-extend":"^0.4.32","@types/diff":"^5.0.1","@types/duplexer3":"^0.1.1","@types/end-of-stream":"^1.4.1","@types/fill-range":"^7.0.0","@types/glob-parent":"^5.1.1","@types/got":"^9.6.12","@types/graceful-fs":"^4.1.5","@types/http-cache-semantics":"^4.0.1","@types/imurmurhash":"^0.1.1","@types/ini":"^1.3.31","@types/is-ci":"^3.0.0","@types/is-glob":"^4.0.2","@types/is-number":"^7.0.1","@types/is-typedarray":"^1.0.0","@types/jsesc":"^3.0.1","@types/json-buffer":"^3.0.0","@types/keyv":"^3.1.3","@types/lru-cache":"^5.1.1","@types/minimatch":"^3.0.5","@types/minimist":"^1.2.2","@types/ms":"^0.7.31","@types/nodemon":"^1.19.1","@types/nopt":"^3.0.29","@types/normalize-path":"^3.0.0","@types/once":"^1.4.0","@types/picomatch":"^2.3.0","@types/pump":"^1.1.1","@types/rc":"^1.2.0","@types/registry-auth-token":"^4.2.1","@types/responselike":"^1.0.0","@types/semver":"^7.3.9","@types/signal-exit":"^3.0.1","@types/supports-color":"^8.1.1","@types/to-regex-range":"^5.0.0","@types/touch":"^3.1.2","@types/update-notifier":"^5.1.0","@types/url-parse-lax":"^5.0.0","@types/wrap-ansi":"^8.0.1","@types/write-file-atomic":"^3.0.2","@types/yallist":"^4.0.1"}}
+[03:02:31.457] Loaded content of '/home/kreimben/.cache/typescript/4.4/package-lock.json'
+[03:02:31.488] Adding entry into typings cache: 'abbrev' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/abbrev/index.d.ts'
+[03:02:31.489] Adding entry into typings cache: 'balanced-match' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/balanced-match/index.d.ts'
+[03:02:31.490] Adding entry into typings cache: 'brace-expansion' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/brace-expansion/index.d.ts'
+[03:02:31.491] Adding entry into typings cache: 'braces' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/braces/index.d.ts'
+[03:02:31.491] Adding entry into typings cache: 'cacheable-request' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/cacheable-request/index.d.ts'
+[03:02:31.492] Adding entry into typings cache: 'caniuse-lite' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/caniuse-lite/index.d.ts'
+[03:02:31.493] Adding entry into typings cache: 'color-convert' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/color-convert/index.d.ts'
+[03:02:31.494] Adding entry into typings cache: 'color-name' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/color-name/index.d.ts'
+[03:02:31.519] Adding entry into typings cache: 'concat-map' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/concat-map/index.d.ts'
+[03:02:31.520] Adding entry into typings cache: 'configstore' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/configstore/index.d.ts'
+[03:02:31.521] Adding entry into typings cache: 'convert-source-map' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/convert-source-map/index.d.ts'
+[03:02:31.522] Adding entry into typings cache: 'debug' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/debug/index.d.ts'
+[03:02:31.522] Adding entry into typings cache: 'deep-extend' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/deep-extend/index.d.ts'
+[03:02:31.523] Adding entry into typings cache: 'diff' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/diff/index.d.ts'
+[03:02:31.523] Adding entry into typings cache: 'duplexer3' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/duplexer3/index.d.ts'
+[03:02:31.524] Adding entry into typings cache: 'end-of-stream' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/end-of-stream/index.d.ts'
+[03:02:31.524] Adding entry into typings cache: 'fill-range' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/fill-range/index.d.ts'
+[03:02:31.525] Adding entry into typings cache: 'glob-parent' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/glob-parent/index.d.ts'
+[03:02:31.541] Adding entry into typings cache: 'got' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/got/index.d.ts'
+[03:02:31.542] Adding entry into typings cache: 'graceful-fs' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/graceful-fs/index.d.ts'
+[03:02:31.542] Adding entry into typings cache: 'http-cache-semantics' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/http-cache-semantics/index.d.ts'
+[03:02:31.543] Adding entry into typings cache: 'imurmurhash' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/imurmurhash/index.d.ts'
+[03:02:31.543] Adding entry into typings cache: 'ini' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/ini/index.d.ts'
+[03:02:31.544] Adding entry into typings cache: 'is-ci' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/is-ci/index.d.ts'
+[03:02:31.545] Adding entry into typings cache: 'is-glob' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/is-glob/index.d.ts'
+[03:02:31.545] Adding entry into typings cache: 'is-number' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/is-number/index.d.ts'
+[03:02:31.546] Adding entry into typings cache: 'is-typedarray' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/is-typedarray/index.d.ts'
+[03:02:31.546] Adding entry into typings cache: 'jsesc' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/jsesc/index.d.ts'
+[03:02:31.547] Adding entry into typings cache: 'json-buffer' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/json-buffer/index.d.ts'
+[03:02:31.547] Adding entry into typings cache: 'keyv' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/keyv/index.d.ts'
+[03:02:31.548] Adding entry into typings cache: 'lru-cache' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/lru-cache/index.d.ts'
+[03:02:31.548] Adding entry into typings cache: 'minimatch' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/minimatch/index.d.ts'
+[03:02:31.549] Adding entry into typings cache: 'minimist' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/minimist/index.d.ts'
+[03:02:31.549] Adding entry into typings cache: 'ms' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/ms/index.d.ts'
+[03:02:31.549] Adding entry into typings cache: 'nodemon' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/nodemon/index.d.ts'
+[03:02:31.550] Adding entry into typings cache: 'nopt' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/nopt/index.d.ts'
+[03:02:31.550] Adding entry into typings cache: 'normalize-path' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/normalize-path/index.d.ts'
+[03:02:31.550] Adding entry into typings cache: 'once' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/once/index.d.ts'
+[03:02:31.551] Adding entry into typings cache: 'picomatch' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/picomatch/index.d.ts'
+[03:02:31.551] Adding entry into typings cache: 'pump' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/pump/index.d.ts'
+[03:02:31.552] Adding entry into typings cache: 'rc' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/rc/index.d.ts'
+[03:02:31.552] Adding entry into typings cache: 'registry-auth-token' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/registry-auth-token/index.d.ts'
+[03:02:31.563] Adding entry into typings cache: 'responselike' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/responselike/index.d.ts'
+[03:02:31.564] Adding entry into typings cache: 'semver' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/semver/index.d.ts'
+[03:02:31.564] Adding entry into typings cache: 'signal-exit' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/signal-exit/index.d.ts'
+[03:02:31.575] Adding entry into typings cache: 'supports-color' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/supports-color/index.d.ts'
+[03:02:31.575] Adding entry into typings cache: 'to-regex-range' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/to-regex-range/index.d.ts'
+[03:02:31.575] Adding entry into typings cache: 'touch' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/touch/index.d.ts'
+[03:02:31.576] Adding entry into typings cache: 'update-notifier' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/update-notifier/index.d.ts'
+[03:02:31.576] Adding entry into typings cache: 'url-parse-lax' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/url-parse-lax/index.d.ts'
+[03:02:31.577] Adding entry into typings cache: 'wrap-ansi' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/wrap-ansi/index.d.ts'
+[03:02:31.577] Adding entry into typings cache: 'write-file-atomic' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/write-file-atomic/index.d.ts'
+[03:02:31.578] Adding entry into typings cache: 'yallist' => '/home/kreimben/.cache/typescript/4.4/node_modules/@types/yallist/index.d.ts'
+[03:02:31.578] Finished processing cache location '/home/kreimben/.cache/typescript/4.4'
+[03:02:31.578] Process id: 101194
+[03:02:31.578] NPM location: /usr/bin/npm (explicit '--npmLocation' not  provided)
+[03:02:31.578] validateDefaultNpmLocation: false
+[03:02:31.578] Npm config file: /home/kreimben/.cache/typescript/4.4/package.json
+[03:02:31.578] Updating types-registry npm package...
+[03:02:31.578] Exec: /usr/bin/npm install --ignore-scripts types-registry@latest
+[03:02:32.973]     Succeeded. stdout:
+    
+    changed 1 package, and audited 82 packages in 1s
+
+4 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+[03:02:32.973] Updated types-registry npm package

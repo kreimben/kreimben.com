@@ -1,0 +1,19 @@
+{
+  "name": "kreimben.com",
+  "version": "1.0.0",
+  "description": "kreimben.com",
+  "main": "index.ts",
+  "scripts": {
+    "dev": "ts-node index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kreimben/MyWebsite.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kreimben/MyWebsite/issues"
+  },
+  "homepage": "https://github.com/kreimben/MyWebsite#readme"
+}
