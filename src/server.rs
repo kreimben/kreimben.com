@@ -1,6 +1,6 @@
-use tokio::{net::{TcpStream, TcpListener}, io::AsyncReadExt};
-use std::error::Error;
+use tokio::{net::{TcpStream, TcpListener}, io};
 use std::io::{Result};
+use std::task::{Context, Poll};
 
 pub struct Server {
     listener: TcpListener,
@@ -10,7 +10,7 @@ impl Server {
 
     pub async fn new(port: &str) -> Result<Self> {
 
-        let url = format!("127.0.0.1:{port}");
+        let url = format!("127.0.0.1:{}", port);
         let listener = TcpListener::bind(url).await?;
 
         Ok(Server {
@@ -22,27 +22,26 @@ impl Server {
 
         loop {
             let (socket, _) = self.listener.accept().await.unwrap();
-            self.handle_connection(socket).await;
-        }
-    }
+            //self.handle_connection(socket).await;
 
-    async fn handle_connection(&self, mut stream: TcpStream) -> Result<(), Box<dyn Error>> {
+            socket.readable().await;
 
-        stream.readable().await;
+            let mut buf = [0; 4096];
 
-        let mut buf = [0; 4096];
-
-        match stream.try_read(&mut buf) {
-            Ok(0) => break,
-            Ok(n) => {
-                println!("Request: {}", String::from_utf8_lossy(&buf[..]));
-            },
-            Err(ref e) if e.kind() == io::ErrorKind::WouldBlock => {
-                continue;
-            },
-            Err(e) => {
-                return Err(e.into());
+            match socket.try_read(&mut buf) {
+                Ok(0) => break,
+                Ok(_) => {
+                    println!("Request: {}", String::from_utf8_lossy(&buf[..]));
+                },
+                Err(ref e) if e.kind() == io::ErrorKind::WouldBlock => {
+                    continue;
+                },
+                Err(e) => {
+                    return Err(e.into());
+                }
             }
         }
+
+        Ok(())
     }
 }
