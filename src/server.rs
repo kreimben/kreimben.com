@@ -1,6 +1,5 @@
-use tokio::{net::{TcpStream, TcpListener}, io};
-use std::io::{Result};
-use std::task::{Context, Poll};
+use tokio::{net::TcpListener, io};
+use std::io::Result;
 
 pub struct Server {
     listener: TcpListener,
@@ -11,7 +10,9 @@ impl Server {
     pub async fn new(port: &str) -> Result<Self> {
 
         let url = format!("127.0.0.1:{}", port);
-        let listener = TcpListener::bind(url).await?;
+        let listener = TcpListener::bind(&url).await?;
+
+        println!("Server is running on: {}", &url);
 
         Ok(Server {
             listener,
@@ -21,17 +22,24 @@ impl Server {
     pub async fn run_server(&self) -> Result<()> {
 
         loop {
-            let (socket, _) = self.listener.accept().await.unwrap();
-            //self.handle_connection(socket).await;
+            let (socket, addr) = self.listener.accept().await.unwrap();
 
-            socket.readable().await;
+            let _ = socket.readable().await;
 
-            let mut buf = [0; 4096];
+            let mut buf = [0; 512];
 
             match socket.try_read(&mut buf) {
                 Ok(0) => break,
-                Ok(_) => {
-                    println!("Request: {}", String::from_utf8_lossy(&buf[..]));
+                Ok(n) => {
+
+                    let result = String::from_utf8_lossy(&buf[..]);
+                    let json = serde_json::json!(result);
+
+                    println!("Read {} bytes: ", n);
+                    println!("Address {}: ", addr);
+                    println!("Request: {}", json);
+
+                    self.handle();
                 },
                 Err(ref e) if e.kind() == io::ErrorKind::WouldBlock => {
                     continue;
@@ -43,5 +51,9 @@ impl Server {
         }
 
         Ok(())
+    }
+
+    fn handle(&self) {
+
     }
 }
