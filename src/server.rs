@@ -1,6 +1,7 @@
 use tokio::{net::TcpListener, io};
 use std::io::Result;
 
+/// This struct is main server which serve actual internet traffics.
 pub struct Server {
     listener: TcpListener,
 }
