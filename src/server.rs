@@ -30,14 +30,13 @@ impl Server {
 
             match socket.try_read(&mut buf) {
                 Ok(0) => break,
-                Ok(n) => {
+                Ok(_) => {
 
                     let result = String::from_utf8_lossy(&buf[..]);
-                    let json = serde_json::json!(result);
+                    //let json = serde_json::json!(result);
 
-                    println!("Read {} bytes: ", n);
                     println!("Address {}: ", addr);
-                    println!("Request: {}", json);
+                    println!("Request: {}", result);
 
                     self.handle();
                 },
