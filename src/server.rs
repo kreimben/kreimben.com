@@ -1,5 +1,5 @@
-use tokio::{net::TcpListener, io};
-use std::io::Result;
+use std::net::{TcpListener, TcpStream};
+use std::io::{Result, Read, Write};
 
 /// This struct is main server which serve actual internet traffics.
 pub struct Server {
@@ -11,7 +11,7 @@ impl Server {
     pub async fn new(port: &str) -> Result<Self> {
 
         let url = format!("127.0.0.1:{}", port);
-        let listener = TcpListener::bind(&url).await?;
+        let listener = TcpListener::bind(&url)?;
 
         println!("Server is running on: {}", &url);
 
@@ -23,37 +23,36 @@ impl Server {
     pub async fn run_server(&self) -> Result<()> {
 
         loop {
-            let (socket, addr) = self.listener.accept().await.unwrap();
+            let mut result = self.listener.accept().unwrap();
+            let mut stream = result.0;
+            let addr = result.1;
 
-            let _ = socket.readable().await;
+            //let _ = stream.readable().await;
 
-            let mut buf = [0; 512];
+            let mut buf = String::new();
 
-            match socket.try_read(&mut buf) {
-                Ok(0) => break,
+            match stream.read_to_string(&mut buf) {
                 Ok(_) => {
 
-                    let result = String::from_utf8_lossy(&buf[..]);
-                    //let json = serde_json::json!(result);
-
                     println!("Address {}: ", addr);
-                    println!("Request: {}", result);
+                    println!("Request: {}", &buf);
 
-                    self.handle();
-                },
-                Err(ref e) if e.kind() == io::ErrorKind::WouldBlock => {
-                    continue;
+                    self.handle(stream);
+
                 },
                 Err(e) => {
                     return Err(e.into());
                 }
             }
         }
-
-        Ok(())
     }
 
-    fn handle(&self) {
+    /// This is actual method that works as SERVER.
+    fn handle(&self, mut stream: TcpStream) {
 
+        let response = "HTTP/1.1 200 OK\r\n\r\n";
+
+        stream.write(response.as_bytes()).unwrap();
+        stream.flush().unwrap();
     }
 }
