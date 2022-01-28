@@ -1,4 +1,3 @@
-use reqwest::Response;
 
 pub struct Instagram {
     base_url: String,
@@ -23,26 +22,10 @@ impl<'str> Instagram {
             access_token
         );
 
-        let client = reqwest::Client::new();
-        let response: Response = client
-            .get(complete)
-            .header("Accept", "application/json")
-            .send()
-            .await
-            .unwrap();
-
-        println!("{:#?}", response);
-
-        //let json: Value = serde_json::from_str(&response).expect("There is no error!");
-
-        //println!("{:#?}", json);
-
         vec![Post {}]
     }
 
     fn get_token(&self) -> String {
-        //fs::read_to_string("/instagram_token").expect("Something went wrong reading the file!")
-
         String::from("IGQVJXQkQ5UGIzeTN2RlQ3NHB1SjZAfZAGt4NHZATV0ZAjQVVaXzUtdnByaWFEYnRPbHJ2QjhiSWxfVXRJQ3JMU0JoLUZAWbUJEZA2JiU2djdTRyYk9XXzZATby1UemRuVnJGMFNGb2ZApaGFKUTl5WGNKZAl9UdwZDZD")
     }
 }
