@@ -2,6 +2,7 @@ mod catch;
 
 #[macro_use] extern crate rocket;
 
+use rocket::response::content::Json;
 use rocket::{http::Status};
 use rocket::serde::{Serialize};
 
@@ -12,20 +13,20 @@ fn center() -> String {
 
 #[get("/fail")]
 fn just_fail() -> Status {
-    panic!("");
     Status::NotAcceptable
 }
 
 #[get("/json")]
 fn json() -> Json<String> {
-    //Json{format!("status: success")}
-    serde_json::json!("status: success")
+    let s = format!("{status: success}");
+    Json(s)
 }
 
 #[launch]
 fn rocket() -> _ {
     rocket::build().mount("/", routes![
         center,
+        json,
         just_fail
     ])
                    .register("/", catchers![
