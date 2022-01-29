@@ -24,6 +24,7 @@ async def root(req: Request):
     }
     return templates.TemplateResponse("index.html", context=r)
 
+
 @app.get("/test")
 @app.post("/test")
 async def test_method(req: Request):

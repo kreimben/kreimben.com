@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
+
 def ready(app: FastAPI):
     origins = [
         "https://www.kreimben.com/",
@@ -21,5 +22,3 @@ def ready(app: FastAPI):
         allow_methods=["*"],
         allow_headers=["*"]
     )
-
-    app.mount("/static", StaticFiles(directory="static", html=True), name="static")
