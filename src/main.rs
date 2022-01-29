@@ -4,7 +4,7 @@ mod catch;
 
 use rocket::response::content::Json;
 use rocket::{http::Status};
-use rocket::serde::{Serialize};
+
 
 #[get("/")]
 fn center() -> String {

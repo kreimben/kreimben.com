@@ -6,6 +6,6 @@ pub fn not_found(req: &Request) -> String {
 }
 
 #[catch(500)]
-pub fn internal_error(req: &Request) -> String {
+pub fn internal_error(_req: &Request) -> String {
     format!("Whoops! Internal Error!\nPlease notice <a href='mailto:aksidion@kreimben.com'>me.</a>")
 }
