@@ -18,7 +18,7 @@ fn just_fail() -> Status {
 
 #[get("/json")]
 fn json() -> Json<String> {
-    let s = format!("{status: success}");
+    let s = format!("{{status: success}}");
     Json(s)
 }
 
