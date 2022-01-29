@@ -2,10 +2,12 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 # Custom.
 from configure import *
 from event import setting_event
+import Instagram
 
 # Setting base app.
 app = FastAPI()
@@ -17,22 +19,24 @@ templates = Jinja2Templates(directory="templates")
 
 @app.get("/", response_class=HTMLResponse)
 async def root(req: Request):
+    media = Instagram.get_user_media()
+    urls = []
+    for e in media["data"]:
+        e_id = Instagram.get_representative_media_id(e["id"])
+        datas = Instagram.get_media_children(e_id)["data"]
+        for data in datas:
+            print("data: ", data)
+            urls.append(data["media_url"])
+
     r = {
         "request": req,
         "title": "Kreimben.com",
-        "body": "hello, kreimben!"
+        "elements": [
+            "hello, kreimben!"
+        ],
+        "results": [
+            id
+        ],
+        "urls": urls
     }
     return templates.TemplateResponse("index.html", context=r)
-
-
-@app.get("/test")
-@app.post("/test")
-async def test_method(req: Request):
-    if req.method == "GET":
-        return {"method": req.method}
-    elif req.method == "POST":
-        header = req.headers
-        body = await req.body()
-        return {"status": "not bad", "comment": "Good!", "body": body}
-    else:
-        return {"message": "Un recognized method.", "method": req.method}

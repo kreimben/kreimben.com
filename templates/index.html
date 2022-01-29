@@ -22,7 +22,26 @@
     </head>
 
     <body>
-    <h1>{{ body }}</h1>
+    <div style="background-color: red">
+        {% for e in elements %}
+        <a href="" style="color: aqua">{{ e }}</a>
+        {% endfor %}
+    </div>
+
+    <h1>
+        <a href={{ body }} target="_blank">Here</a>
+    </h1>
+
+    {% for e in results %}
+    {{ e }}<br/><br/>
+    {% endfor %}
+
+    {% for url in urls %}
+    <img src={{ url }} alt="Image from Instagram!" />
+    {% endfor %}
+
+    {% block content %}
+    {% endblock content %}
     </body>
 
 </html>

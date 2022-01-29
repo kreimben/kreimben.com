@@ -12,11 +12,13 @@
     <cargoProject FILE="$PROJECT_DIR$/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="687331b7-deac-4d15-8927-295329dbb07f" name="Changes" comment="Fix JS file loading error.">
-      <change beforePath="$PROJECT_DIR$/.idea/MyWebsite.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MyWebsite.iml" afterDir="false" />
+    <list default="true" id="687331b7-deac-4d15-8927-295329dbb07f" name="Changes" comment="Fix somethings.">
+      <change afterPath="$PROJECT_DIR$/.instagram_token" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Instagram.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configure.py" beforeDir="false" afterPath="$PROJECT_DIR$/configure.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,6 +57,9 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/venv/Lib/site-packages/starlette/templating.py" root0="SKIP_INSPECTION" />
+  </component>
   <component name="MacroExpansionManager">
     <option name="directoryName" value="c2pcqw0i" />
   </component>
@@ -87,7 +92,7 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="org.rust.cargo.project.model.PROJECT_DISCOVERY" value="true" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -171,7 +176,8 @@
       <workItem from="1643465057730" duration="147000" />
       <workItem from="1643465229752" duration="10629000" />
       <workItem from="1643445087337" duration="575000" />
-      <workItem from="1643445682438" duration="84000" />
+      <workItem from="1643445682438" duration="449000" />
+      <workItem from="1643483250191" duration="13625000" />
     </task>
     <task id="LOCAL-00001" summary="Refactoring.">
       <created>1641980464116</created>
@@ -194,7 +200,14 @@
       <option name="project" value="LOCAL" />
       <updated>1643476247936</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Fix somethings.">
+      <created>1643446123123</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1643446123123</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -231,14 +244,15 @@
     <MESSAGE value="Refactoring." />
     <MESSAGE value="Fix JS file loading error." />
     <MESSAGE value="Small work with FastAPI." />
-    <option name="LAST_COMMIT_MESSAGE" value="Small work with FastAPI." />
+    <MESSAGE value="Fix somethings." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix somethings." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
     <select />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/kreimben_com$Run.coverage" NAME="Run Coverage Results" MODIFIED="1643445606873" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/kreimben_com$Run.coverage" NAME="Run Coverage Results" MODIFIED="1643498219978" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/frontend$main.coverage" NAME="main Coverage Results" MODIFIED="1643465588770" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/frontend$Run.coverage" NAME="Run Coverage Results" MODIFIED="1643473340296" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
