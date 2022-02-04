@@ -20,6 +20,7 @@ async def root(req: Request):
 
     # Load saved image from image server.
     urls = []
+    results = {"hello", "world!", "Sir.", "Kreimben"}
 
     r = {
         "request": req,
@@ -28,7 +29,7 @@ async def root(req: Request):
             "hello, kreimben!"
         ],
         "results": [
-            id
+            results
         ],
         "urls": urls
     }
