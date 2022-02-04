@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi_admin.app import app as admin_app
 
 
 def ready(app: FastAPI):
@@ -22,5 +21,3 @@ def ready(app: FastAPI):
         allow_methods=["*"],
         allow_headers=["*"]
     )
-
-    app.mount("/admin", admin_app)
