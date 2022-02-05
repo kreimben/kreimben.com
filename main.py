@@ -27,7 +27,7 @@ async def root(req: Request):
     # Load saved image from image server.
     urls = []
 
-    fb.write_post({
+    fb.write_post(post_id= "sdsdfsdgasdfsdf", param={
         "date-time": datetime.now(),
         "random_str": ''.join(random.choice(string.ascii_uppercase+string.digits) for _ in range(10))
     })
