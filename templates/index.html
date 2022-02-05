@@ -31,12 +31,8 @@
         {% endfor %}
     </div>
 
-    <h1>
-        <a href={{ body }} target="_blank">Here</a>
-    </h1>
-
-    {% for e in results %}
-    <p class="text-3xl font-bold underline">{{ e }}</p><br/><br/>
+    {% for doc in results %}
+    <p class="text-3xl font-bold underline">{{ doc }}</p><br/><br/>
     {% endfor %}
 
     {% for url in urls %}

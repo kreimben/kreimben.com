@@ -6,6 +6,7 @@ from fastapi.templating import Jinja2Templates
 # Custom.
 from configure import *
 from event import setting_event
+import database.firebase as fb
 
 # Setting base app.
 app = FastAPI()
@@ -20,7 +21,8 @@ async def root(req: Request):
 
     # Load saved image from image server.
     urls = []
-    results = {"hello", "world!", "Sir.", "Kreimben"}
+
+    results = fb.read_posts()
 
     r = {
         "request": req,
