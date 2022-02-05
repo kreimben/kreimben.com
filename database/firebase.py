@@ -26,9 +26,9 @@ def read_posts():
     return results
 
 
-def write_post(post_id: str, param: dict):
+async def write_post(post_id: str, param: dict):
     c = _get_client()
-    c.collection('post').document(post_id).set(param)
+    await c.collection('post').document(post_id).set(param)
 
 
 def _get_client():
