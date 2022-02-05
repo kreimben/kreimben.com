@@ -26,6 +26,11 @@ def read_posts():
     return results
 
 
+def write_post(param: dict):
+    c = _get_client()
+    c.collection('post').add(param)
+
+
 def _get_client():
     return firestore.client()
 
