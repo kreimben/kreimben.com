@@ -10,7 +10,7 @@ def setting_event(app: FastAPI):
     async def startup():
         print("Starting up!")
 
-        fs = database.firebase.init_firebase_admin_sdk()
+        #fs = database.firebase.init_firebase_admin_sdk()
         #if _check_firebase_admin(fs.credential) is False:
             # TODO: Write debug code. (Instead of normal print)
             #print("Credential Error")
