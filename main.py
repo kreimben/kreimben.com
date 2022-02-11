@@ -9,11 +9,6 @@ from event import setting_event
 
 # Dummy data.
 from datetime import datetime
-from sqlalchemy.orm import Session
-
-# Database.
-from .database import crud, models, schemas
-from .database.database import SessionLocal, engine
 
 # Setting base app.
 app = FastAPI()
@@ -21,19 +16,6 @@ ready(app)
 setting_event(app)
 
 templates = Jinja2Templates(directory="templates")
-
-
-# Setting database.
-models.Base.metadata.create_all(bind=engine)
-
-
-# Dependency
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 
 @app.get("/", response_class=HTMLResponse)
