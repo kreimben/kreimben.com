@@ -44,11 +44,3 @@ async def root(req: Request):
     }
     return templates.TemplateResponse("index.html", context=r)
 
-
-@app.get("/create_dummy", response_model=schemas.Post)
-@app.post("/create_dummy", response_model=schemas.Post)
-async def create_dummy_data(post: schemas.Post, db: Session = Depends(get_db)):
-    db_post = crud.get_post(db, post.id)
-    if db_post:
-        raise HTTPException(status_code=400, detail="Post already registered!")
-    return crud.create_post(db, post=post)
