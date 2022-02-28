@@ -6,9 +6,7 @@ from fastapi.templating import Jinja2Templates
 # Custom.
 from configure import *
 from event import setting_event
-
-# Dummy data.
-from datetime import datetime
+from database import main as db
 
 # Setting base app.
 app = FastAPI()
@@ -21,15 +19,9 @@ templates = Jinja2Templates(directory="templates")
 @app.get("/", response_class=HTMLResponse)
 async def root(req: Request):
 
-    # Load saved image from image server.
-    urls = []
-
-    # await fb.write_post(post_id= "sdsdfsdgasdfsdf", param={
-    #    "date-time": datetime.now(),
-    #    "random_str": ''.join(random.choice(string.ascii_uppercase+string.digits) for _ in range(10))
-    # })
-
-    # results = fb.read_posts()
+    db.get_photoes()
+    db.save_photoes()
+    db.get_photoes()
 
     r = {
         "request": req,
@@ -39,8 +31,7 @@ async def root(req: Request):
         ],
         "results": [
             # results
-        ],
-        "urls": urls
+        ]
     }
     return templates.TemplateResponse("index.html", context=r)
 
