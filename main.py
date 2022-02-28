@@ -19,9 +19,9 @@ templates = Jinja2Templates(directory="templates")
 @app.get("/", response_class=HTMLResponse)
 async def root(req: Request):
 
-    db.get_photoes()
-    db.save_photoes()
-    db.get_photoes()
+    # db.update_photoes()
+    # db.save_photoes()
+    urls = db.get_photoes()
 
     r = {
         "request": req,
@@ -29,8 +29,8 @@ async def root(req: Request):
         "elements": [
             "hello, kreimben!"
         ],
-        "results": [
-            # results
+        "urls": [
+            urls
         ]
     }
     return templates.TemplateResponse("index.html", context=r)
