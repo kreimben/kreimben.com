@@ -1,7 +1,5 @@
 # FastAPI.
-from fastapi import Request, Depends, HTTPException
-from fastapi.responses import HTMLResponse
-from fastapi.templating import Jinja2Templates
+from fastapi import Request
 
 # Custom.
 from configure import *
@@ -13,25 +11,14 @@ app = FastAPI()
 ready(app)
 setting_event(app)
 
-templates = Jinja2Templates(directory="templates")
 
-
-@app.get("/", response_class=HTMLResponse)
-async def root(req: Request):
-
-    # db.update_photoes()
-    # db.save_photoes()
+@app.get("/get_photoes")
+async def get_photoes(req: Request):
     urls = db.get_photoes()
 
-    r = {
-        "request": req,
-        "title": "Kreimben.com",
-        "elements": [
-            "hello, kreimben!"
-        ],
-        "urls": [
-            urls
-        ]
-    }
-    return templates.TemplateResponse("index.html", context=r)
+    return urls
 
+@app.get("/update_photoes")
+async def update_photoes(req: Request):
+    db.update_photoes()
+    return {"success": True, "message": "Success to update photoes."}
