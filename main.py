@@ -28,7 +28,7 @@ async def entry():
         }
     }
 })
-async def get_photos(as_path: bool = False):
+async def get_photos():
     urls = db.get_photos()
     file_names = []
 
@@ -38,10 +38,7 @@ async def get_photos(as_path: bool = False):
     if not urls:
         return {"success": False, "content": "File not found! Literally, Nothing!!!"}
     else:
-        if as_path:
-            return {"success": True, "content": urls, "len": len(file_names)}
-        else:
-            return {"success": True, "content": file_names, "len": len(file_names)}
+        return {"success": True, "content": file_names, "len": len(file_names)}
 
 
 @app.get("/get_photo/{photo_file_name}", responses={
