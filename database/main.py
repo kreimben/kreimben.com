@@ -2,7 +2,7 @@ from database.instagram import Instagram
 import requests, shutil, os, glob
 
 
-def save_photoes():
+def save_photos():
     insta = Instagram()
     urls = insta.get_photo_url()
     print(urls)
@@ -22,7 +22,7 @@ def save_photoes():
             print("Image could not be retreived.")
 
 
-def update_photoes() -> [str]:
+def update_photos() -> [str]:
     path = r'{}/database/images'.format(os.getcwd())
     # print(path)
     files = os.listdir(path)
@@ -31,11 +31,11 @@ def update_photoes() -> [str]:
             os.unlink(file)
     except FileNotFoundError:
         pass
-    save_photoes()
-    return get_photoes()
+    save_photos()
+    return get_photos()
 
 
-def get_photoes() -> [str]:
+def get_photos() -> [str]:
     urls: [str] = []
     try:
         path = r'{}'.format(os.getcwd()+"/database/images/*")
