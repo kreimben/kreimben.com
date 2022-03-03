@@ -8,8 +8,7 @@ from database import main as db
 import os
 
 # Setting base app.
-app = FastAPI()
-ready(app)
+app: FastAPI = ready()
 setting_event(app)
 
 

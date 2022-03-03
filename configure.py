@@ -1,8 +1,16 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseSettings
 
 
-def ready(app: FastAPI):
+def ready() -> FastAPI:
+
+    class OpenAPISettings(BaseSettings):
+        openapi_url: str = "/openapi.json"
+
+    settings = OpenAPISettings()
+    app = FastAPI(openapi_url=settings.openapi_url)
+
     origins = [
         "https://www.kreimben.com/",
         "https://kreimben.com/",
@@ -21,3 +29,6 @@ def ready(app: FastAPI):
         allow_methods=["*"],
         allow_headers=["*"]
     )
+
+    return app
+
