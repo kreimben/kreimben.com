@@ -9,7 +9,12 @@ def ready() -> FastAPI:
         openapi_url: str = "/openapi.json"
 
     settings = OpenAPISettings()
-    app = FastAPI(openapi_url=settings.openapi_url)
+    app = FastAPI(
+        title="www.kreimben.com backend server",
+        description="This is backend server for www.kreimben.com",
+        version="1.0.0",
+        openapi_url=settings.openapi_url
+    )
 
     origins = [
         "https://www.kreimben.com/",
