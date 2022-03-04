@@ -9,4 +9,4 @@ COPY ./configure.py /code/configure.py
 COPY ./event.py /code/event.py
 COPY main.py /code/main.py
 
-CMD ["uvicorn", "app.main", "--proxy-headers", "--host", "0.0.0.0", "--port", "8000", "OPENAPI_URL=" ]
+CMD [ "python3", "main.py" ]

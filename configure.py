@@ -5,15 +5,16 @@ from pydantic import BaseSettings
 
 def ready() -> FastAPI:
 
-    class OpenAPISettings(BaseSettings):
-        openapi_url: str = "/openapi.json"
+    #class OpenAPISettings(BaseSettings):
+    #    openapi_url: str = "/openapi.json"
 
-    settings = OpenAPISettings()
+    #settings = OpenAPISettings()
     app = FastAPI(
         title="www.kreimben.com backend server",
         description="This is backend server for www.kreimben.com",
         version="1.0.0",
-        openapi_url=settings.openapi_url
+        docs_url=None,
+        redoc_url=None
     )
 
     origins = [

@@ -6,6 +6,7 @@ from configure import *
 from event import setting_event
 from database import main as db
 import os
+import uvicorn
 
 # Setting base app.
 app: FastAPI = ready()
@@ -86,3 +87,7 @@ async def update_photos():
         "message": "Success to update photos.",
         "file_name": file_name
     }
+
+
+if __name__ == '__main__':
+    uvicorn.run(app, port=8000, log_level="info")
