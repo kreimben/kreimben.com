@@ -9,4 +9,6 @@ COPY ./configure.py /code/configure.py
 COPY ./event.py /code/event.py
 COPY main.py /code/main.py
 
+EXPOSE 10120
+
 CMD [ "python3", "main.py" ]

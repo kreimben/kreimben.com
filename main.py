@@ -90,4 +90,4 @@ async def update_photos():
 
 
 if __name__ == '__main__':
-    uvicorn.run(app, port=8000, log_level="info")
+    uvicorn.run(app, port=10120, log_level="info")
