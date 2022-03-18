@@ -23,7 +23,7 @@ def save_photos():
 
 
 def update_photos() -> [str]:
-    path = r'{}/database/images'.format(os.getcwd())
+    path = r'{}/app/database/images'.format(os.getcwd())
     # print(path)
     files = os.listdir(path)
     try:
@@ -38,7 +38,7 @@ def update_photos() -> [str]:
 def get_photos() -> [str]:
     urls: [str] = []
     try:
-        path = r'{}'.format(os.getcwd()+"/database/images/*")
+        path = r'{}'.format(os.getcwd()+"/app/database/images/*")
         for file in glob.glob(path):
             # print(file)
             urls.append(file)
