@@ -12,7 +12,7 @@ def save_photos():
         if res.status_code == 200:
             res.raw.decode_content = True
             file_name = url.split("/")[-1].split("?")[0]
-            name = r'{}'.format(os.getcwd()+"/database/images/"+file_name)
+            name = r'{}'.format(os.getcwd()+"/app/database/images/"+file_name)
             with open(name, 'wb+') as f:
                 shutil.copyfileobj(res.raw, f)
                 # f.write(response.content)
