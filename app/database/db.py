@@ -12,7 +12,7 @@ def save_photos():
         if res.status_code == 200:
             res.raw.decode_content = True
             file_name = url.split("/")[-1].split("?")[0]
-            name = r'{}'.format(os.getcwd()+"/app/database/images/"+file_name)
+            name = r'{}'.format(os.getcwd()+"/database/images/"+file_name)
             with open(name, 'wb+') as f:
                 shutil.copyfileobj(res.raw, f)
                 # f.write(response.content)
@@ -23,14 +23,15 @@ def save_photos():
 
 
 def update_photos() -> [str]:
-    path = r'{}/app/database/images'.format(os.getcwd())
-    # print(path)
+    path = r'{}/database/images/'.format(os.getcwd())
+    print("cwd: ", os.getcwd())
+    print(path)
     files = os.listdir(path)
     try:
         for file in files:
             os.unlink(file)
-    except FileNotFoundError:
-        pass
+    except FileNotFoundError as not_found:
+        print("File not found!: ", not_found.filename)
     save_photos()
     return get_photos()
 
