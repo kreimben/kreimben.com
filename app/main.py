@@ -56,7 +56,7 @@ async def get_photos():
     }
 })
 async def get_photo(photo_file_name=""):
-    path = '{}'.format(os.getcwd() + "/database/images/" + photo_file_name)
+    path = '{}'.format(os.getcwd() + "/app/database/images/" + photo_file_name)
     print("path: ", path)
 
     print("photo_file_name: ", photo_file_name)
