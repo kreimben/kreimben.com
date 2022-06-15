@@ -10,9 +10,9 @@ def ready() -> FastAPI:
 
     #settings = OpenAPISettings()
     app = FastAPI(
-        title="www.kreimben.com backend server",
-        description="This is backend server for www.kreimben.com",
-        version="1.0.0",
+        title="www.kreimben.com server",
+        description="This is server for www.kreimben.com",
+        version="2.0.0",
         docs_url=None,
         redoc_url=None
     )

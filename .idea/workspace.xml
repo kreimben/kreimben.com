@@ -13,46 +13,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="687331b7-deac-4d15-8927-295329dbb07f" name="Changes" comment="Update tags rule.">
-      <change afterPath="$PROJECT_DIR$/app/database/images/267304071_253272580205563_6363844262146979925_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/267679575_303534388339129_3044013172177992192_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/268052010_735556017408938_4791390439807616894_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/269880814_499948618019325_5611798906361390353_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/269898620_150685113968690_1594720625623746625_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/269931956_991964608341759_1786501280121720276_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/269947394_672265960603474_2043855328863015263_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/269951777_639016483886079_5714146847559409152_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/269952104_664844731182156_5959880275527275832_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/269960320_324957272836759_8250781009156982620_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/269963190_664648971369966_403101518157216296_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/269977490_439175264417353_3812344779263812375_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/269987858_633650194435900_1211999731705731482_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/270005214_476980714141584_847712429987411793_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/270067826_358426752716313_4062833169045891909_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/270073677_469400808155435_7023678099167511413_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/270105043_748813296522341_1000163015633424361_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/270123085_603522794239393_3121448033649740023_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/270177138_3022368511336802_1346815424665957165_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/270189630_665880138178517_5882923905831226324_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/270193269_1887580994747563_4296449195022148077_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/270201410_136746335423687_6837436723337808777_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/270213722_125481096624850_2373490441845842078_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/270226447_646872549776747_7760033313058237426_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/270235020_316533263705105_1310712447361529692_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/270255691_223211696655265_6355257224985441535_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/270733187_430518732131838_4990475883418168730_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/270817687_256235426602679_673874411876053335_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/270827175_130675259410786_4954564521235961022_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/271127544_135968135500098_8990963642594710777_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/271158116_622399952213532_5074084028672506673_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/271221162_467411858426527_8890880734516214402_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/271234683_2795537170752194_4317449702150470042_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/271236539_369888384899559_3206216716290660839_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/271277956_432591925261515_4559376397893127934_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/271324132_617546739479220_4803070884194991799_n.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/database/images/271448957_1271896569971534_8877882476523580126_n.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/database/db.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/database/db.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,8 +85,11 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="org.rust.cargo.project.model.PROJECT_DISCOVERY" value="true" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="ReaderModeSettings">
+    <option name="showLigatures" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -262,6 +226,8 @@
       <workItem from="1647320581328" duration="4000" />
       <workItem from="1647602972041" duration="2804000" />
       <workItem from="1647665225117" duration="771000" />
+      <workItem from="1648659964957" duration="100000" />
+      <workItem from="1649527623869" duration="685000" />
     </task>
     <task id="LOCAL-00001" summary="Refactoring.">
       <created>1641980464116</created>
