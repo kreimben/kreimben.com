@@ -1,0 +1,16 @@
+<li>
+    {% if posts %}
+    {% for post in posts %}
+    <ul>
+        <a href="/{{post.uuid}}">{{ post }}</a>
+    </ul>
+    {% endfor %}
+    {% else %}
+    <div class="p-12 m-12 bg-red-300 text-center text-4xl">
+        Sorry! Nothing to display you!
+    </div>
+    <div class="p-12 m-12 bg-red-300 text-center text-4xl">
+        :/
+    </div>
+    {% endif %}
+</li>
