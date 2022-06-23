@@ -1,14 +1,33 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseSettings
+import model.database as database
+import model.models as models
+
+
+def __set_CORS(app: FastAPI) -> FastAPI:
+    print("Enrolled origins (CORS)")
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"]
+    )
+
+    return app
+
+
+def __configure_database():
+    engine = database.engine
+    models.Base.metadata.create_all(bind=engine)
+    print('Ready for database!')
 
 
 def ready() -> FastAPI:
-
-    #class OpenAPISettings(BaseSettings):
+    # class OpenAPISettings(BaseSettings):
     #    openapi_url: str = "/openapi.json"
 
-    #settings = OpenAPISettings()
+    # settings = OpenAPISettings()
     app = FastAPI(
         title="www.kreimben.com server",
         description="This is server for www.kreimben.com",
@@ -17,24 +36,7 @@ def ready() -> FastAPI:
         redoc_url=None
     )
 
-    origins = [
-        "https://www.kreimben.com/",
-        "https://kreimben.com/",
-        "http://localhost:10120",
-        "http://localhost",
-        "http://127.0.0.1:10120/",
-        "http://127.0.0.1/",
-    ]
-    print("Enrolled origins (CORS)")
-    print(origins)
-
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=origins,
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"]
-    )
+    app = __set_CORS(app)
+    __configure_database()
 
     return app
-
