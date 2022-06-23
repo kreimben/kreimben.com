@@ -1,0 +1,44 @@
+{% if night_mode == False or night_mode == None %}
+<nav class="flex items-center justify-between flex-wrap bg-orange-200 p-6">
+    {% else %}
+    <nav class="flex items-center justify-between flex-wrap bg-orange-600 p-6">
+        {% endif %}
+
+        <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto text-center">
+
+            <div class="text-sm lg:flex-grow my-1">
+                <a href="/" class="block lg:inline-block text-black lg:text-2xl hover:bg-red-500 mx-12">
+                    Home
+                </a>
+                <a href="/blog" class="block lg:inline-block text-black lg:text-2xl hover:bg-red-500 mx-12">
+                    Blog
+                </a>
+                <a href="https://paypal.me/kreimben"
+                   class="block lg:inline-block text-black lg:text-2xl hover:bg-red-500 mx-12">
+                    Paypal
+                </a>
+                <a href="https://instagram.com/kreimben"
+                   class="block lg:inline-block text-black lg:text-2xl hover:bg-red-500 mx-12">
+                    Instagram
+                </a>
+                <a href="https://github.com/kreimben"
+                   class="block lg:inline-block text-black lg:text-2xl hover:bg-red-500 mx-12">
+                    Github
+                </a>
+            </div>
+
+        </div>
+
+        <div>
+            {% if night_mode == False or night_mode == None %}
+            <a href="?night_mode=True">
+                <i class="fa-solid fa-moon"></i>
+            </a>
+            {% else %}
+            <a href="?night_mode=False">
+                <i class="fa-regular fa-moon"></i>
+            </a>
+            {% endif %}
+        </div>
+
+    </nav>

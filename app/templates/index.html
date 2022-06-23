@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% with night_mode=night_mode %}
+    {% include "header.html" %}
+<body>
+    {% include "menu.html" %}
+    {% include "content.html" ignore missing %}
+    {% include "footer.html" %}
+{% endwith %}
+
+</body>
+</html>
