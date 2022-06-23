@@ -12,8 +12,30 @@
     <cargoProject FILE="$PROJECT_DIR$/Cargo.toml" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="687331b7-deac-4d15-8927-295329dbb07f" name="Changes" comment="Remove instagram image loading features.">
+    <list default="true" id="687331b7-deac-4d15-8927-295329dbb07f" name="Changes" comment="git rm">
+      <change afterPath="$PROJECT_DIR$/app/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/frontend.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/model/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/model/crud.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/model/database.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/model/models.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/model/schemas.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/routers/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/routers/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/sql_app.db" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/blog.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/blog_content.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/content.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/footer.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/header.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/templates/menu.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/utils/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/utils/google_auth.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/configure.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/configure.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -27,6 +49,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="HTML File" />
         <option value="Python Script" />
       </list>
     </option>
@@ -68,22 +91,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/home/kreimben/Documents/Repository/Kreimben.com",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/kreimben/Documents/Repository/Kreimben.com&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="ReaderModeSettings">
     <option name="showLigatures" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app" />
       <recent name="$PROJECT_DIR$" />
       <recent name="C:\Users\Administrator\Documents\GitHub\MyWebsite" />
     </key>
@@ -220,7 +246,10 @@
       <workItem from="1648659964957" duration="100000" />
       <workItem from="1649527623869" duration="685000" />
       <workItem from="1655336150116" duration="1281000" />
-      <workItem from="1655357647411" duration="44000" />
+      <workItem from="1655357647411" duration="819000" />
+      <workItem from="1655609208377" duration="13369000" />
+      <workItem from="1655654412340" duration="838000" />
+      <workItem from="1655957517089" duration="12893000" />
     </task>
     <task id="LOCAL-00001" summary="Refactoring.">
       <created>1641980464116</created>
@@ -425,7 +454,14 @@
       <option name="project" value="LOCAL" />
       <updated>1646806120718</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="git rm">
+      <created>1655357818595</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1655357818595</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -459,7 +495,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Fix useless gitignore." />
     <MESSAGE value="Before branch to webhook and image server." />
     <MESSAGE value="Adjust tailwindcss." />
     <MESSAGE value="Install fastapi_admin." />
@@ -484,7 +519,8 @@
     <MESSAGE value="Implement hiding docs (including redoc) url." />
     <MESSAGE value="Update tags rule." />
     <MESSAGE value="Remove instagram image loading features." />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove instagram image loading features." />
+    <MESSAGE value="git rm" />
+    <option name="LAST_COMMIT_MESSAGE" value="git rm" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -504,6 +540,7 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/frontend$.coverage" NAME=" Coverage Results" MODIFIED="1643956142125" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/.." />
     <SUITE FILE_PATH="coverage/frontend$main.coverage" NAME="main Coverage Results" MODIFIED="1646078871882" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/database" />
+    <SUITE FILE_PATH="coverage/Kreimben_com$start.coverage" NAME="start Coverage Results" MODIFIED="1655975202405" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/app" />
     <SUITE FILE_PATH="coverage/backend$Run.coverage" NAME="Run Coverage Results" MODIFIED="1646186953949" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/kreimben_com$Run.coverage" NAME="Run Coverage Results" MODIFIED="1643498219978" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/backend$uvicorn.coverage" NAME="start Coverage Results" MODIFIED="1646353913088" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
