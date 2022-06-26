@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy.sql import func
 
 from .database import Base
 
@@ -7,8 +8,8 @@ class Post(Base):
     __tablename__ = 'posts'
 
     uuid = Column(String(20), primary_key=True, index=True, nullable=False)
-    created_at = Column(DateTime, nullable=False, default=DateTime())
-    modified_at = Column(DateTime, nullable=True, default=DateTime())
+    created_at = Column(DateTime(timezone=True), nullable=False, default=func.now())
+    modified_at = Column(DateTime(timezone=True), nullable=True, default=func.now())
     title = Column(String(200), unique=True, nullable=False)
     content = Column(String(99_999), nullable=False)
     category = Column(String(10), ForeignKey('categories.name'))
@@ -21,7 +22,7 @@ class Category(Base):
     __tablename__ = 'categories'
 
     name = Column(String(10), unique=True, nullable=False, primary_key=True)
-    created_at = Column(DateTime, nullable=False, default=DateTime())
+    created_at = Column(DateTime(timezone=True), nullable=False, default=func.now())
 
 
 class User(Base):
@@ -31,5 +32,5 @@ class User(Base):
     email = Column(String(100), nullable=True, unique=True)
     first_name = Column(String(20), nullable=False)
     last_name = Column(String(20), nullable=False)
-    created_at = Column(DateTime, nullable=False, default=DateTime())
+    created_at = Column(DateTime(timezone=True), nullable=False, default=func.now())
     thumbnail_url = Column(String(100), nullable=True)
