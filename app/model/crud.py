@@ -2,6 +2,7 @@ import datetime
 import uuid
 
 from sqlalchemy.orm import Session
+
 from . import models, schemas
 
 
@@ -79,9 +80,9 @@ def update_post(db: Session, uuid: str, title: str, content: str, category: str)
         raise Exception('No category')
 
     # TODO: Have to check this function. (update)
-    number_of_rows = db\
-        .query(models.Post)\
-        .filter(models.Post.uuid == uuid)\
+    number_of_rows = db \
+        .query(models.Post) \
+        .filter(models.Post.uuid == uuid) \
         .update({'title': title, 'content': content, 'category': category})
 
     return number_of_rows
@@ -90,3 +91,26 @@ def update_post(db: Session, uuid: str, title: str, content: str, category: str)
 def delete_post(db: Session, uuid: str) -> int:
     number_of_rows = db.query(models.Post).filter(models.Post.uuid == uuid).delete()
     return number_of_rows
+
+
+def create_user(db: Session, id: str, email: str, first_name: str, last_name: str, thumbnail_url: str):
+    user = models.User(id=id, email=email, first_name=first_name, last_name=last_name, thumbnail_url=thumbnail_url)
+
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+
+    return user
+
+
+def read_user(db: Session, id: str):
+    user = db.query(models.User).filter(models.User.id == id).first()
+    return user
+
+
+def update_user(db: Session, email: str, first_name: str, last_name: str):
+    return ''
+
+
+def delete_user(db: Session, id: str):
+    return ''
