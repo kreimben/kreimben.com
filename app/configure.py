@@ -1,10 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
 import model.database as database
 import model.models as models
 
 
-def __set_CORS(app: FastAPI) -> FastAPI:
+def __set_cors(app: FastAPI) -> FastAPI:
     print("Enrolled origins (CORS)")
     app.add_middleware(
         CORSMiddleware,
@@ -24,19 +25,16 @@ def __configure_database():
 
 
 def ready() -> FastAPI:
-    # class OpenAPISettings(BaseSettings):
-    #    openapi_url: str = "/openapi.json"
-
-    # settings = OpenAPISettings()
     app = FastAPI(
         title="www.kreimben.com server",
         description="This is server for www.kreimben.com",
         version="2.0.0",
-        docs_url=None,
-        redoc_url=None
     )
 
-    app = __set_CORS(app)
+    # docs_url=None,
+    # redoc_url=None
+
+    app = __set_cors(app)
     __configure_database()
 
     return app
