@@ -43,60 +43,108 @@ async def logout(request: Request):
 
 
 @router.get('/redirect')
-async def redirect(request: Request):
-    data = ga.get_access_token_from_google(request.query_params['code'])
+async def redirect(code: str, db: Session = Depends(get_db)):
+    data = ga.get_access_token_from_google(code)
     access_token = data['access_token']
-    response = RedirectResponse(f'/api/user/check_id?access_token={access_token}')
-    return response
 
-
-@router.get('/user/check_id')
-async def check_id(access_token: str, db: Session = Depends(get_db)):
     user_info = ga.get_user_info(access_token)
-
     google_id = user_info['id']
 
-    user = crud.read_user(db, google_id)
-
-    if not user:
-        return RedirectResponse(f'/api/user/create?access_token={access_token}')
-    else:
+    try:
+        crud.read_user(db, google_id)
         return RedirectResponse(f'/api/user/{google_id}')
-
-
-@router.get('/user/{google_id}')
-async def get_user_info(google_id: str, db: Session = Depends(get_db)):
-    user = crud.read_user(db, google_id)
-
-    return {
-        'success': True,
-        'user': user
-    }
+    except ValueError as _:
+        # print(f'no such user in /redirect function: {e.__repr__()}')
+        return RedirectResponse(f'/api/user/create?access_token={access_token}')
 
 
 @router.post('/user/create')
 @router.get('/user/create')
 async def create_user(access_token: str, db: Session = Depends(get_db)):
     user_info = ga.get_user_info(access_token)
+    print('create_user function.')
+    try:
+        user = crud.create_user(db,
+                                id=user_info['id'],
+                                email=user_info['email'],
+                                first_name=user_info['given_name'],
+                                last_name=user_info['family_name'],
+                                thumbnail_url=user_info['picture'])
+        return RedirectResponse(f'/api/user/{user.id}')
 
-    results = crud.create_user(db,
-                               id=user_info['id'],
-                               email=user_info['email'],
-                               first_name=user_info['given_name'],
-                               last_name=user_info['family_name'],
-                               thumbnail_url=user_info['picture'])
+    except ValueError as e:
+        print(f'value error in create_user function: {e.__repr__()}')
+        return {
+            'success': False,
+            'message': e.__repr__()
+        }
 
-    print(f'User created!: {results}')
 
-    return RedirectResponse(f'/api/user/{user_info["id"]}')
+@router.get('/user/{google_id}')
+async def get_user_info(google_id: str, db: Session = Depends(get_db)):
+    try:
+        user = crud.read_user(db, google_id)
+        return {
+            'success': True,
+            'user': user
+        }
+    except ValueError as e:
+        print(f'no such user in /user/google_id fucntion: {e.__repr__()}')
+        return {
+            'success': False,
+            'message': e.__repr__()
+        }
+
+
+@router.put('/user/update/{google_id}')
+@router.get('/user/update/{google_id}')
+async def update_user(google_id: str, first_name: str, last_name: str, email: str, db: Session = Depends(get_db)):
+    try:
+        user = crud.update_user(db,
+                                id=google_id,
+                                first_name=first_name,
+                                last_name=last_name,
+                                email=email)
+        return {
+            'success': True,
+            'message': 'User Updated.',
+            'user': user
+        }
+    except ValueError as e:
+        return {
+            'success': False,
+            'message': e.__repr__()
+        }
 
 
 @router.delete('/user/delete/{google_id}')
 @router.get('/user/delete/{google_id}')
-async def delte_user(google_id: str, db: Session = Depends(get_db)):
-    number_of_rows = crud.delete_user(db, google_id)
+async def delete_user(google_id: str, db: Session = Depends(get_db)):
+    try:
+        crud.delete_user(db, google_id)
+        return {
+            'success': True,
+            'message': 'User Deleted.'
+        }
+    except ValueError as e:
+        return {
+            'success': False,
+            'message': e.__repr__()
+        }
 
-    return {
-        'success': True,
-        'delete_user_count': number_of_rows
-    }
+
+@router.post('authorization/create/{name}')
+@router.get('authorization/create/{name}')
+async def create_authorization(name: str, db: Session = Depends(get_db)):
+    try:
+        crud.create_authorization(db, name=name)
+        return {
+            'success': True,
+            'message': 'Authorization Created.',
+            'name': name
+        }
+    except ValueError as e:
+        return {
+            'success': False,
+            'message': e.__repr__()
+        }
