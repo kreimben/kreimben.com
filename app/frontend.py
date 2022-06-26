@@ -1,10 +1,8 @@
-import http
-
-from fastapi import APIRouter, status, Depends
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from starlette.requests import Request
-from starlette.responses import Response
 from starlette.templating import Jinja2Templates
+
 import model.crud as crud
 import model.database as database
 
@@ -27,7 +25,8 @@ async def entry(request: Request, night_mode: bool | None = None):
     param = {
         'request': request,
         'title': 'Kreimben.com',
-        'night_mode': night_mode
+        'night_mode': night_mode,
+        'login': False
     }
     return templates.TemplateResponse('index.html', context=param)
 
@@ -41,7 +40,8 @@ async def blog_main(request: Request, night_mode: bool | None = None, db: Sessio
         'request': request,
         'title': 'Kreimben\'s Blog',
         'posts': posts,
-        'night_mode': night_mode
+        'night_mode': night_mode,
+        'login': False
     }
     return templates.TemplateResponse('blog.html', context=param)
 
@@ -57,7 +57,8 @@ async def post(request: Request, uuid: str, night_mode: bool | None = None, db: 
     # Ready for paramters.
     param = {
         'request': request,
-        'night_mode': night_mode
+        'night_mode': night_mode,
+        'login': False
     }
 
     return templates.TemplateResponse('blog.html', context=param)
