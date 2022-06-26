@@ -2,4 +2,4 @@
 __pycache__/
 .pytest_cache/
 google_oauth2_secret.json
-!/app/sql_app.db
+/app/sql_app.db
