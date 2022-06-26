@@ -19,7 +19,6 @@ def read_categories(db: Session, offset: int = 0, limit: int = 100) -> int:
     return count_of_rows
 
 
-# TODO: Check this function.
 def update_category(db: Session, old_name: str, new_name: str) -> int:
     count_of_rows = db \
         .query(models.Category) \
@@ -38,7 +37,7 @@ def delete_category(db: Session, name: str) -> int:
 def create_post(db: Session, title: str, content: str, category: str, language: str = 'english') -> models.Post:
     # Check category which actually exists.
     if db.query(models.Category).filter(models.Category.name == category).all() == 0:
-        raise Exception('No Category')
+        raise ValueError('No Category')
 
     post = models.Post(
         uuid=str(uuid.uuid4()),  # Generate random uuid.
@@ -62,7 +61,7 @@ def read_post(db: Session, uuid: str) -> schemas.Post:
 
     # Deal with views. TODO: Have to check this function. (update)
     if db.query(models.Post).filter(models.Post.uuid == uuid).update({'views': models.Post.views + 1}) == 0:
-        raise Exception('Nothings is changed!')
+        raise ValueError('Nothings is changed!')
 
     return post
 
@@ -77,9 +76,8 @@ def read_posts(db: Session) -> [schemas.Post]:
 def update_post(db: Session, uuid: str, title: str, content: str, category: str) -> int:
     # Check category which actually exists.
     if db.query(models.Post).filter(models.Post.uuid == uuid).all() == 0:
-        raise Exception('No category')
+        raise ValueError('No category')
 
-    # TODO: Have to check this function. (update)
     number_of_rows = db \
         .query(models.Post) \
         .filter(models.Post.uuid == uuid) \
@@ -108,9 +106,15 @@ def read_user(db: Session, id: str):
     return user
 
 
-def update_user(db: Session, email: str, first_name: str, last_name: str):
-    return ''
+def update_user(db: Session, id: str, email: str, first_name: str, last_name: str):
+    return db.query(models.User) \
+        .filter(models.User.id == id) \
+        .update({'email': email,
+                 'first_name': first_name,
+                 'last_name': last_name})
 
 
 def delete_user(db: Session, id: str):
-    return ''
+    number_of_rows = db.query(models.User).filter(models.User.id == id).delete()
+    db.commit()
+    return number_of_rows
