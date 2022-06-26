@@ -64,11 +64,14 @@ async def check_id(access_token: str, db: Session = Depends(get_db)):
         return RedirectResponse(f'/api/user/{google_id}')
 
 
-@router.get('/user/{id}')
-async def get_user_info(id: str, db: Session = Depends(get_db)):
-    user = crud.read_user(db, id)
+@router.get('/user/{google_id}')
+async def get_user_info(google_id: str, db: Session = Depends(get_db)):
+    user = crud.read_user(db, google_id)
 
-    return user
+    return {
+        'success': True,
+        'user': user
+    }
 
 
 @router.post('/user/create')
@@ -76,11 +79,24 @@ async def get_user_info(id: str, db: Session = Depends(get_db)):
 async def create_user(access_token: str, db: Session = Depends(get_db)):
     user_info = ga.get_user_info(access_token)
 
-    crud.create_user(db,
-                     id=user_info['id'],
-                     email=user_info['email'],
-                     first_name=user_info['given_name'],
-                     last_name=user_info['family_name'],
-                     thumbnail_url=user_info['picture'])
+    results = crud.create_user(db,
+                               id=user_info['id'],
+                               email=user_info['email'],
+                               first_name=user_info['given_name'],
+                               last_name=user_info['family_name'],
+                               thumbnail_url=user_info['picture'])
+
+    print(f'User created!: {results}')
 
     return RedirectResponse(f'/api/user/{user_info["id"]}')
+
+
+@router.delete('/user/delete/{google_id}')
+@router.get('/user/delete/{google_id}')
+async def delte_user(google_id: str, db: Session = Depends(get_db)):
+    number_of_rows = crud.delete_user(db, google_id)
+
+    return {
+        'success': True,
+        'delete_user_count': number_of_rows
+    }
