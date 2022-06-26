@@ -33,6 +33,15 @@ class User(BaseModel):
     last_name: str
     created_at: datetime
     thumbnail_url: str
+    authorization: str
+
+    class Config:
+        orm_mode = True
+
+
+class Authorization(BaseModel):
+    uuid: str
+    name: str
 
     class Config:
         orm_mode = True
