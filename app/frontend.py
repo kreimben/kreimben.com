@@ -21,17 +21,17 @@ def get_db():
 
 
 @router.get('/')
-async def entry(request: Request, night_mode: bool | None = None):
+async def entry(request: Request):
     param = {
         'request': request,
         'title': 'Kreimben.com',
-        'night_mode': night_mode,
         'login': False
     }
     return templates.TemplateResponse('index.html', context=param)
 
+
 @router.get('/blog')
-async def blog_main(request: Request, night_mode: bool | None = None, db: Session = Depends(get_db)):
+async def blog_main(request: Request, db: Session = Depends(get_db)):
     # Ready for data from database (SQLite).
     posts = crud.read_posts(db)
 
@@ -40,14 +40,13 @@ async def blog_main(request: Request, night_mode: bool | None = None, db: Sessio
         'request': request,
         'title': 'Kreimben\'s Blog',
         'posts': posts,
-        'night_mode': night_mode,
         'login': False
     }
     return templates.TemplateResponse('blog.html', context=param)
 
 
 @router.get('/blog/{uuid}')
-async def post(request: Request, uuid: str, night_mode: bool | None = None, db: Session = Depends(get_db)):
+async def post(request: Request, uuid: str, db: Session = Depends(get_db)):
     # Ready for data from database (SQLite).
     post = crud.read_post(db, uuid)
 
@@ -57,7 +56,6 @@ async def post(request: Request, uuid: str, night_mode: bool | None = None, db: 
     # Ready for paramters.
     param = {
         'request': request,
-        'night_mode': night_mode,
         'login': False
     }
 
