@@ -64,16 +64,11 @@ def create_post(db: Session, title: str, content: str, category: str, language: 
 
 def read_post(db: Session, uuid: str) -> schemas.Post:
     post = db.query(models.Post).filter(models.Post.uuid == uuid).first()
-    if not post:
-        raise ValueError('No Such Post.')
-
     return post
 
 
 def read_posts(db: Session) -> [schemas.Post]:
     posts = db.query(models.Post).all()
-    if len(posts) == 0:
-        raise ValueError('No Posts.')
     return posts
 
 
