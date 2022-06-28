@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Request, Depends
-from fastapi.responses import RedirectResponse
+from fastapi.responses import RedirectResponse, JSONResponse
 from sqlalchemy.orm import Session
 
 import app.model.crud as crud
@@ -58,8 +58,8 @@ async def redirect(code: str, db: Session = Depends(get_db)):
         return RedirectResponse(f'/api/user/create?access_token={access_token}')
 
 
-@router.post('/user/create')
-@router.get('/user/create')
+@router.post('/user/create', status_code=201)
+@router.get('/user/create', status_code=201)
 async def create_user(access_token: str, db: Session = Depends(get_db)):
     user_info = ga.get_user_info(access_token)
     print('create_user function.')
@@ -96,6 +96,7 @@ async def get_user_info(google_id: str, db: Session = Depends(get_db)):
         }
 
 
+# TODO: Should Test.
 @router.put('/user/update/{google_id}')
 @router.get('/user/update/{google_id}')
 async def update_user(google_id: str, first_name: str, last_name: str, email: str, db: Session = Depends(get_db)):
@@ -117,6 +118,7 @@ async def update_user(google_id: str, first_name: str, last_name: str, email: st
         }
 
 
+# TODO: Should Test.
 @router.delete('/user/delete/{google_id}')
 @router.get('/user/delete/{google_id}')
 async def delete_user(google_id: str, db: Session = Depends(get_db)):
@@ -133,16 +135,17 @@ async def delete_user(google_id: str, db: Session = Depends(get_db)):
         }
 
 
+# TODO: Should Test.
 @router.post('authorization/create/{name}')
 @router.get('authorization/create/{name}')
 async def create_authorization(name: str, db: Session = Depends(get_db)):
     try:
         crud.create_authorization(db, name=name)
-        return {
+        return JSONResponse(status_code=201, content={
             'success': True,
             'message': 'Authorization Created.',
             'name': name
-        }
+        })
     except ValueError as e:
         return {
             'success': False,
