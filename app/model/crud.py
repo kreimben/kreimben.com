@@ -72,8 +72,6 @@ def read_post(db: Session, uuid: str) -> schemas.Post:
 
 def read_posts(db: Session) -> [schemas.Post]:
     posts = db.query(models.Post).all()
-    if len(posts) == 0:
-        raise ValueError('No Posts.')
     return posts
 
 
