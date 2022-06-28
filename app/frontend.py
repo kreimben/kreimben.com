@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from starlette.requests import Request
 from starlette.templating import Jinja2Templates
 
+import app.routers.api
 import model.crud as crud
 import model.database as database
 
@@ -10,6 +11,7 @@ router = APIRouter(
     tags=['front']
 )
 templates = Jinja2Templates(directory='templates')
+
 
 # Dependency
 def get_db():
@@ -60,3 +62,14 @@ async def post(request: Request, uuid: str, db: Session = Depends(get_db)):
     }
 
     return templates.TemplateResponse('blog.html', context=param)
+
+
+@router.get('/user/{google_id}')
+async def get_user_page(google_id: str, request: Request):
+    user_info = app.routers.api.get_user_info()
+
+    param = {
+        'request': request,
+        'google_id': google_id
+    }
+    return templates.TemplateResponse('user.html', context=param)
