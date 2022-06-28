@@ -51,7 +51,7 @@ async def post(request: Request, uuid: str, db: Session = Depends(get_db)):
     post = crud.read_post(db, uuid)
 
     if post is None:
-        templates.TemplateResponse('wrong_page.html')
+        return templates.TemplateResponse('wrong_page.html', context={'request': request})
 
     # Ready for paramters.
     param = {
