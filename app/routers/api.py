@@ -1,21 +1,15 @@
-from fastapi import APIRouter, Request, Depends
+from fastapi import APIRouter, Request, Depends, HTTPException, Cookie
+from fastapi.encoders import jsonable_encoder
 from fastapi.responses import RedirectResponse, JSONResponse
 from sqlalchemy.orm import Session
+from starlette import status
 
 import app.model.crud as crud
 import app.model.database as database
+import app.utils.env
 import app.utils.google_auth as ga
 
 router = APIRouter(prefix='/api', tags=['api'])
-
-
-# Dependency
-def get_db():
-    db = database.SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 
 @router.get('/login')
@@ -43,34 +37,50 @@ async def logout(request: Request):
 
 
 @router.get('/redirect')
-async def redirect(code: str, db: Session = Depends(get_db)):
+async def redirect(code: str, db: Session = Depends(database.get_db)):
     data = ga.get_access_token_from_google(code)
-    access_token = data['access_token']
+    google_access_token = data['access_token']
 
-    user_info = ga.get_user_info(access_token)
+    user_info = ga.get_user_info(google_access_token)
     google_id = user_info['id']
 
     try:
         crud.read_user(db, google_id)
-        return RedirectResponse(f'/api/user/{google_id}')
+        return RedirectResponse(f'/user/{google_id}')
     except ValueError as _:
-        # print(f'no such user in /redirect function: {e.__repr__()}')
-        return RedirectResponse(f'/api/user/create?access_token={access_token}')
+        return RedirectResponse(f'/api/user/create?google_access_token={google_access_token}')
 
 
 @router.post('/user/create', status_code=201)
 @router.get('/user/create', status_code=201)
-async def create_user(access_token: str, db: Session = Depends(get_db)):
-    user_info = ga.get_user_info(access_token)
-    print('create_user function.')
+async def create_user(google_access_token: str, db: Session = Depends(database.get_db)):
+    user_info = ga.get_user_info(google_access_token)
+
     try:
+        # Create user data in DB.
         user = crud.create_user(db,
                                 id=user_info['id'],
                                 email=user_info['email'],
                                 first_name=user_info['given_name'],
                                 last_name=user_info['family_name'],
                                 thumbnail_url=user_info['picture'])
-        return RedirectResponse(f'/api/user/{user.id}')
+
+        # Encoding with json.
+        jsonized_user_info = jsonable_encoder(user)
+        # print(f'jsonized_user_info: {jsonized_user_info}')
+
+        # Issue token
+        token: app.utils.authentication.Token = app.utils.authentication.generate_token(jsonized_user_info)
+
+        response = RedirectResponse(f'/api/user/{user.id}')
+
+        # Save access_token and refresh_token to cookie.
+        response.set_cookie(key='access_token', value=token.access_token)
+        # print(f'access_token: {token.access_token}')
+        response.set_cookie(key='refresh_token', value=token.refresh_token)
+        # print(f'refresh_token: {token.refresh_token}')
+
+        return response
 
     except ValueError as e:
         print(f'value error in create_user function: {e.__repr__()}')
@@ -80,14 +90,25 @@ async def create_user(access_token: str, db: Session = Depends(get_db)):
         }
 
 
+import app.utils.authentication as authentication
+
+
+# TODO: Should be tested.
+# TODO: Return user information using TOKEN.
 @router.get('/user/{google_id}')
-async def get_user_info(google_id: str, db: Session = Depends(get_db)):
+async def get_user_info(google_id: str, access_token: str = Cookie(...), refresh_token: str = Cookie(...),
+                        db: Session = Depends(database.get_db)):
+    # Validate given token.
+    if not authentication.is_valid_token(db, access_token):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='Not Authorized.')
+
     try:
         user = crud.read_user(db, google_id)
-        return {
+        value = {
             'success': True,
             'user': user
         }
+        return value
     except ValueError as e:
         print(f'no such user in /user/google_id fucntion: {e.__repr__()}')
         return {
@@ -96,10 +117,11 @@ async def get_user_info(google_id: str, db: Session = Depends(get_db)):
         }
 
 
-# TODO: Should Test.
+# TODO: Should be tested.
 @router.put('/user/update/{google_id}')
 @router.get('/user/update/{google_id}')
-async def update_user(google_id: str, first_name: str, last_name: str, email: str, db: Session = Depends(get_db)):
+async def update_user(google_id: str, first_name: str, last_name: str, email: str,
+                      db: Session = Depends(database.get_db)):
     try:
         user = crud.update_user(db,
                                 id=google_id,
@@ -118,10 +140,10 @@ async def update_user(google_id: str, first_name: str, last_name: str, email: st
         }
 
 
-# TODO: Should Test.
+# TODO: Should be tested.
 @router.delete('/user/delete/{google_id}')
 @router.get('/user/delete/{google_id}')
-async def delete_user(google_id: str, db: Session = Depends(get_db)):
+async def delete_user(google_id: str, db: Session = Depends(database.get_db)):
     try:
         crud.delete_user(db, google_id)
         return {
@@ -135,10 +157,10 @@ async def delete_user(google_id: str, db: Session = Depends(get_db)):
         }
 
 
-# TODO: Should Test.
-@router.post('authorization/create/{name}')
-@router.get('authorization/create/{name}')
-async def create_authorization(name: str, db: Session = Depends(get_db)):
+# TODO: Should be tested.
+@router.post('/authorization/create/{name}')
+@router.get('/authorization/create/{name}')
+async def create_authorization(name: str, db: Session = Depends(database.get_db)):
     try:
         crud.create_authorization(db, name=name)
         return JSONResponse(status_code=201, content={
