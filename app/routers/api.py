@@ -6,7 +6,9 @@ from sqlalchemy.orm import Session
 import app.model.crud as crud
 import app.model.database as database
 import app.utils.authentication as authentication
+import app.utils.errors as errors
 import app.utils.google_auth as ga
+from app.utils.errors import DBError
 
 router = APIRouter(prefix='/api', tags=['api'])
 
@@ -32,7 +34,12 @@ async def login():
 
 @router.get('/logout')
 async def logout(request: Request):
-    return {'success': True, 'message': 'Logout feature is currently implementing now!'}
+    response = RedirectResponse('/')
+
+    response.delete_cookie('access_token')
+    response.delete_cookie('refresh_token')
+
+    return response
 
 
 @router.get('/redirect')
