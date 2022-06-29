@@ -1,12 +1,10 @@
 from datetime import datetime, timedelta
 
 import jwt
-from fastapi import HTTPException, status
+from fastapi import HTTPException, status, Cookie
 from jwt.exceptions import PyJWTError
 from pydantic import BaseModel
-from sqlalchemy.orm import Session
 
-import app.model.crud as crud
 from app.utils.env import get_secret_key
 
 
