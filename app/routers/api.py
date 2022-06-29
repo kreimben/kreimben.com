@@ -74,10 +74,8 @@ async def create_user(google_access_token: str, db: Session = Depends(database.g
         response = RedirectResponse(f'/api/user/{user.id}')
 
         # Save access_token and refresh_token to cookie.
-        response.set_cookie(key='access_token', value=token.access_token)
-        # print(f'access_token: {token.access_token}')
-        response.set_cookie(key='refresh_token', value=token.refresh_token)
-        # print(f'refresh_token: {token.refresh_token}')
+        response.set_cookie(key='access_token', value=token.access_token, secure=True)
+        response.set_cookie(key='refresh_token', value=token.refresh_token, secure=True)
 
         return response
 
