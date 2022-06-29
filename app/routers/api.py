@@ -226,11 +226,11 @@ async def update_user(user_id: str, first_name: str, last_name: str, email: str,
 
 
 # TODO: Should be tested.
-@router.delete('/user/delete/{google_id}')
-@router.get('/user/delete/{google_id}')
-async def delete_user(google_id: str, db: Session = Depends(database.get_db)):
+@router.delete('/user/delete/{user_id}')
+@router.get('/user/delete/{user_id}')
+async def delete_user(user_id: str, db: Session = Depends(database.get_db)):
     try:
-        crud.delete_user(db, google_id)
+        crud.delete_user(db, user_id)
         return {
             'success': True,
             'message': 'User Deleted.'
