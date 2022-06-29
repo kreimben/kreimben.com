@@ -129,16 +129,30 @@ def create_user(db: Session,
     return user
 
 
-def read_user(db: Session, id: str):
-    user = db.query(models.User).filter(models.User.id == id).first()
+def read_user(db: Session,
+              google_id: str | None = None,
+              refresh_token: str | None = None,
+              user_id: str | None = None
+              ) -> models.User:
+    if google_id is not None:
+        user = db.query(models.User).filter(models.User.google_id == google_id).first()
+    elif refresh_token is not None:
+        user = db.query(models.User).filter(models.User.refresh_token == refresh_token).first()
+    elif user_id is not None:
+        user = db.query(models.User).filter(models.User.user_id == user_id).first()
+
     if not user:
         raise errors.DBError('No Such User.')
     return user
 
 
-def update_user(db: Session, id: str, email: str, first_name: str, last_name: str):
+def read_users(db: Session) -> [models.User]:
+    return db.query(models.User).all()
+
+
+def update_user(db: Session, user_id: str, email: str, first_name: str, last_name: str, refresh_token: str | None):
     number_of_rows = db.query(models.User) \
-        .filter(models.User.id == id) \
+        .filter(models.User.user_id == user_id) \
         .update({'email': email,
                  'first_name': first_name,
                  'last_name': last_name,
