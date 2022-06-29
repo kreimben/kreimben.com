@@ -90,7 +90,7 @@ def __check_exp(at: str, rt: str) -> bool:
     Validate expiration both tokens.
     :param at: Access Token
     :param rt: Refresh Token
-    :return: True=Both tokens are valid.\nFalse=Access token is expired.
+    :return: True=Both tokens are valid. False=Access token is expired.
     """
     now = datetime.utcnow()
 
