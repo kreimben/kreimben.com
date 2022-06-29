@@ -80,13 +80,13 @@ async def create_user(google_access_token: str, db: Session = Depends(database.g
     # Issue token
     token: authentication.Token = authentication.generate_token(jsonized_user_info)
 
-        response = RedirectResponse(f'/api/user/{user.id}')
+    response = RedirectResponse(f'/user/{user.user_id}')
 
     # Save access_token and refresh_token to cookie.
     response.set_cookie(key='access_token', value=token.access_token, secure=True)
     response.set_cookie(key='refresh_token', value=token.refresh_token, secure=True)
 
-        return response
+    return response
 
     # except errors.DBError as e:
     #     print(f'value error in create_user function: {e.__repr__()}')
