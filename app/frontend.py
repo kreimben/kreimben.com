@@ -25,7 +25,7 @@ async def entry(request: Request):
 
 
 @router.get('/blog')
-async def blog_main(request: Request, db: Session = Depends(get_db)):
+async def blog_main(request: Request, db: Session = Depends(database.get_db)):
     # Ready for data from database (SQLite).
     posts = crud.read_posts(db)
 
@@ -40,7 +40,7 @@ async def blog_main(request: Request, db: Session = Depends(get_db)):
 
 
 @router.get('/blog/{uuid}')
-async def post(request: Request, uuid: str, db: Session = Depends(get_db)):
+async def post(request: Request, uuid: str, db: Session = Depends(database.get_db)):
     # Ready for data from database (SQLite).
     post = crud.read_post(db, uuid)
 
