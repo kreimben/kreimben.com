@@ -51,7 +51,7 @@ def __issue_access_token(user_data: dict, expires_delta: timedelta | None = None
     return encoded_jwt
 
 
-def __issue_refresh_token(user_data: dict, expires_delta: timedelta | None = None):
+def __issue_refresh_token(user_data: dict, expires_delta: timedelta | None = None) -> jwt:
     secret, algo = __get_token_principle()
 
     to_encode = user_data.copy()
