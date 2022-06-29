@@ -92,25 +92,13 @@ def __check_exp(at: str, rt: str) -> bool:
     :param rt: Refresh Token
     :return: True=Both tokens are valid. False=Access token is expired.
     """
-    now = datetime.utcnow()
-
-    rtp = __get_payload_in_token(rt)
-    rt_exp = datetime.utcfromtimestamp(rtp.get('exp'))
-    print(f'exp: {rt_exp}')
-    print(f'now: {now}')
-    if rt_exp < now:
-        # If refresh_token is expired
-        raise __ready_exception_unauthorized()
+    if __get_payload_in_token(rt) is None:
+        raise __ready_exception_unauthorized(detail='Refresh Token Expired!')
     else:
         # If refresh_token is still valid, Check about access_token.
-        atp = __get_payload_in_token(at)
-        at_exp = datetime.utcfromtimestamp(atp.get('exp'))
-        print(f'exp: {at_exp}')
-        print(f'now: {now}')
-
-        if at_exp < now:  # Access token is expired.
+        if __get_payload_in_token(at) is None:
             return False
-        else:  # When both tokens are valid.
+        else:
             return True
 
 
