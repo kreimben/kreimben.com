@@ -105,18 +105,19 @@ def __check_exp(at: str, rt: str) -> bool:
 def __extract_user_data_in_token(token: str) -> TokenData:
     payload = __get_payload_in_token(token)
 
-    user_id: str = payload.get("id")
+    user_id: str = payload.get("user_id")
     if user_id is None:
-        raise __ready_exception_unauthorized()
+        raise __ready_exception_unauthorized(detail='User id is not valid.')
     return TokenData(**payload)
 
 
+# Dependency
 def is_valid_token(access_token: str = Cookie(),
                    refresh_token: str = Cookie()) -> bool:
     try:
         results = __check_exp(access_token, refresh_token)
         token_data = __extract_user_data_in_token(access_token)
     except PyJWTError:
-        raise __ready_exception_unauthorized()
+        raise __ready_exception_unauthorized(detail='Token Expired!')
 
     return results
