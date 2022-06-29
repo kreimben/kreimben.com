@@ -1,9 +1,10 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, Cookie
 from sqlalchemy.orm import Session
 from starlette.requests import Request
+from starlette.responses import RedirectResponse
 from starlette.templating import Jinja2Templates
 
-import app.routers.api
+import app.utils.authentication as authentication
 import model.crud as crud
 import model.database as database
 
@@ -11,15 +12,6 @@ router = APIRouter(
     tags=['front']
 )
 templates = Jinja2Templates(directory='templates')
-
-
-# Dependency
-def get_db():
-    db = database.SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
 
 @router.get('/')
