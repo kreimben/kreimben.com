@@ -154,6 +154,15 @@ async def revoke_token(request: Request, user_id: str, db: Session = Depends(dat
     response.delete_cookie('access_token')
     response.delete_cookie('refresh_token')
 
+    user = crud.read_user(db, user_id)
+
+    # Delete refresh token in database.
+    crud.update_user(db, user_id,
+                     email=user.email,
+                     first_name=user.first_name,
+                     last_name=user.last_name,
+                     refresh_token=None)
+
     return response
 
 
