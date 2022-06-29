@@ -3,6 +3,7 @@ import uuid
 
 from sqlalchemy.orm import Session
 
+import app.utils.errors as errors
 from . import models, schemas
 
 
@@ -17,7 +18,7 @@ def create_category(db: Session, name: str) -> models.Category:
 def read_categories(db: Session, name: str) -> int:
     category = db.query(models.Category).filter(models.Category.name == name).first()
     if not category:
-        raise ValueError('Nothing Updated!')
+        raise errors.DBError('Nothing Updated!')
     return category
 
 
@@ -27,7 +28,7 @@ def update_category(db: Session, old_name: str, new_name: str) -> int:
         .filter(models.Category.name == old_name) \
         .update({'name': new_name}, synchronize_session=True)
     if number_of_rows == 0:
-        raise ValueError('Nothing Updated!')
+        raise errors.DBError('Nothing Updated!')
     db.commit()
     return number_of_rows
 
@@ -35,9 +36,9 @@ def update_category(db: Session, old_name: str, new_name: str) -> int:
 def delete_category(db: Session, name: str) -> int:
     number_of_rows = db.query(models.Category).filter(models.Category.name == name).delete()
     if number_of_rows == 0:
-        raise ValueError('Nothing Deleted!')
+        raise errors.DBError('Nothing Deleted!')
     elif number_of_rows > 1:
-        raise ValueError('Many Rows Are Going To Deleted.')
+        raise errors.DBError('Many Rows Are Going To Deleted.')
     db.commit()
     return number_of_rows
 
@@ -45,7 +46,7 @@ def delete_category(db: Session, name: str) -> int:
 def create_post(db: Session, title: str, content: str, category: str, language: str = 'english') -> models.Post:
     # Check category which actually exists.
     if not db.query(models.Category).filter(models.Category.name == category).first():
-        raise ValueError('No Such Category')
+        raise errors.DBError('No Such Category')
 
     post = models.Post(
         uuid=str(uuid.uuid4()),  # Generate random uuid.
@@ -75,7 +76,7 @@ def read_posts(db: Session) -> [schemas.Post]:
 def update_post(db: Session, uuid: str, title: str, content: str, category: str) -> int:
     # Check category which actually exists.
     if not db.query(models.Post).filter(models.Post.uuid == uuid).first():
-        raise ValueError('No category')
+        raise errors.DBError('No category')
 
     number_of_rows = db \
         .query(models.Post) \
@@ -88,14 +89,15 @@ def update_post(db: Session, uuid: str, title: str, content: str, category: str)
 def delete_post(db: Session, uuid: str) -> int:
     number_of_rows = db.query(models.Post).filter(models.Post.uuid == uuid).delete()
     if number_of_rows == 0:
-        raise ValueError('Nothing Deleted.')
+        raise errors.DBError('Nothing Deleted.')
     elif number_of_rows > 1:
-        raise ValueError('Many Rows Are Going To Deleted.')
+        raise errors.DBError('Many Rows Are Going To Deleted.')
     db.commit()
     return number_of_rows
 
 
-def create_user(db: Session, id: str,
+def create_user(db: Session,
+                google_id: str,
                 email: str,
                 first_name: str,
                 last_name: str,
@@ -103,14 +105,14 @@ def create_user(db: Session, id: str,
                 authorization: str = 'member'):
     # Check authorization first.
     if len(db.query(models.Authorization).filter(models.Authorization.name == authorization).all()) == 0:
-        raise ValueError('No Such Authorization.')
+        raise errors.DBError('No Such Authorization.')
 
     # Check user first.
-    if len(db.query(models.User).filter(models.User.id == id).all()) != 0:
-        raise ValueError('Already User Exists.')
+    if len(db.query(models.User).filter(models.User.google_id == google_id).all()) != 0:
+        raise errors.DBError('Already User Exists.')
 
     # Create user model.
-    user = models.User(id=id,
+    user = models.User(google_id=google_id,
                        email=email,
                        first_name=first_name,
                        last_name=last_name,
@@ -118,7 +120,7 @@ def create_user(db: Session, id: str,
                        authorization=authorization)
 
     if not user:
-        raise ValueError('User Not Created.')
+        raise errors.DBError('User Not Created.')
 
     db.add(user)
     db.commit()
@@ -130,7 +132,7 @@ def create_user(db: Session, id: str,
 def read_user(db: Session, id: str):
     user = db.query(models.User).filter(models.User.id == id).first()
     if not user:
-        raise ValueError('No Such User.')
+        raise errors.DBError('No Such User.')
     return user
 
 
@@ -139,19 +141,20 @@ def update_user(db: Session, id: str, email: str, first_name: str, last_name: st
         .filter(models.User.id == id) \
         .update({'email': email,
                  'first_name': first_name,
-                 'last_name': last_name})
+                 'last_name': last_name,
+                 'refresh_token': refresh_token})
     if not number_of_rows:
-        raise ValueError('Nothing Updated.')
+        raise errors.DBError('Nothing Updated.')
     db.commit()
     return number_of_rows
 
 
-def delete_user(db: Session, id: str):
-    number_of_rows = db.query(models.User).filter(models.User.id == id).delete()
+def delete_user(db: Session, user_id: str):
+    number_of_rows = db.query(models.User).filter(models.User.user_id == user_id).delete()
     if number_of_rows == 0:
-        raise ValueError('Nothing Deleted.')
+        raise errors.DBError('Nothing Deleted.')
     elif number_of_rows > 1:
-        raise ValueError('Many Rows Are Going To Deleted.')
+        raise errors.DBError('Many Rows Are Going To Deleted.')
     db.commit()
     return number_of_rows
 
@@ -159,7 +162,7 @@ def delete_user(db: Session, id: str):
 def create_authorization(db: Session, name: str):
     # Check first those name's authorizations.
     if len(db.query(models.Authorization).filter(models.Authorization.name == name).all()) != 0:
-        raise ValueError('Already Authorization Exists.')
+        raise errors.DBError('Already Authorization Exists.')
 
     auth = models.Authorization(uuid=str(uuid.uuid4()), name=name)
     db.add(auth)
@@ -172,14 +175,14 @@ def create_authorization(db: Session, name: str):
 def read_authorization(db: Session, name: str):
     auth = db.query(models.Authorization).filter(models.Authorization.name == name).first()
     if not auth:
-        raise ValueError('No Such Authorization.')
+        raise errors.DBError('No Such Authorization.')
     return auth
 
 
 def read_authorizations(db: Session, name: str):
     auths = db.query(models.Authorization).filter(models.Authorization.name == name).all()
     if len(auths) == 0:
-        raise ValueError('No Authorizations.')
+        raise errors.DBError('No Authorizations.')
     return auths
 
 
@@ -187,7 +190,7 @@ def update_authorization(db: Session, old_name: str, new_name: str):
     number_of_rows = db.query(models.Authorization).filter(models.Authorization.name == old_name).update(
         {'name': new_name})
     if number_of_rows == 0:
-        raise ValueError('Nothing Updated.')
+        raise errors.DBError('Nothing Updated.')
     db.commit()
     return number_of_rows
 
@@ -195,8 +198,8 @@ def update_authorization(db: Session, old_name: str, new_name: str):
 def delete_authorization(db: Session, name: str):
     number_of_rows = db.query(models.Authorization).filter(models.Authorization.name == name).delete()
     if number_of_rows == 0:
-        raise ValueError('Nothing Deleted.')
+        raise errors.DBError('Nothing Deleted.')
     elif number_of_rows > 1:
-        raise ValueError('Many Rows Are Going To Deleted.')
+        raise errors.DBError('Many Rows Are Going To Deleted.')
     db.commit()
     return number_of_rows
