@@ -90,7 +90,48 @@ async def create_user(google_access_token: str, db: Session = Depends(database.g
         }
 
 
-import app.utils.authentication as authentication
+@router.get('/auth/update_access_token')
+async def update_access_token(user_id: str, db: Session = Depends(database.get_db)):
+    user = crud.read_user(db, user_id)
+
+    response = JSONResponse(content={})
+
+    # Encoding with json.
+    jsonized_user_info = jsonable_encoder(user)
+
+    # Issue token
+    token: authentication.Token = authentication.generate_token(jsonized_user_info, update_access_token=True)
+
+    # Save access_token to cookie.
+    response.set_cookie(key='access_token', value=token.access_token, secure=True)
+
+    response.body = {
+        'success': True,
+        'token_info': {
+            'access_token': token.access_token,
+            'refresh_token': token.refresh_token
+        }
+    }
+
+    return response
+
+
+@router.get('/auth/revoke_token')
+async def revoke_token(request: Request):
+    items = []
+
+    for _ in range(request.cookies.__len__()):
+        items.append(request.cookies.popitem())
+
+    response = JSONResponse(content={
+        'success': True,
+        'items': items
+    })
+
+    response.delete_cookie('access_token')
+    response.delete_cookie('refresh_token')
+
+    return response
 
 
 # TODO: Should be tested.
