@@ -78,8 +78,11 @@ def __ready_exception_unauthorized(detail: str | None = None) -> HTTPException:
 
 def __get_payload_in_token(token: str) -> jwt:
     secret, algo = __get_token_principle()
-
-    return jwt.decode(token, secret, algorithms=[algo])
+    print(f'token: {token}')
+    try:
+        jwt.decode(token, secret, algorithms=[algo])
+    except PyJWTError as e:
+        print(f'jwt decode error: {e.__repr__()}')
 
 
 def __check_exp(at: str, rt: str) -> bool:
