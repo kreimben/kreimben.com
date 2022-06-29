@@ -56,10 +56,32 @@ async def post(request: Request, uuid: str, db: Session = Depends(database.get_d
     return templates.TemplateResponse('blog.html', context=param)
 
 
-@router.get('/user/{google_id}')
-async def get_user_page(google_id: str, request: Request, user_info=Depends(app.routers.api.get_user_info)):
-    param = {
-        'request': request,
-        'user_info': user_info
-    }
-    return templates.TemplateResponse('user.html', context=param)
+@router.get('/user/{user_id}')
+async def get_user_page(request: Request, user_id: str,
+                        access_token: str = Cookie(...), refresh_token: str = Cookie(...),
+                        db: Session = Depends(database.get_db)):
+    if not access_token or not refresh_token:
+    # regenerate token.
+
+    try:
+        # Validate given token.
+        if not authentication.is_valid_token(access_token, refresh_token):
+            # access_token is expired.
+            response = RedirectResponse(f'/api/update_access_token?user_id={user_id}&callback_uri=/user/{user_id}')
+            return response
+
+        # Check user from db.
+        user = crud.read_user(db, user_id=user_id)
+        param = {
+            'request': request,
+            'user_info': user
+        }
+        return templates.TemplateResponse('user.html', context=param)
+
+    except HTTPException as _:
+        # Refresh Token Expired.
+        # Delete tokens and re-login.
+        response = RedirectResponse(f'/api/login')
+        response.delete_cookie('access_token')
+        response.delete_cookie('refresh_token')
+        return response

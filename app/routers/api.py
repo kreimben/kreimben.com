@@ -131,35 +131,40 @@ async def revoke_token(request: Request):
     return response
 
 
-# TODO: Should be tested.
-# TODO: Return user information using TOKEN.
-@router.get('/user/{google_id}')
-async def get_user_info(google_id: str, access_token: str = Cookie(), refresh_token: str = Cookie(),
-                        db: Session = Depends(database.get_db)):
-    try:
-        # Validate given token.
-        if not authentication.is_valid_token(access_token, refresh_token):
-            # access_token is expired.
-            await update_access_token(google_id, db)
-
-        # Check user from db.
-        user = crud.read_user(db, google_id)
-        value = {
-            'success': True,
-            'user': user
-        }
-        return value
-    except ValueError as e:
-        # print(f'no such user in /user/google_id fucntion: {e.__repr__()}')
-        return {
-            'success': False,
-            'message': e.__str__()
-        }
-    except HTTPException as e:
-        return {
-            'success': False,
-            'message': e.__str__()
-        }
+# @router.get('/user/{user_id}')
+# async def get_user_info(user_id: str, access_token: str = Cookie(), refresh_token: str = Cookie(),
+#                         db: Session = Depends(database.get_db)):
+#     try:
+#         # Validate given token.
+#         if not authentication.is_valid_token(access_token, refresh_token):
+#             # access_token is expired.
+#             await update_access_token(user_id, db=db)
+#
+#         # Check user from db.
+#         user = crud.read_user(db, user_id=user_id)
+#         value = {
+#             'success': True,
+#             'user': user
+#         }
+#         return value
+#     except ValueError as e:
+#         # print(f'no such user in /user/google_id fucntion: {e.__repr__()}')
+#         return {
+#             'success': False,
+#             'message': e.__str__()
+#         }
+#     except HTTPException as e:
+#         return {
+#             'success': False,
+#             'message': e.detail
+#         }
+#     except PyJWTError as e:
+#         # Refresh Token Expired.
+#         # Delete tokens and re-login.
+#         response = RedirectResponse(f'/login')
+#         response.delete_cookie('access_token')
+#         response.delete_cookie('refresh_token')
+#         return response
 
 
 # TODO: Should be tested.
