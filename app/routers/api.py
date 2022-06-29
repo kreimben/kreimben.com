@@ -203,13 +203,13 @@ async def revoke_token(request: Request, user_id: str, db: Session = Depends(dat
 
 
 # TODO: Should be tested.
-@router.put('/user/update/{google_id}')
-@router.get('/user/update/{google_id}')
-async def update_user(google_id: str, first_name: str, last_name: str, email: str,
+@router.put('/user/update/{user_id}')
+@router.get('/user/update/{user_id}')
+async def update_user(user_id: str, first_name: str, last_name: str, email: str,
                       db: Session = Depends(database.get_db)):
     try:
         user = crud.update_user(db,
-                                id=google_id,
+                                user_id=user_id,
                                 first_name=first_name,
                                 last_name=last_name,
                                 email=email)
