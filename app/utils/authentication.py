@@ -66,11 +66,8 @@ def __issue_refresh_token(user_data: dict, expires_delta: timedelta | None = Non
     return encoded_jwt
 
 
-# TODO: Should be tested.
-def is_valid_token(db: Session, token: str) -> bool:
-    secret, algo = __get_token_principle()
-
-    credentials_exception = HTTPException(
+def __ready_exception_unauthorized() -> HTTPException:
+    return HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
