@@ -2,11 +2,10 @@ from fastapi import APIRouter, Request, Depends, HTTPException, Cookie
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import RedirectResponse, JSONResponse
 from sqlalchemy.orm import Session
-from starlette import status
 
 import app.model.crud as crud
 import app.model.database as database
-import app.utils.env
+import app.utils.authentication as authentication
 import app.utils.google_auth as ga
 
 router = APIRouter(prefix='/api', tags=['api'])
