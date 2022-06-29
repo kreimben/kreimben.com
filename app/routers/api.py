@@ -70,7 +70,7 @@ async def create_user(google_access_token: str, db: Session = Depends(database.g
         # print(f'jsonized_user_info: {jsonized_user_info}')
 
         # Issue token
-        token: app.utils.authentication.Token = app.utils.authentication.generate_token(jsonized_user_info)
+        token: authentication.Token = authentication.generate_token(jsonized_user_info)
 
         response = RedirectResponse(f'/api/user/{user.id}')
 
