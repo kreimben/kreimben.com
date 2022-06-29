@@ -96,6 +96,7 @@ async def create_user(google_access_token: str, db: Session = Depends(database.g
     #     }
 
 
+# TODO: Should be tested.
 @router.get('/auth/update_access_token')
 async def update_access_token(user_id: str, db: Session = Depends(database.get_db)):
     user = crud.read_user(db, user_id)
