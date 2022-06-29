@@ -72,21 +72,58 @@ def __ready_exception_unauthorized() -> HTTPException:
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
+
+
+def __get_payload_in_token(token: str) -> jwt:
+    secret, algo = __get_token_principle()
+
+    return jwt.decode(token, secret, algorithms=[algo])
+
+
+def __check_exp(at: str, rt: str) -> bool:
+    """
+    Validate expiration both tokens.
+    :param at: Access Token
+    :param rt: Refresh Token
+    :return: True=Both tokens are valid.\nFalse=Access token is expired.
+    """
+    now = datetime.utcnow()
+
+    rtp = __get_payload_in_token(rt)
+    rt_exp = datetime.utcfromtimestamp(rtp.get('exp'))
+    print(f'exp: {rt_exp}')
+    print(f'now: {now}')
+    if rt_exp < now:
+        # If refresh_token is expired
+        raise __ready_exception_unauthorized()
+    else:
+        # If refresh_token is still valid, Check about access_token.
+        atp = __get_payload_in_token(at)
+        at_exp = datetime.utcfromtimestamp(atp.get('exp'))
+        print(f'exp: {at_exp}')
+        print(f'now: {now}')
+
+        if at_exp < now:  # Access token is expired.
+            return False
+        else:  # When both tokens are valid.
+            return True
+
+
+def __extract_user_data_in_token(token: str) -> TokenData:
+    payload = __get_payload_in_token(token)
+
+    user_id: str = payload.get("id")
+    if user_id is None:
+        raise __ready_exception_unauthorized()
+    return TokenData(**payload)
+
+
+def is_valid_token(access_token: str = Cookie(),
+                   refresh_token: str = Cookie()) -> bool:
     try:
-        payload = jwt.decode(token, secret, algorithms=[algo])
-        # print(f'payload keys: {payload.keys()}')
-        # print(f'payload values: {payload.values()}')
-
-        user_id: str = payload.get("id")
-        if user_id is None:
-            raise credentials_exception
-        token_data = TokenData(**payload)
+        results = __check_exp(access_token, refresh_token)
+        token_data = __extract_user_data_in_token(access_token)
     except PyJWTError:
-        raise credentials_exception
+        raise __ready_exception_unauthorized()
 
-    # Read user data from database DIRECTLY.
-    user = crud.read_user(db, token_data.id)
-
-    if user is None:
-        raise credentials_exception
-    return True
+    return results
