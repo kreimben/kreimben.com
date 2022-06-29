@@ -31,13 +31,13 @@
     </div>
 
     <div>
-        {% if login == False %}
-        <a href="/api/login">
-            <i class="fa-solid fa-arrow-right-to-bracket"></i>
-        </a>
-        {% else %}
+        {% if login %}
         <a href="/api/logout">
             <i class="fa-solid fa-right-from-bracket"></i>
+        </a>
+        {% else %}
+        <a href="/api/login">
+            <i class="fa-solid fa-arrow-right-to-bracket"></i>
         </a>
         {% endif %}
     </div>
