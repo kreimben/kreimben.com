@@ -98,10 +98,23 @@ async def create_user(google_access_token: str, db: Session = Depends(database.g
 
 # TODO: Should be tested.
 @router.get('/auth/update_access_token')
-async def update_access_token(user_id: str, db: Session = Depends(database.get_db)):
-    user = crud.read_user(db, user_id)
+async def update_access_token(user_id: str, refresh_token: str = Cookie(...),
+                              db: Session = Depends(database.get_db),
+                              callback_uri: str | None = None):
+    try:
+        authentication.is_valid_token('', refresh_token)
 
-    response = JSONResponse(content={})
+        user = crud.read_user(db, user_id)
+    except HTTPException as e:
+        return {
+            'success': False,
+            'message': e.detail
+        }
+    except errors.DBError as e:
+        return {
+            'success': False,
+            'message': e.detail
+        }
 
     # Encoding with json.
     jsonized_user_info = jsonable_encoder(user)
