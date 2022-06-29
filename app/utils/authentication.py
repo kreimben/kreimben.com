@@ -5,6 +5,7 @@ from fastapi import HTTPException, status, Cookie
 from jwt.exceptions import PyJWTError
 from pydantic import BaseModel
 
+import app.model.schemas as schemas
 from app.utils.env import get_secret_key
 
 
@@ -12,9 +13,6 @@ class Token(BaseModel):
     access_token: str
     refresh_token: str | None = None
     token_type: str = 'bearer'
-
-
-import app.model.schemas as schemas
 
 
 class TokenData(schemas.User):
