@@ -28,7 +28,8 @@ class Category(Base):
 class User(Base):
     __tablename__ = 'users'
 
-    id = Column(String(25), nullable=False, unique=True, primary_key=True)
+    user_id = Column(Integer(), nullable=False, unique=True, primary_key=True, autoincrement=True)
+    google_id = Column(String(25), nullable=False, unique=True)
     email = Column(String(100), nullable=True)
     first_name = Column(String(20), nullable=False)
     last_name = Column(String(20), nullable=False)

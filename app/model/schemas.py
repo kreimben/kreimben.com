@@ -27,13 +27,15 @@ class Category(BaseModel):
 
 
 class User(BaseModel):
-    id: str
+    user_id: str
+    google_id: str
     email: str
     first_name: str
     last_name: str
     created_at: datetime
     thumbnail_url: str
     authorization: str
+    refresh_token: str
 
     class Config:
         orm_mode = True
