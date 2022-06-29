@@ -122,22 +122,25 @@ async def update_access_token(user_id: str, refresh_token: str = Cookie(...),
     # Issue token
     token: authentication.Token = authentication.generate_token(jsonized_user_info, update_access_token=True)
 
+    if callback_uri is None:
+        response = JSONResponse(content={})
+        response.body = {
+            'success': True,
+            'token_info': {
+                'access_token': token.access_token,
+                'refresh_token': token.refresh_token
+            }
+        }
+    else:
+        response = RedirectResponse(callback_uri)
+
     # Save access_token to cookie.
     response.set_cookie(key='access_token', value=token.access_token, secure=True)
-
-    response.body = {
-        'success': True,
-        'token_info': {
-            'access_token': token.access_token,
-            'refresh_token': token.refresh_token
-        }
-    }
-
     return response
 
 
-@router.get('/auth/revoke_token')
-async def revoke_token(request: Request):
+@router.get('/auth/revoke_token/{user_id}')
+async def revoke_token(request: Request, user_id: str, db: Session = Depends(database.get_db)):
     items = []
 
     for _ in range(request.cookies.__len__()):
