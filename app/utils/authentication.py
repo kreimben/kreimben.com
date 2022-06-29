@@ -64,10 +64,14 @@ def __issue_refresh_token(user_data: dict, expires_delta: timedelta | None = Non
     return encoded_jwt
 
 
-def __ready_exception_unauthorized() -> HTTPException:
+def __ready_exception_unauthorized(detail: str | None = None) -> HTTPException:
+    print(f'detail: {detail}')
+
+    if detail is None:
+        detail = 'Could not validate credentials'
     return HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
+        detail=detail,
         headers={"WWW-Authenticate": "Bearer"},
     )
 
