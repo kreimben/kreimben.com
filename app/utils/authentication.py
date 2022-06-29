@@ -28,10 +28,12 @@ def __get_token_principle() -> (str, str):
     return secret, algo
 
 
-def generate_token(user_data: dict, expires_delta: timedelta | None = None):
-    token = Token(access_token=__issue_access_token(user_data, expires_delta),
-                  refresh_token=__issue_refresh_token(user_data, expires_delta),
-                  token_type='bearer')
+def generate_token(user_data: dict, update_access_token: bool = False):
+    if update_access_token:
+        return Token(access_token=__issue_access_token(user_data, timedelta(minutes=3)))
+    else:
+        return Token(access_token=__issue_access_token(user_data, timedelta(minutes=3)),
+                     refresh_token=__issue_refresh_token(user_data, timedelta(minutes=5)))
 
     return token
 
