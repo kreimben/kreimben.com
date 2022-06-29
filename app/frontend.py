@@ -65,11 +65,9 @@ async def post(request: Request, uuid: str, db: Session = Depends(get_db)):
 
 
 @router.get('/user/{google_id}')
-async def get_user_page(google_id: str, request: Request):
-    user_info = app.routers.api.get_user_info()
-
+async def get_user_page(google_id: str, request: Request, user_info=Depends(app.routers.api.get_user_info)):
     param = {
         'request': request,
-        'google_id': google_id
+        'user_info': user_info
     }
     return templates.TemplateResponse('user.html', context=param)
