@@ -51,9 +51,10 @@ async def redirect(code: str, db: Session = Depends(database.get_db)):
     google_id = user_info['id']
 
     try:
-        crud.read_user(db, google_id)
-        return RedirectResponse(f'/user/{google_id}')
-    except ValueError as _:
+        user = crud.read_user(db, google_id=google_id)
+        return RedirectResponse(f'/user/{user.user_id}')
+    except DBError as e:
+        print(f'DBError in read_user: {e.__repr__()}')
         return RedirectResponse(f'/api/user/create?google_access_token={google_access_token}')
 
 
@@ -62,36 +63,37 @@ async def redirect(code: str, db: Session = Depends(database.get_db)):
 async def create_user(google_access_token: str, db: Session = Depends(database.get_db)):
     user_info = ga.get_user_info(google_access_token)
 
-    try:
-        # Create user data in DB.
-        user = crud.create_user(db,
-                                id=user_info['id'],
-                                email=user_info['email'],
-                                first_name=user_info['given_name'],
-                                last_name=user_info['family_name'],
-                                thumbnail_url=user_info['picture'])
+    # try:
 
-        # Encoding with json.
-        jsonized_user_info = jsonable_encoder(user)
-        # print(f'jsonized_user_info: {jsonized_user_info}')
+    # Create user data in DB.
+    user = crud.create_user(db,
+                            google_id=user_info['id'],
+                            email=user_info['email'],
+                            first_name=user_info['given_name'],
+                            last_name=user_info['family_name'],
+                            thumbnail_url=user_info['picture'])
 
-        # Issue token
-        token: authentication.Token = authentication.generate_token(jsonized_user_info)
+    # Encoding with json.
+    jsonized_user_info = jsonable_encoder(user)
+    # print(f'jsonized_user_info: {jsonized_user_info}')
+
+    # Issue token
+    token: authentication.Token = authentication.generate_token(jsonized_user_info)
 
         response = RedirectResponse(f'/api/user/{user.id}')
 
-        # Save access_token and refresh_token to cookie.
-        response.set_cookie(key='access_token', value=token.access_token, secure=True)
-        response.set_cookie(key='refresh_token', value=token.refresh_token, secure=True)
+    # Save access_token and refresh_token to cookie.
+    response.set_cookie(key='access_token', value=token.access_token, secure=True)
+    response.set_cookie(key='refresh_token', value=token.refresh_token, secure=True)
 
         return response
 
-    except ValueError as e:
-        print(f'value error in create_user function: {e.__repr__()}')
-        return {
-            'success': False,
-            'message': e.__repr__()
-        }
+    # except errors.DBError as e:
+    #     print(f'value error in create_user function: {e.__repr__()}')
+    #     return {
+    #         'success': False,
+    #         'message': e.__str__()
+    #     }
 
 
 @router.get('/auth/update_access_token')
