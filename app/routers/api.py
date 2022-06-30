@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Request, Depends, HTTPException, Cookie
+from fastapi import APIRouter, Depends, HTTPException, Cookie
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import RedirectResponse, JSONResponse
 from sqlalchemy.orm import Session
@@ -8,7 +8,6 @@ import app.model.database as database
 import app.utils.authentication as authentication
 import app.utils.errors as errors
 import app.utils.google_auth as ga
-from app.utils.errors import DBError
 
 router = APIRouter(prefix='/api', tags=['api'])
 
