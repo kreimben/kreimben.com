@@ -150,7 +150,8 @@ def read_users(db: Session) -> [models.User]:
     return db.query(models.User).all()
 
 
-def update_user(db: Session, user_id: str, email: str, first_name: str, last_name: str, refresh_token: str | None):
+def update_user(db: Session,
+                user_id: str, email: str, first_name: str, last_name: str, refresh_token: str | None) -> int:
     number_of_rows = db.query(models.User) \
         .filter(models.User.user_id == user_id) \
         .update({'email': email,
