@@ -137,19 +137,21 @@ async def generate_token(user_id: int, db: Session = Depends(database.get_db)):
 
 # TODO: Should be tested.
 @router.get('/auth/update_access_token')
-async def update_access_token(user_id: str, refresh_token: str = Cookie(...),
+async def update_access_token(user_id: str | None = None, refresh_token: str = Cookie(...),
                               db: Session = Depends(database.get_db),
                               callback_uri: str | None = None):
     try:
-        authentication.is_valid_token('', refresh_token)
+        authentication.try_is_valid_token('', refresh_token)
 
-        user = crud.read_user(db, user_id)
+        user = crud.read_user(db, user_id=user_id, refresh_token=refresh_token)
     except HTTPException as e:
+        # When refresh_token is expired too.
         return {
             'success': False,
             'message': e.detail
         }
     except errors.DBError as e:
+        # When no user in database.
         return {
             'success': False,
             'message': e.detail
