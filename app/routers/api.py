@@ -180,31 +180,37 @@ async def update_access_token(user_id: str | None = None, refresh_token: str = C
     return response
 
 
-@router.get('/auth/revoke_token/{user_id}')
-async def revoke_token(request: Request, user_id: str, db: Session = Depends(database.get_db)):
-    items = []
+@router.get('/auth/revoke_token')
+async def revoke_token(callback_uri: str | None = None, refresh_token: str = Cookie(...),
+                       db: Session = Depends(database.get_db)):
+    """
+    Remove tokens in cookie and database. After that, Redirect to home.
 
-    for _ in range(request.cookies.__len__()):
-        items.append(request.cookies.popitem())
+    :param refresh_token:
+    :param db:
+    :return:
+    """
 
-    response = JSONResponse(content={
-        'success': True,
-        'items': items
-    })
+    response = RedirectResponse('/') if callback_uri is None else RedirectResponse(callback_uri)
 
-    response.delete_cookie('access_token')
-    response.delete_cookie('refresh_token')
+    try:
+        user = crud.read_user(db, refresh_token=refresh_token)
 
-    user = crud.read_user(db, user_id)
+        # Delete refresh token in database.
+        crud.update_user(db, user.user_id,
+                         email=user.email,
+                         first_name=user.first_name,
+                         last_name=user.last_name,
+                         refresh_token=None)
 
-    # Delete refresh token in database.
-    crud.update_user(db, user_id,
-                     email=user.email,
-                     first_name=user.first_name,
-                     last_name=user.last_name,
-                     refresh_token=None)
+        response.delete_cookie('access_token')
+        response.delete_cookie('refresh_token')
 
-    return response
+        return response
+
+    except errors.DBError as e:
+        print(f'revoke token: {e.__repr__()}')
+        return RedirectResponse('/api/logout')
 
 
 # @router.get('/user/{user_id}')
