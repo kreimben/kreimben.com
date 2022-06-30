@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Cookie
+from fastapi import APIRouter, Depends, Cookie
 from sqlalchemy.orm import Session
 from starlette.requests import Request
 from starlette.responses import RedirectResponse
@@ -79,8 +79,11 @@ async def get_user_page(request: Request, user_id: str,
         }
         return templates.TemplateResponse('user.html', context=param)
 
-    except HTTPException as _:
-        # Refresh Token Expired.
+    except errors.AccessTokenExpired as _:
+        # Update access token using refresh token.
+        return RedirectResponse('/api/auth/update_access_token')
+
+    except errors.RefreshTokenExpired as _:
         # Delete tokens and re-login.
         return RedirectResponse('/api/auth/revoke_token?callback_uri=/api/login')
 
