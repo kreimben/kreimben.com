@@ -105,8 +105,17 @@ async def create_user(google_access_token: str, db: Session = Depends(database.g
 @router.put('/user/update/{user_id}', tags=['user'])
 @router.get('/user/update/{user_id}', tags=['user'])
 async def update_user(user_id: str, first_name: str, last_name: str, email: str,
+                      access_token: str | None = Cookie(None), refresh_token: str | None = Cookie(None),
                       db: Session = Depends(database.get_db)):
+    if access_token is None or refresh_token is None:
+        return RedirectResponse('/api/login')
+
     try:
+        # First. Validate tokens.
+        if not authentication.try_is_valid_token(access_token, refresh_token):
+            raise HTTPException(detail='access_token is expired.')
+
+        # Second. If tokens are valid, Grant update user information.
         user = crud.update_user(db,
                                 user_id=user_id,
                                 first_name=first_name,
@@ -117,10 +126,17 @@ async def update_user(user_id: str, first_name: str, last_name: str, email: str,
             'message': 'User Updated.',
             'user': user
         }
-    except ValueError as e:
+
+    except errors.DBError as e:
         return {
             'success': False,
-            'message': e.__repr__()
+            'message': e.__str__()
+        }
+
+    except HTTPException as e:
+        return {
+            'success': False,
+            'message': e.__str__()
         }
 
 
@@ -230,7 +246,9 @@ async def revoke_token(callback_uri: str | None = None, refresh_token: str = Coo
     :return:
     """
 
-    response = RedirectResponse('/') if callback_uri is None else RedirectResponse(callback_uri)
+    response = RedirectResponse(callback_uri) if callback_uri is None else JSONResponse(content={
+        'success': True, 'message': 'Successfully Revoked.'
+    })
 
     try:
         user = crud.read_user(db, refresh_token=refresh_token)
