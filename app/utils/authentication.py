@@ -28,10 +28,10 @@ def __get_token_principle() -> (str, str):
 
 def generate_token(user_data: dict, update_access_token: bool = False):
     if update_access_token:
-        return Token(access_token=__issue_access_token(user_data, timedelta(minutes=3)))
+        return Token(access_token=__issue_access_token(user_data, timedelta(hours=1)))
     else:
-        return Token(access_token=__issue_access_token(user_data, timedelta(minutes=3)),
-                     refresh_token=__issue_refresh_token(user_data, timedelta(minutes=5)))
+        return Token(access_token=__issue_access_token(user_data, timedelta(hours=1)),
+                     refresh_token=__issue_refresh_token(user_data, timedelta(days=60)))
 
 
 def __issue_access_token(user_data: dict, expires_delta: timedelta | None = None) -> jwt:
