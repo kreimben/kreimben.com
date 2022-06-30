@@ -33,7 +33,7 @@ async def login():
 
 
 @router.get('/logout')
-async def logout(request: Request):
+async def logout():
     response = RedirectResponse('/')
 
     response.delete_cookie('access_token')
@@ -43,19 +43,43 @@ async def logout(request: Request):
 
 
 @router.get('/redirect')
-async def redirect(code: str, db: Session = Depends(database.get_db)):
+async def redirect(code: str,
+                   access_token: str | None = Cookie(None), refresh_token: str | None = Cookie(None)):
+    """
+    This route only be used when user tries to login with google OAuth2.
+    Must be submitted with code issued by Google.
+
+    :param code: Code issued by Google.
+    :param access_token: Issued by this server.
+    :param refresh_token: Issued by this server.
+    :param db: SQLite Database Session.
+    :return:
+    """
+
     data = ga.get_access_token_from_google(code)
     google_access_token = data['access_token']
 
-    user_info = ga.get_user_info(google_access_token)
-    google_id = user_info['id']
+    # First. Check having tokens. (issued by this server.)
+    if access_token is None or refresh_token is None:
+        # Just go to create user.
+        return RedirectResponse(f'/api/user/create?google_access_token={google_access_token}')
 
     try:
-        user = crud.read_user(db, google_id=google_id)
-        return RedirectResponse(f'/user/{user.user_id}')
-    except DBError as e:
-        print(f'DBError in read_user: {e.__repr__()}')
-        return RedirectResponse(f'/api/user/create?google_access_token={google_access_token}')
+        # Second. If tokens exist, Check its' validation.
+        is_valid = authentication.try_is_valid_token(access_token, refresh_token)
+
+        if is_valid:
+            # If access_token is valid, Go to user page.
+            user = authentication.try_extract_user_data_in_token(access_token)
+            return RedirectResponse(f'/user/{user.user_id}')  # TODO: redirect to home.
+        else:
+            # If access_token is not valid, Go to update access_token.
+            return RedirectResponse(f'/api/update_access_token')
+
+    except HTTPException as e:
+        # If access_token and refresh_token are not valid, Go to revoke tokens.
+        print(f'redirect exception: ${e.__repr__()}')
+        return RedirectResponse(f'/api/auth/revoke_token?callback_uri=/api/login')
 
 
 @router.post('/user/create', status_code=201)
