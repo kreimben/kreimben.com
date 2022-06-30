@@ -288,20 +288,18 @@ async def delete_user(user_id: str, db: Session = Depends(database.get_db)):
             'message': e.__repr__()
         }
 
-
-# TODO: Should be tested.
-@router.post('/authorization/create/{name}')
-@router.get('/authorization/create/{name}')
-async def create_authorization(name: str, db: Session = Depends(database.get_db)):
-    try:
-        crud.create_authorization(db, name=name)
-        return JSONResponse(status_code=201, content={
-            'success': True,
-            'message': 'Authorization Created.',
-            'name': name
-        })
-    except ValueError as e:
-        return {
-            'success': False,
-            'message': e.__repr__()
-        }
+# @router.post('/authorization/create/{name}')
+# @router.get('/authorization/create/{name}')
+# async def create_authorization(name: str, db: Session = Depends(database.get_db)):
+#     try:
+#         crud.create_authorization(db, name=name)
+#         return JSONResponse(status_code=201, content={
+#             'success': True,
+#             'message': 'Authorization Created.',
+#             'name': name
+#         })
+#     except ValueError as e:
+#         return {
+#             'success': False,
+#             'message': e.__repr__()
+#         }
