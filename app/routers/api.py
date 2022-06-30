@@ -12,7 +12,7 @@ import app.utils.google_auth as ga
 router = APIRouter(prefix='/api', tags=['api'])
 
 
-@router.get('/login')
+@router.get('/login', tags=['login process'])
 async def login():
     data = ga.get_secret()
 
@@ -31,7 +31,7 @@ async def login():
     return RedirectResponse(url)
 
 
-@router.get('/logout')
+@router.get('/logout', tags=['login process'])
 async def logout():
     response = RedirectResponse('/')
 
@@ -41,7 +41,7 @@ async def logout():
     return response
 
 
-@router.get('/redirect')
+@router.get('/redirect', tags=['login process'])
 async def redirect(code: str,
                    access_token: str | None = Cookie(None), refresh_token: str | None = Cookie(None)):
     """
@@ -81,7 +81,7 @@ async def redirect(code: str,
         return RedirectResponse(f'/api/auth/revoke_token?callback_uri=/api/login')
 
 
-@router.post('/user/create', status_code=201)
+@router.post('/user/create', status_code=201, tags=['user'])
 @router.get('/user/create', status_code=201)
 async def create_user(google_access_token: str, db: Session = Depends(database.get_db)):
     user_info = ga.get_user_info(google_access_token)
@@ -101,7 +101,47 @@ async def create_user(google_access_token: str, db: Session = Depends(database.g
     return RedirectResponse(f'/api/auth/generate_token?user_id={user.user_id}')
 
 
-@router.get('/auth/generate_token')
+# TODO: Should be tested.
+@router.put('/user/update/{user_id}', tags=['user'])
+@router.get('/user/update/{user_id}', tags=['user'])
+async def update_user(user_id: str, first_name: str, last_name: str, email: str,
+                      db: Session = Depends(database.get_db)):
+    try:
+        user = crud.update_user(db,
+                                user_id=user_id,
+                                first_name=first_name,
+                                last_name=last_name,
+                                email=email)
+        return {
+            'success': True,
+            'message': 'User Updated.',
+            'user': user
+        }
+    except ValueError as e:
+        return {
+            'success': False,
+            'message': e.__repr__()
+        }
+
+
+# TODO: Should be tested.
+@router.delete('/user/delete/{user_id}', tags=['user'])
+@router.get('/user/delete/{user_id}', tags=['user'])
+async def delete_user(user_id: str, db: Session = Depends(database.get_db)):
+    try:
+        crud.delete_user(db, user_id)
+        return {
+            'success': True,
+            'message': 'User Deleted.'
+        }
+    except ValueError as e:
+        return {
+            'success': False,
+            'message': e.__repr__()
+        }
+
+
+@router.get('/auth/generate_token', tags=['auth'])
 async def generate_token(user_id: int, db: Session = Depends(database.get_db)):
     user = crud.read_user(db, user_id=user_id)
 
@@ -135,8 +175,7 @@ async def generate_token(user_id: int, db: Session = Depends(database.get_db)):
     return response
 
 
-# TODO: Should be tested.
-@router.get('/auth/update_access_token')
+@router.get('/auth/update_access_token', tags=['auth'])
 async def update_access_token(user_id: str | None = None, refresh_token: str = Cookie(...),
                               db: Session = Depends(database.get_db),
                               callback_uri: str | None = None):
@@ -180,7 +219,7 @@ async def update_access_token(user_id: str | None = None, refresh_token: str = C
     return response
 
 
-@router.get('/auth/revoke_token')
+@router.get('/auth/revoke_token', tags=['auth'])
 async def revoke_token(callback_uri: str | None = None, refresh_token: str = Cookie(...),
                        db: Session = Depends(database.get_db)):
     """
@@ -211,95 +250,3 @@ async def revoke_token(callback_uri: str | None = None, refresh_token: str = Coo
     except errors.DBError as e:
         print(f'revoke token: {e.__repr__()}')
         return RedirectResponse('/api/logout')
-
-
-# @router.get('/user/{user_id}')
-# async def get_user_info(user_id: str, access_token: str = Cookie(), refresh_token: str = Cookie(),
-#                         db: Session = Depends(database.get_db)):
-#     try:
-#         # Validate given token.
-#         if not authentication.is_valid_token(access_token, refresh_token):
-#             # access_token is expired.
-#             await update_access_token(user_id, db=db)
-#
-#         # Check user from db.
-#         user = crud.read_user(db, user_id=user_id)
-#         value = {
-#             'success': True,
-#             'user': user
-#         }
-#         return value
-#     except ValueError as e:
-#         # print(f'no such user in /user/google_id fucntion: {e.__repr__()}')
-#         return {
-#             'success': False,
-#             'message': e.__str__()
-#         }
-#     except HTTPException as e:
-#         return {
-#             'success': False,
-#             'message': e.detail
-#         }
-#     except PyJWTError as e:
-#         # Refresh Token Expired.
-#         # Delete tokens and re-login.
-#         response = RedirectResponse(f'/login')
-#         response.delete_cookie('access_token')
-#         response.delete_cookie('refresh_token')
-#         return response
-
-
-# TODO: Should be tested.
-@router.put('/user/update/{user_id}')
-@router.get('/user/update/{user_id}')
-async def update_user(user_id: str, first_name: str, last_name: str, email: str,
-                      db: Session = Depends(database.get_db)):
-    try:
-        user = crud.update_user(db,
-                                user_id=user_id,
-                                first_name=first_name,
-                                last_name=last_name,
-                                email=email)
-        return {
-            'success': True,
-            'message': 'User Updated.',
-            'user': user
-        }
-    except ValueError as e:
-        return {
-            'success': False,
-            'message': e.__repr__()
-        }
-
-
-# TODO: Should be tested.
-@router.delete('/user/delete/{user_id}')
-@router.get('/user/delete/{user_id}')
-async def delete_user(user_id: str, db: Session = Depends(database.get_db)):
-    try:
-        crud.delete_user(db, user_id)
-        return {
-            'success': True,
-            'message': 'User Deleted.'
-        }
-    except ValueError as e:
-        return {
-            'success': False,
-            'message': e.__repr__()
-        }
-
-# @router.post('/authorization/create/{name}')
-# @router.get('/authorization/create/{name}')
-# async def create_authorization(name: str, db: Session = Depends(database.get_db)):
-#     try:
-#         crud.create_authorization(db, name=name)
-#         return JSONResponse(status_code=201, content={
-#             'success': True,
-#             'message': 'Authorization Created.',
-#             'name': name
-#         })
-#     except ValueError as e:
-#         return {
-#             'success': False,
-#             'message': e.__repr__()
-#         }
