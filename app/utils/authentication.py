@@ -65,7 +65,7 @@ def __issue_refresh_token(user_data: dict, expires_delta: timedelta | None = Non
 
 
 def __ready_exception_unauthorized(detail: str | None = None) -> HTTPException:
-    print(f'detail: {detail}')
+    # print(f'detail: {detail}')
 
     if detail is None:
         detail = 'Could not validate credentials'
@@ -76,27 +76,28 @@ def __ready_exception_unauthorized(detail: str | None = None) -> HTTPException:
     )
 
 
-def __get_payload_in_token(token: str) -> jwt:
+def __try_get_payload_in_token(token: str) -> jwt:
     secret, algo = __get_token_principle()
-    print(f'token: {token}')
+    # print(f'token: {token}')
     try:
-        jwt.decode(token, secret, algorithms=[algo])
+        return jwt.decode(token, secret, algorithms=[algo])
     except PyJWTError as e:
         print(f'jwt decode error: {e.__repr__()}')
+        raise __ready_exception_unauthorized('Token Expired.')
 
 
-def __check_exp(at: str, rt: str) -> bool:
+def __try_check_exp(at: str, rt: str) -> bool:
     """
     Validate expiration both tokens.
     :param at: Access Token
     :param rt: Refresh Token
     :return: True=Both tokens are valid. False=Access token is expired.
     """
-    if __get_payload_in_token(rt) is None:
+    if __try_get_payload_in_token(rt) is None:
         raise __ready_exception_unauthorized(detail='Refresh Token Expired!')
     else:
         # If refresh_token is still valid, Check about access_token.
-        if __get_payload_in_token(at) is None:
+        if __try_get_payload_in_token(at) is None:
             return False
         else:
             return True
