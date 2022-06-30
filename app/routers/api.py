@@ -250,3 +250,41 @@ async def revoke_token(callback_uri: str | None = None, refresh_token: str = Coo
     except errors.DBError as e:
         print(f'revoke token: {e.__repr__()}')
         return RedirectResponse('/api/logout')
+
+
+@router.get('/authorization/create', tags=['authorization'], status_code=201)
+@router.post('/authorization/create', tags=['authorization'], status_code=201)
+async def create_authorization(name: str, db: Session = Depends(database.get_db)):
+    try:
+        authoriztion = crud.create_authorization(db, name)
+    except errors.DBError as e:
+        print(f'create_authorization: {e.__repr__()}')
+        authoriztion = crud.read_authorization(db, name)
+        return {
+            'success': True,
+            'message': e.__str__(),
+            'authorization': authoriztion
+        }
+
+    return {
+        'success': True,
+        'message': 'Successfully Created.',
+        'authorization': authoriztion
+    }
+
+
+@router.get('/authorization/delete/{name}', tags=['authorization'])
+@router.delete('/authorization/delete/{name}', tags=['authorization'])
+async def delete_authorization(name: str, db: Session = Depends(database.get_db)):
+    try:
+        num = crud.delete_authorization(db, name)
+        return {
+            'success': True,
+            'message': 'Successfully Deleted.',
+            'count': num
+        }
+    except errors.DBError as e:
+        return {
+            'success': False,
+            'message': e.__str__()
+        }
