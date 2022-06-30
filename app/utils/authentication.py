@@ -103,22 +103,38 @@ def __try_check_exp(at: str, rt: str) -> bool:
             return True
 
 
-def __extract_user_data_in_token(token: str) -> TokenData:
-    payload = __get_payload_in_token(token)
-
-    user_id: str = payload.get("user_id")
-    if user_id is None:
+def try_extract_user_data_in_token(token: str) -> TokenData:
+    try:
+        payload = __try_get_payload_in_token(token)
+    except PyJWTError as e:
+        print(f'Token is not validated: {e.__repr__()}')
+        print('try_extract_user_data_in_token')
         raise __ready_exception_unauthorized(detail='User id is not valid.')
+
+    # user_id: str = payload.get("user_id")
+    # if user_id is None:
+
     return TokenData(**payload)
 
 
 # Dependency
-def is_valid_token(access_token: str = Cookie(),
-                   refresh_token: str = Cookie()) -> bool:
-    try:
-        results = __check_exp(access_token, refresh_token)
-        token_data = __extract_user_data_in_token(access_token)
-    except PyJWTError:
-        raise __ready_exception_unauthorized(detail='Token Expired!')
+def try_is_valid_token(access_token: str = Cookie(),
+                       refresh_token: str = Cookie()) -> bool:
+    """
+    When tokens are valid, Return `True`.
+    When access token is not valid, Return `False`.
+    When refresh token is not valid, raise `HTTPException`.
+
+    :param access_token:
+    :param refresh_token:
+    :return:
+    """
+    # try:
+
+    results = __try_check_exp(access_token, refresh_token)
+    token_data = try_extract_user_data_in_token(access_token)
+
+    # except PyJWTError:
+    #     raise __ready_exception_unauthorized(detail='Token Expired!')
 
     return results
