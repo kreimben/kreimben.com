@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Cookie
+from fastapi import APIRouter, Depends, Cookie
 from sqlalchemy.orm import Session
 from starlette.requests import Request
 from starlette.responses import RedirectResponse
@@ -25,7 +25,7 @@ async def entry(request: Request):
     return templates.TemplateResponse('index.html', context=param)
 
 
-@router.get('/blog')
+@router.get('/blog', tags=['blog'])
 async def blog_main(request: Request, db: Session = Depends(database.get_db)):
     # Ready for data from database (SQLite).
     posts = crud.read_posts(db)
@@ -40,10 +40,10 @@ async def blog_main(request: Request, db: Session = Depends(database.get_db)):
     return templates.TemplateResponse('blog.html', context=param)
 
 
-@router.get('/blog/{uuid}')
-async def post(request: Request, uuid: str, db: Session = Depends(database.get_db)):
+@router.get('/blog/{post_id}', tags=['blog'])
+async def post(request: Request, post_id: str, db: Session = Depends(database.get_db)):
     # Ready for data from database (SQLite).
-    post = crud.read_post(db, uuid)
+    post = crud.read_post(db, post_id)
 
     if post is None:
         return templates.TemplateResponse('wrong_page.html', context={'request': request})
@@ -57,7 +57,7 @@ async def post(request: Request, uuid: str, db: Session = Depends(database.get_d
     return templates.TemplateResponse('blog.html', context=param)
 
 
-@router.get('/user/{user_id}')
+@router.get('/user/{user_id}', tags=['user'])
 async def get_user_page(request: Request, user_id: str,
                         access_token: str | None = Cookie(None), refresh_token: str | None = Cookie(None),
                         db: Session = Depends(database.get_db)):
@@ -79,8 +79,11 @@ async def get_user_page(request: Request, user_id: str,
         }
         return templates.TemplateResponse('user.html', context=param)
 
-    except HTTPException as _:
-        # Refresh Token Expired.
+    except errors.AccessTokenExpired as _:
+        # Update access token using refresh token.
+        return RedirectResponse('/api/auth/update_access_token')
+
+    except errors.RefreshTokenExpired as _:
         # Delete tokens and re-login.
         return RedirectResponse('/api/auth/revoke_token?callback_uri=/api/login')
 

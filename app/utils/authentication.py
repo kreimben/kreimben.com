@@ -7,6 +7,7 @@ from pydantic import BaseModel
 
 import app.model.schemas as schemas
 from app.utils.env import get_secret_key
+from . import errors
 
 
 class Token(BaseModel):
@@ -28,20 +29,20 @@ def __get_token_principle() -> (str, str):
 
 def generate_token(user_data: dict, update_access_token: bool = False):
     if update_access_token:
-        return Token(access_token=__issue_access_token(user_data, timedelta(hours=1)))
+        return Token(access_token=__issue_access_token(user_data))
     else:
-        return Token(access_token=__issue_access_token(user_data, timedelta(hours=1)),
-                     refresh_token=__issue_refresh_token(user_data, timedelta(days=60)))
+        return Token(access_token=__issue_access_token(user_data),
+                     refresh_token=__issue_refresh_token(user_data))
 
 
 def __issue_access_token(user_data: dict, expires_delta: timedelta | None = None) -> jwt:
     secret, algo = __get_token_principle()
 
     to_encode = user_data.copy()
-    if expires_delta:
+    if expires_delta is not None:
         expire = datetime.utcnow() + expires_delta
     else:
-        expire = datetime.utcnow() + timedelta(minutes=60)
+        expire = datetime.utcnow() + timedelta(hours=1)
 
     to_encode.update({'exp': expire, 'iat': datetime.utcnow()})
 
@@ -53,7 +54,7 @@ def __issue_refresh_token(user_data: dict, expires_delta: timedelta | None = Non
     secret, algo = __get_token_principle()
 
     to_encode = user_data.copy()
-    if expires_delta:
+    if expires_delta is not None:
         expire = datetime.utcnow() + expires_delta
     else:
         expire = datetime.utcnow() + timedelta(days=60)
@@ -78,41 +79,43 @@ def __ready_exception_unauthorized(detail: str | None = None) -> HTTPException:
 
 def __try_get_payload_in_token(token: str) -> jwt:
     secret, algo = __get_token_principle()
-    # print(f'token: {token}')
     try:
         return jwt.decode(token, secret, algorithms=[algo])
-    except PyJWTError as e:
+    except jwt.PyJWTError as e:
         print(f'jwt decode error: {e.__repr__()}')
-        raise __ready_exception_unauthorized('Token Expired.')
+        print(f'token: {token}')
+        raise errors.TokenExpired(status.HTTP_401_UNAUTHORIZED)
 
 
-def __try_check_exp(at: str, rt: str) -> bool:
-    """
-    Validate expiration both tokens.
-    :param at: Access Token
-    :param rt: Refresh Token
-    :return: True=Both tokens are valid. False=Access token is expired.
-    """
-    if __try_get_payload_in_token(rt) is None:
-        raise __ready_exception_unauthorized(detail='Refresh Token Expired!')
-    else:
-        # If refresh_token is still valid, Check about access_token.
-        if __try_get_payload_in_token(at) is None:
-            return False
-        else:
-            return True
+# def __try_check_exp(at: str, rt: str) -> bool:
+#     """
+#     Validate expiration both tokens.
+#     :param at: Access Token
+#     :param rt: Refresh Token
+#     :return: True=Both tokens are valid. False=Access token is expired.
+#     """
+#     if __try_get_payload_in_token(rt) is None:
+#         raise errors.RefreshTokenExpired(detail='Refresh Token Expired!')
+#     else:
+#         # If refresh_token is still valid, Check about access_token.
+#         if __try_get_payload_in_token(at) is None:
+#             return False
+#         else:
+#             return True
 
 
 def try_extract_user_data_in_token(token: str) -> TokenData:
     try:
         payload = __try_get_payload_in_token(token)
+
     except PyJWTError as e:
         print(f'Token is not validated: {e.__repr__()}')
         print('try_extract_user_data_in_token')
         raise __ready_exception_unauthorized(detail='User id is not valid.')
 
-    # user_id: str = payload.get("user_id")
-    # if user_id is None:
+    except errors.TokenExpired as e:
+        print(f'try_extract_user_data_in_token: {e.__repr__()}')
+        raise errors.TokenExpired(status.HTTP_401_UNAUTHORIZED)
 
     return TokenData(**payload)
 
@@ -129,12 +132,11 @@ def try_is_valid_token(access_token: str = Cookie(),
     :param refresh_token:
     :return:
     """
-    # try:
 
-    results = __try_check_exp(access_token, refresh_token)
-    token_data = try_extract_user_data_in_token(access_token)
+    if __try_get_payload_in_token(refresh_token) is None:
+        print(f'in validate refresh token')
+        raise errors.RefreshTokenExpired(status.HTTP_401_UNAUTHORIZED)
 
-    # except PyJWTError:
-    #     raise __ready_exception_unauthorized(detail='Token Expired!')
-
-    return results
+    if __try_get_payload_in_token(access_token) is None:
+        print(f'in validate access token')
+        raise errors.AccessTokenExpired(status.HTTP_401_UNAUTHORIZED)

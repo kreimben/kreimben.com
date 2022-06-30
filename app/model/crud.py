@@ -210,7 +210,7 @@ def update_authorization(db: Session, old_name: str, new_name: str):
     return number_of_rows
 
 
-def delete_authorization(db: Session, name: str):
+def delete_authorization(db: Session, name: str) -> int:
     number_of_rows = db.query(models.Authorization).filter(models.Authorization.name == name).delete()
     if number_of_rows == 0:
         raise errors.DBError('Nothing Deleted.')
