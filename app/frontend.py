@@ -5,6 +5,7 @@ from starlette.responses import RedirectResponse
 from starlette.templating import Jinja2Templates
 
 import app.utils.authentication as authentication
+import app.utils.errors as errors
 import model.crud as crud
 import model.database as database
 
@@ -58,14 +59,14 @@ async def post(request: Request, uuid: str, db: Session = Depends(database.get_d
 
 @router.get('/user/{user_id}')
 async def get_user_page(request: Request, user_id: str,
-                        access_token: str = Cookie(...), refresh_token: str = Cookie(...),
+                        access_token: str | None = Cookie(None), refresh_token: str | None = Cookie(None),
                         db: Session = Depends(database.get_db)):
-    if not access_token or not refresh_token:
-    # regenerate token.
+    if access_token is None or refresh_token is None:
+        return RedirectResponse('/api/login')
 
     try:
         # Validate given token.
-        if not authentication.is_valid_token(access_token, refresh_token):
+        if not authentication.try_is_valid_token(access_token, refresh_token):
             # access_token is expired.
             response = RedirectResponse(f'/api/update_access_token?user_id={user_id}&callback_uri=/user/{user_id}')
             return response
@@ -81,7 +82,8 @@ async def get_user_page(request: Request, user_id: str,
     except HTTPException as _:
         # Refresh Token Expired.
         # Delete tokens and re-login.
-        response = RedirectResponse(f'/api/login')
-        response.delete_cookie('access_token')
-        response.delete_cookie('refresh_token')
-        return response
+        return RedirectResponse('/api/auth/revoke_token?callback_uri=/api/login')
+
+    except errors.DBError as _:
+        # When user never exists in database.
+        return RedirectResponse('/api/login')
