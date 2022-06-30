@@ -86,19 +86,27 @@ async def redirect(code: str,
 async def create_user(google_access_token: str, db: Session = Depends(database.get_db)):
     user_info = ga.get_user_info(google_access_token)
 
-    # try:
-
     # Create user data in DB.
-    user = crud.create_user(db,
-                            google_id=user_info['id'],
-                            email=user_info['email'],
-                            first_name=user_info['given_name'],
-                            last_name=user_info['family_name'],
-                            thumbnail_url=user_info['picture'])
+    try:
+        user = crud.create_user(db,
+                                google_id=user_info['id'],
+                                email=user_info['email'],
+                                first_name=user_info['given_name'],
+                                last_name=user_info['family_name'],
+                                thumbnail_url=user_info['picture'])
+
+    except errors.DBError:
+        user = crud.read_user(db, google_id=user_info['id'])
+
+    return RedirectResponse(f'/api/auth/generate_token?user_id={user.user_id}')
+
+
+@router.get('/auth/generate_token')
+async def generate_token(user_id: int, db: Session = Depends(database.get_db)):
+    user = crud.read_user(db, user_id=user_id)
 
     # Encoding with json.
     jsonized_user_info = jsonable_encoder(user)
-    # print(f'jsonized_user_info: {jsonized_user_info}')
 
     # Issue token
     token: authentication.Token = authentication.generate_token(jsonized_user_info)
