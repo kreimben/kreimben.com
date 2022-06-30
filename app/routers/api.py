@@ -117,14 +117,22 @@ async def generate_token(user_id: int, db: Session = Depends(database.get_db)):
     response.set_cookie(key='access_token', value=token.access_token, secure=True)
     response.set_cookie(key='refresh_token', value=token.refresh_token, secure=True)
 
-    return response
+    # Save refresh_token to database.
+    try:
+        crud.update_user(db,
+                         user_id=user_id,
+                         email=user.email,
+                         first_name=user.first_name,
+                         last_name=user.last_name,
+                         refresh_token=token.refresh_token)
+    except errors.DBError as e:
+        print(f'generate token: {e.__repr__()}')
+        return {
+            'success': False,
+            'message': e.__str__()
+        }
 
-    # except errors.DBError as e:
-    #     print(f'value error in create_user function: {e.__repr__()}')
-    #     return {
-    #         'success': False,
-    #         'message': e.__str__()
-    #     }
+    return response
 
 
 # TODO: Should be tested.
