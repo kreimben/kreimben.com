@@ -35,7 +35,7 @@ class User(BaseModel):
     created_at: datetime
     thumbnail_url: str
     authorization: str
-    refresh_token: str
+    refresh_token: str | None = None
 
     class Config:
         orm_mode = True
