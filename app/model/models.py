@@ -7,15 +7,16 @@ from .database import Base
 class Post(Base):
     __tablename__ = 'posts'
 
-    uuid = Column(String(20), primary_key=True, index=True, nullable=False)
+    id = Column(Integer(), primary_key=True, index=True, nullable=False, autoincrement=True)
+    uuid = Column(String(20), nullable=False)
     created_at = Column(DateTime(timezone=True), nullable=False, default=func.now())
     modified_at = Column(DateTime(timezone=True), nullable=True, default=func.now())
     title = Column(String(200), unique=True, nullable=False)
     content = Column(String(99_999), nullable=False)
     category = Column(String(10), ForeignKey('categories.name'))
     language = Column(String(10), nullable=False)
-    views = Column(Integer, nullable=False, default=1)
-    writer = Column(String(25), ForeignKey('users.id'))
+    views = Column(Integer(), nullable=False, default=1)
+    writer = Column(String(25), ForeignKey('users.user_id'))
 
 
 class Category(Base):
