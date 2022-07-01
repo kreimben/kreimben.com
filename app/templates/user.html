@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% include 'header.html' %}
+
+<body>
+{% include 'menu.html' %}
+
+<div class="lg:m-16">
+    {{ user_info.id }}
+    {{ user_info.first_name }}
+</div>
+
+{% include 'footer.html' %}
+</body>
+</html>

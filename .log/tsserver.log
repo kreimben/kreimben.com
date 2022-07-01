@@ -1,0 +1,14 @@
+Info 0    [01:21:01.727] Starting TS Server
+Info 1    [01:21:01.727] Version: 4.5.5
+Info 2    [01:21:01.727] Arguments: /usr/bin/node /home/kreimben/.emacs.d/.local/etc/lsp/npm/typescript/lib/node_modules/typescript/lib/tsserver.js --logFile /home/kreimben/Documents/Repository/Kreimben.com/frontend/.log/tsserver.log --logVerbosity info --cancellationPipeName /tmp/229ae0a2df907655fbff10a24e703771/tscancellation*
+Info 3    [01:21:01.727] Platform: linux NodeVersion: 17 CaseSensitive: true
+Info 4    [01:21:01.727] ServerMode: undefined syntaxOnly: false hasUnknownServerMode: undefined
+Info 5    [01:21:01.735] Format host information updated
+Info 6    [01:21:01.741] Search path: /home/kreimben/Documents/Repository/Kreimben.com/frontend/static/js
+Info 7    [01:21:01.742] For info: /home/kreimben/Documents/Repository/Kreimben.com/frontend/static/js/index.js :: No config files found.
+Info 8    [01:21:01.745] Starting updateGraphWorker: Project: /dev/null/inferredProject1*
+Info 9    [01:21:02.025] Finishing updateGraphWorker: Project: /dev/null/inferredProject1* Version: 1 structureChanged: true structureIsReused:: Not Elapsed: 279.7564790006727ms
+Info 10   [01:21:02.025] Project '/dev/null/inferredProject1*' (Inferred)
+Info 11   [01:21:02.026] 	Files (19)
+
+Info 12   [01:21:02.026] -----------------------------------------------

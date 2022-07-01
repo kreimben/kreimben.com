@@ -1,4 +1,6 @@
-# dependencies
-/node_modules
-package-log.json
-/.log
+.idea/
+__pycache__/
+.pytest_cache/
+google_oauth2_secret.json
+/app/sql_app.db
+.env
