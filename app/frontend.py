@@ -41,6 +41,17 @@ async def blog_main(request: Request, db: Session = Depends(database.get_db), lo
     return templates.TemplateResponse('blog.html', context=param)
 
 
+@router.get('/blog/write', tags=['blog'])
+async def write_post(request: Request, login=Depends(is_login)):
+    # Ready for parameters.
+    param = {
+        'request': request,
+        'login': login
+    }
+
+    return templates.TemplateResponse('write_post.html', context=param)
+
+
 @router.get('/blog/{post_id}', tags=['blog'])
 async def post(request: Request, post_id: str, db: Session = Depends(database.get_db), login=Depends(is_login)):
     # Ready for data from database (SQLite).
