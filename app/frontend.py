@@ -60,7 +60,7 @@ async def post(request: Request, post_id: str, db: Session = Depends(database.ge
     if post is None:
         return templates.TemplateResponse('wrong_page.html', context={'request': request})
 
-    # Ready for paramters.
+    # Ready for parameters.
     param = {
         'request': request,
         'login': login
