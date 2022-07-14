@@ -185,3 +185,18 @@ async def delete_authorization(name: str, db: Session = Depends(database.get_db)
             'success': False,
             'message': e.__str__()
         }
+
+
+@router.post('/post', tags=['post'], status_code=201)
+async def create_post(title: str | None = Body(None),
+                      content: str | None = Body(None),
+                      category: str | None = Body(None),
+                      language: str | None = Body('english'),
+                      payload=Depends(authentication.check_auth_using_token),
+                      db: Session = Depends(database.get_db)):
+    post = crud.create_post(db=db, title=title, content=content, category=category, language=language)
+    return {
+        'success': True,
+        'message': 'Successfully Post Created.',
+        'post': post
+    }
