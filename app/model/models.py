@@ -37,7 +37,7 @@ class User(Base):
     created_at = Column(DateTime(timezone=True), nullable=False, default=func.now())
     thumbnail_url = Column(String(100), nullable=True)
     authorization = Column(String(10), ForeignKey('authorizations.name'))
-    refresh_token = Column(String(50), nullable=True, unique=True)
+    refresh_token = Column(String(9999), nullable=True, unique=True)
 
 
 class Authorization(Base):
