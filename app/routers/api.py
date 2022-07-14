@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from fastapi import APIRouter, Depends, HTTPException, Cookie
+from fastapi import APIRouter, Depends, Cookie
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import RedirectResponse, JSONResponse
 from sqlalchemy.orm import Session
@@ -56,10 +56,8 @@ async def redirect(code: str, db: Session = Depends(database.get_db),
     user_info = ga.get_user_info(google_access_token)
 
     print(f'payload: {payload}')
-    if isinstance(payload, errors.AccessTokenExpired):
-        return RedirectResponse(f'/api/update_access_token')
-    elif isinstance(payload, errors.RefreshTokenExpired):
-        # Refresh token is expired.
+    if isinstance(payload, errors.AccessTokenExpired) or isinstance(payload, errors.RefreshTokenExpired):
+        # If tokens are expired (even if one of them), Just revoke token and regenerate token.
         return RedirectResponse(f'/api/auth/revoke_token?callback_uri=/api/login')
     elif crud.read_user(db=db, google_id=user_info['id']) is None:
         # When no user info in db. (Not registered.)
@@ -85,62 +83,6 @@ async def create_user(google_access_token: str, db: Session = Depends(database.g
                             thumbnail_url=user_info['picture'])
     print(f'user after crud.create_user: {user}')
     return RedirectResponse(f'/api/auth/generate_token?google_id={user.google_id}')
-
-
-# TODO: Should be removed.
-@router.put('/user/update/{user_id}', tags=['user'])
-@router.get('/user/update/{user_id}', tags=['user'])
-async def update_user(user_id: str, first_name: str, last_name: str, email: str,
-                      access_token: str | None = Cookie(None), refresh_token: str | None = Cookie(None),
-                      db: Session = Depends(database.get_db)):
-    if access_token is None or refresh_token is None:
-        return RedirectResponse('/api/login')
-
-    try:
-        # First. Validate tokens.
-        if not authentication.try_is_valid_token(access_token, refresh_token):
-            raise HTTPException(detail='access_token is expired.')
-
-        # Second. If tokens are valid, Grant update user information.
-        user = crud.update_user(db,
-                                user_id=user_id,
-                                first_name=first_name,
-                                last_name=last_name,
-                                email=email)
-        return {
-            'success': True,
-            'message': 'User Updated.',
-            'user': user
-        }
-
-    except errors.DBError as e:
-        return {
-            'success': False,
-            'message': e.__str__()
-        }
-
-    except HTTPException as e:
-        return {
-            'success': False,
-            'message': e.__str__()
-        }
-
-
-# TODO: Should be removed.
-@router.delete('/user/delete/{user_id}', tags=['user'])
-@router.get('/user/delete/{user_id}', tags=['user'])
-async def delete_user(user_id: str, db: Session = Depends(database.get_db)):
-    try:
-        crud.delete_user(db, user_id)
-        return {
-            'success': True,
-            'message': 'User Deleted.'
-        }
-    except ValueError as e:
-        return {
-            'success': False,
-            'message': e.__repr__()
-        }
 
 
 @router.get('/auth/generate_token', tags=['auth'])
@@ -176,59 +118,11 @@ async def generate_token(google_id: str, db: Session = Depends(database.get_db))
     return response
 
 
-@router.get('/auth/update_access_token', tags=['auth'])
-async def update_access_token(user_id: str | None = None, refresh_token: str = Cookie(...),
-                              db: Session = Depends(database.get_db),
-                              callback_uri: str | None = None):
-    try:
-        authentication.try_is_valid_token('', refresh_token)
-
-        user = crud.read_user(db, user_id=user_id, refresh_token=refresh_token)
-    except HTTPException as e:
-        # When refresh_token is expired too.
-        return {
-            'success': False,
-            'message': e.detail
-        }
-    except errors.DBError as e:
-        # When no user in database.
-        return {
-            'success': False,
-            'message': e.detail
-        }
-
-    # Encoding with json.
-    jsonized_user_info = jsonable_encoder(user)
-
-    # Issue token
-    token: authentication.Token = authentication.generate_token(jsonized_user_info, update_access_token=True)
-
-    if callback_uri is None:
-        response = JSONResponse(content={})
-        response.body = {
-            'success': True,
-            'token_info': {
-                'access_token': token.access_token,
-                'refresh_token': token.refresh_token
-            }
-        }
-    else:
-        response = RedirectResponse(callback_uri)
-
-    # Save access_token to cookie.
-    response.set_cookie(key='access_token', value=token.access_token, secure=True)
-    return response
-
-
 @router.get('/auth/revoke_token', tags=['auth'])
 async def revoke_token(callback_uri: str | None = None, refresh_token: str = Cookie(...),
                        db: Session = Depends(database.get_db)):
     """
     Remove tokens in cookie and database. After that, Redirect to home.
-
-    :param refresh_token:
-    :param db:
-    :return:
     """
 
     response = RedirectResponse(callback_uri) if callback_uri is None else JSONResponse(content={
