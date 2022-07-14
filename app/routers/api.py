@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from fastapi import APIRouter, Depends, HTTPException, Cookie
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import RedirectResponse, JSONResponse
@@ -42,8 +44,8 @@ async def logout():
 
 
 @router.get('/redirect', tags=['login process'])
-async def redirect(code: str,
-                   access_token: str | None = Cookie(None), refresh_token: str | None = Cookie(None)):
+async def redirect(code: str, db: Session = Depends(database.get_db),
+                   payload=Depends(authentication.check_auth_using_token)):
     """
     This route only be used when user tries to login with google OAuth2.
     Must be submitted with code issued by Google.
@@ -63,22 +65,20 @@ async def redirect(code: str,
         # Just go to create user.
         return RedirectResponse(f'/api/user/create?google_access_token={google_access_token}')
 
-    try:
-        # Second. If tokens exist, Check its' validation.
-        is_valid = authentication.try_is_valid_token(access_token, refresh_token)
-
-        if is_valid:
-            # If access_token is valid, Go to user page.
-            user = authentication.try_extract_user_data_in_token(access_token)
-            return RedirectResponse(f'/user/{user.user_id}')  # TODO: redirect to home.
-        else:
-            # If access_token is not valid, Go to update access_token.
-            return RedirectResponse(f'/api/update_access_token')
-
-    except HTTPException as e:
-        # If access_token and refresh_token are not valid, Go to revoke tokens.
-        print(f'redirect exception: ${e.__repr__()}')
+    print(f'payload: {payload}')
+    if isinstance(payload, errors.AccessTokenExpired):
+        return RedirectResponse(f'/api/update_access_token')
+    elif isinstance(payload, errors.RefreshTokenExpired):
+        # Refresh token is expired.
         return RedirectResponse(f'/api/auth/revoke_token?callback_uri=/api/login')
+    elif crud.read_user(db=db, google_id=user_info['id']) is None:
+        # When no user info in db. (Not registered.)
+        return RedirectResponse(f'/api/user/create?google_access_token={google_access_token}')
+    elif payload is None and crud.read_user(db=db, google_id=user_info['id']) is not None:
+        # When tokens are not saved in cookie and user data is in database.
+        return RedirectResponse(f'/api/auth/generate_token?google_id={user_info["id"]}')
+    else:
+        return RedirectResponse(f'/user/{payload.user_id}')
 
 
 @router.post('/user/create', status_code=201, tags=['user'])
@@ -87,16 +87,14 @@ async def create_user(google_access_token: str, db: Session = Depends(database.g
     user_info = ga.get_user_info(google_access_token)
 
     # Create user data in DB.
-    try:
-        user = crud.create_user(db,
-                                google_id=user_info['id'],
-                                email=user_info['email'],
-                                first_name=user_info['given_name'],
-                                last_name=user_info['family_name'],
-                                thumbnail_url=user_info['picture'])
-
-    except errors.DBError:
-        user = crud.read_user(db, google_id=user_info['id'])
+    user = crud.create_user(db,
+                            google_id=user_info['id'],
+                            email=user_info['email'],
+                            first_name=user_info['given_name'],
+                            last_name=user_info['family_name'],
+                            thumbnail_url=user_info['picture'])
+    print(f'user after crud.create_user: {user}')
+    return RedirectResponse(f'/api/auth/generate_token?google_id={user.google_id}')
 
     return RedirectResponse(f'/api/auth/generate_token?user_id={user.user_id}')
 
@@ -158,29 +156,28 @@ async def delete_user(user_id: str, db: Session = Depends(database.get_db)):
 
 
 @router.get('/auth/generate_token', tags=['auth'])
-async def generate_token(user_id: int, db: Session = Depends(database.get_db)):
-    user = crud.read_user(db, user_id=user_id)
-
-    # Encoding with json.
-    jsonized_user_info = jsonable_encoder(user)
+async def generate_token(google_id: str, db: Session = Depends(database.get_db)):
+    user = crud.read_user(db=db, google_id=google_id)
+    dict_user = jsonable_encoder(user)
 
     # Issue token
-    token: authentication.Token = authentication.generate_token(jsonized_user_info)
+    access_token = authentication.issue_token(dict_user, timedelta(hours=1))
+    refresh_token = authentication.issue_token(dict_user, timedelta(days=14))
 
     response = RedirectResponse(f'/user/{user.user_id}')
 
     # Save access_token and refresh_token to cookie.
-    response.set_cookie(key='access_token', value=token.access_token, secure=True)
-    response.set_cookie(key='refresh_token', value=token.refresh_token, secure=True)
+    response.set_cookie(key='access_token', value=access_token, secure=True)
+    response.set_cookie(key='refresh_token', value=refresh_token, secure=True)
 
     # Save refresh_token to database.
     try:
         crud.update_user(db,
-                         user_id=user_id,
+                         user_id=user.user_id,
                          email=user.email,
                          first_name=user.first_name,
                          last_name=user.last_name,
-                         refresh_token=token.refresh_token)
+                         refresh_token=refresh_token)
     except errors.DBError as e:
         print(f'generate token: {e.__repr__()}')
         return {
