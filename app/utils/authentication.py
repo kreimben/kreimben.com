@@ -1,4 +1,4 @@
-from fastapi import Cookie
+from fastapi import Cookie, Depends
 from pydantic import BaseModel
 
 import app.model.schemas as schemas
@@ -104,3 +104,15 @@ def check_auth_using_token(access_token: str | None = Cookie(None),
         return RefreshTokenExpired()
     except AccessTokenExpired:
         return AccessTokenExpired()
+
+
+def is_login(payload=Depends(check_auth_using_token)) -> bool:
+    print(f'payload: {payload}')
+
+    if payload is None:
+        return False
+    elif not isinstance(payload, AccessTokenExpired) or \
+            not isinstance(payload, RefreshTokenExpired):
+        return True
+    else:
+        return False

@@ -8,6 +8,7 @@ import app.utils.authentication as authentication
 import app.utils.errors as errors
 import model.crud as crud
 import model.database as database
+from app.utils.authentication import is_login
 
 router = APIRouter(
     tags=['front']
@@ -16,17 +17,17 @@ templates = Jinja2Templates(directory='templates')
 
 
 @router.get('/')
-async def entry(request: Request):
+async def entry(request: Request, login=Depends(is_login)):
     param = {
         'request': request,
         'title': 'Kreimben.com',
-        'login': False
+        'login': login
     }
     return templates.TemplateResponse('index.html', context=param)
 
 
 @router.get('/blog', tags=['blog'])
-async def blog_main(request: Request, db: Session = Depends(database.get_db)):
+async def blog_main(request: Request, db: Session = Depends(database.get_db), login=Depends(is_login)):
     # Ready for data from database (SQLite).
     posts = crud.read_posts(db)
 
@@ -35,13 +36,13 @@ async def blog_main(request: Request, db: Session = Depends(database.get_db)):
         'request': request,
         'title': 'Kreimben\'s Blog',
         'posts': posts,
-        'login': False
+        'login': login
     }
     return templates.TemplateResponse('blog.html', context=param)
 
 
 @router.get('/blog/{post_id}', tags=['blog'])
-async def post(request: Request, post_id: str, db: Session = Depends(database.get_db)):
+async def post(request: Request, post_id: str, db: Session = Depends(database.get_db), login=Depends(is_login)):
     # Ready for data from database (SQLite).
     post = crud.read_post(db, post_id)
 
@@ -51,7 +52,7 @@ async def post(request: Request, post_id: str, db: Session = Depends(database.ge
     # Ready for paramters.
     param = {
         'request': request,
-        'login': False
+        'login': login
     }
 
     return templates.TemplateResponse('blog.html', context=param)
@@ -60,7 +61,8 @@ async def post(request: Request, post_id: str, db: Session = Depends(database.ge
 @router.get('/user/{user_id}', tags=['user'])
 async def get_user_page(request: Request, user_id: str,
                         payload=Depends(authentication.check_auth_using_token),
-                        db: Session = Depends(database.get_db)):
+                        db: Session = Depends(database.get_db),
+                        login=Depends(is_login)):
     if payload is None or \
             isinstance(payload, errors.AccessTokenExpired) or \
             isinstance(payload, errors.RefreshTokenExpired):
@@ -70,6 +72,7 @@ async def get_user_page(request: Request, user_id: str,
     user = crud.read_user(db, user_id=user_id)
     param = {
         'request': request,
-        'user_info': user
+        'user_info': user,
+        'login': login
     }
     return templates.TemplateResponse('user.html', context=param)
