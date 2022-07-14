@@ -30,5 +30,17 @@
             const element = document.body;
             element.classList.toggle("dark-mode");
         }
+
+        function automatic_dark_mode() {
+            const current_hour = new Date().getHours();
+            // alert(`current hour is ${current_hour}`);
+
+            if (current_hour >= 0 && current_hour <= 6 || current_hour >= 18 && current_hour <= 24) {
+
+                dark_mode()
+            }
+        }
+
+        window.onload = automatic_dark_mode;
     </script>
 </head>
