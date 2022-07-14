@@ -49,21 +49,11 @@ async def redirect(code: str, db: Session = Depends(database.get_db),
     """
     This route only be used when user tries to login with google OAuth2.
     Must be submitted with code issued by Google.
-
-    :param code: Code issued by Google.
-    :param access_token: Issued by this server.
-    :param refresh_token: Issued by this server.
-    :param db: SQLite Database Session.
-    :return:
     """
 
     data = ga.get_access_token_from_google(code)
     google_access_token = data['access_token']
-
-    # First. Check having tokens. (issued by this server.)
-    if access_token is None or refresh_token is None:
-        # Just go to create user.
-        return RedirectResponse(f'/api/user/create?google_access_token={google_access_token}')
+    user_info = ga.get_user_info(google_access_token)
 
     print(f'payload: {payload}')
     if isinstance(payload, errors.AccessTokenExpired):
@@ -96,10 +86,8 @@ async def create_user(google_access_token: str, db: Session = Depends(database.g
     print(f'user after crud.create_user: {user}')
     return RedirectResponse(f'/api/auth/generate_token?google_id={user.google_id}')
 
-    return RedirectResponse(f'/api/auth/generate_token?user_id={user.user_id}')
 
-
-# TODO: Should be tested.
+# TODO: Should be removed.
 @router.put('/user/update/{user_id}', tags=['user'])
 @router.get('/user/update/{user_id}', tags=['user'])
 async def update_user(user_id: str, first_name: str, last_name: str, email: str,
@@ -138,7 +126,7 @@ async def update_user(user_id: str, first_name: str, last_name: str, email: str,
         }
 
 
-# TODO: Should be tested.
+# TODO: Should be removed.
 @router.delete('/user/delete/{user_id}', tags=['user'])
 @router.get('/user/delete/{user_id}', tags=['user'])
 async def delete_user(user_id: str, db: Session = Depends(database.get_db)):

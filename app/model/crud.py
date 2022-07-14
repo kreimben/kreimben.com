@@ -119,9 +119,6 @@ def create_user(db: Session,
                        thumbnail_url=thumbnail_url,
                        authorization=authorization)
 
-    if not user:
-        raise errors.DBError('User Not Created.')
-
     db.add(user)
     db.commit()
     db.refresh(user)
@@ -135,15 +132,11 @@ def read_user(db: Session,
               user_id: str | None = None
               ) -> models.User:
     if google_id is not None:
-        user = db.query(models.User).filter(models.User.google_id == google_id).first()
+        return db.query(models.User).filter(models.User.google_id == google_id).first()
     elif refresh_token is not None:
-        user = db.query(models.User).filter(models.User.refresh_token == refresh_token).first()
+        return db.query(models.User).filter(models.User.refresh_token == refresh_token).first()
     elif user_id is not None:
-        user = db.query(models.User).filter(models.User.user_id == user_id).first()
-
-    if not user:
-        raise errors.DBError('No Such User.')
-    return user
+        return db.query(models.User).filter(models.User.user_id == user_id).first()
 
 
 def read_users(db: Session) -> [models.User]:

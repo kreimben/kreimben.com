@@ -44,8 +44,10 @@ def extract_payload_from_token(token: str):
     """
     This function doesn't take care of errors!
 
-    encoded_jwt = jwt.encode(to_encode, secret, algorithm=algo)
-    return encoded_jwt
+    :param token:
+    :return:
+    """
+    payload = decode(jwt=token, key='secret_key', algorithms=['HS256'])
 
     return payload
 
@@ -57,9 +59,7 @@ def check_auth_using_token(access_token: str | None = Cookie(None),
     if access_token is None or refresh_token is None:
         return
 
-
-def __try_get_payload_in_token(token: str) -> jwt:
-    secret, algo = __get_token_principle()
+    # Check `refresh_token` first.
     try:
         payload = extract_payload_from_token(refresh_token)
 
