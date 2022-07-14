@@ -1,14 +1,10 @@
 FROM python:3.10-bullseye
 
-WORKDIR /code
+WORKDIR app
 
-COPY ./requirements.txt /code/requirements.txt
+COPY . /app
 
-RUN pip install --upgrade pip
-
-RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
-
-COPY ./app /code/app
+RUN pip install -r requirements.txt
 
 EXPOSE 10120
 
