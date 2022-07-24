@@ -11,7 +11,7 @@ on:
 
 env:
   REGISTRY: registry.kreimben.com
-  IMAGE_NAME: backend
+  IMAGE_NAME: home
 
 
 jobs:
