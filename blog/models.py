@@ -27,7 +27,6 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
-
     class Meta:
         get_latest_by = ['title', 'created_at']
         verbose_name = 'post'
