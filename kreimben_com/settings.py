@@ -73,7 +73,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'kreimben_com.wsgi.application'
+# WSGI_APPLICATION = 'kreimben_com.wsgi.application'
+ASGI_APPLICATION = 'kreimben_com.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
