@@ -1,4 +1,5 @@
 from django.db import models
+from django_quill.fields import QuillField
 
 
 class Category(models.Model):
@@ -19,7 +20,7 @@ class Post(models.Model):
     title = models.CharField(max_length=200, unique=True)
     subtitle = models.CharField(max_length=200, null=True)
     categories = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
-    content = models.TextField(default='')
+    content = QuillField()
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
