@@ -11,7 +11,7 @@ class Category(models.Model):
         return self.name
 
     class Meta:
-        get_latest_by = 'created_at'
+        get_latest_by = '-created_at'
         verbose_name = 'category'
         verbose_name_plural = 'categories'
 
@@ -19,7 +19,7 @@ class Category(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=200, unique=True)
     subtitle = models.CharField(max_length=200, null=True)
-    categories = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     content = QuillField()
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
@@ -28,6 +28,6 @@ class Post(models.Model):
         return self.title
 
     class Meta:
-        get_latest_by = ['title', 'created_at']
+        get_latest_by = ['title', '-created_at']
         verbose_name = 'post'
         verbose_name_plural = 'posts'
