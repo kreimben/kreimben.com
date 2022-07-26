@@ -1,19 +1,24 @@
 {% extends 'index.html' %}
 
 {% block content %}
-    <div class="m-5">
-        <h1 class="text-center">{{ post.title }}</h1>
-        <h5 class="text-center text-muted">{{ post.subtitle }}</h5>
-        <h6 class="text-right">Published: {{ post.created_at }}</h6>
-        {% if post.created_at != post.updated_at %}
-            <h6 class="text-right">Changed: {{ post.updated_at }}</h6>
-        {% endif %}
-        <h6 class="badge">{{ post.categories.name }}</h6>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-8">
+                <h1 class="text-center">{{ post.title }}</h1>
+                <h5 class="text-center text-muted">{{ post.subtitle }}</h5>
 
-        <br/><br/>
+                <div class="text-center">
+                    <h6 class="badge text-bg-dark rounded-pill">{{ post.category.name }}</h6>
+                </div>
 
-        <div>
-            {{ post.content.html | safe }}
+                <h6 class="text-right">Published: {{ post.created_at }}</h6>
+
+                <br/><br/>
+
+                <div>
+                    {{ post.content.html | safe }}
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}
