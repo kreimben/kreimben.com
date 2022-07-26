@@ -20,6 +20,9 @@ class Post(models.Model):
     title = models.CharField(max_length=200, unique=True)
     subtitle = models.CharField(max_length=200, null=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+    status = models.CharField(max_length=10,
+                              choices=(('Drafted', 'drafted'), ('Published', 'published')),
+                              default='Drafted')
     content = QuillField()
     created_at = models.DateTimeField(auto_now=True)
     updated_at = models.DateTimeField(auto_now_add=True)
