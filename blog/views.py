@@ -1,6 +1,7 @@
 from django.core.paginator import Paginator
 from django.http import HttpRequest, HttpResponseRedirect
-from django.views.generic import TemplateView, DetailView, ListView
+from django.views.generic import TemplateView, DetailView
+
 from .models import Post
 
 
@@ -8,7 +9,7 @@ class BlogView(TemplateView):
     template_name = '../templates/blog/blog.html'
 
     def get(self, request: HttpRequest, **kwargs):
-        posts = Post.objects.order_by('-created_at').all()
+        posts = Post.objects.order_by('-created_at').filter(status='published').all()
         page = Paginator(posts, 15)
 
         page_number = request.GET.get('page')
