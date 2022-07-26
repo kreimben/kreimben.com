@@ -1,0 +1,28 @@
+{% extends 'index.html' %}
+
+{% block title %}
+    {{ post.title }} - Kreimben's Blog
+{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class=" col-8">
+            <h1 class="text-center">{{ post.title }}</h1>
+            <h5 class="text-center text-muted">{{ post.subtitle }}</h5>
+
+            <div class="text-center">
+                <h6 class="badge text-bg-dark rounded-pill">{{ post.category.name }}</h6>
+            </div>
+
+            <h6 class="text-right">Published: {{ post.created_at }}</h6>
+
+            <br/><br/>
+
+            <div class="ql-snow">
+                <div class="ql-editor">
+                    {{ post.content.html | safe }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

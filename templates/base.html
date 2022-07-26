@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        {% block title %}
+            Kreimben.com
+        {% endblock %}
+    </title>
+    {% include 'head.html' %}
+</head>
+<body>
+{% csrf_token %}
+{% include 'menu.html' %}
+{% block content %}{% endblock %}
+{% include 'footer.html' %}
+</body>
+</html>
