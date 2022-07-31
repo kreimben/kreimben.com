@@ -1,10 +1,33 @@
-from django.contrib import admin
+from gettext import ngettext
+
+from django.contrib import admin, messages
 
 from .models import Category, Post
 
-admin.site.register(Category)
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    pass
 
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    pass
+    actions = ['make_published', 'make_drafted']
+
+    @admin.action(description='Make selected posts published.')
+    def make_published(self, request, queryset):
+        updated = queryset.update(status='published')
+        self.message_user(request, ngettext(
+            '%d story was successfully marked as published.',
+            '%d stories were successfully marked as published.',
+            updated,
+        ) % updated, messages.SUCCESS)
+
+    @admin.action(description='Make selected posts drafted.')
+    def make_drafted(self, request, queryset):
+        updated = queryset.update(status='drafted')
+        self.message_user(request, ngettext(
+            '%d story was successfully marked as drafted.',
+            '%d stories were successfully marked as drafted.',
+            updated,
+        ) % updated, messages.SUCCESS)
