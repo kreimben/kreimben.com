@@ -34,9 +34,12 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'home.apps.HomeConfig',
     'blog.apps.BlogConfig',
+    'products.apps.ProductsConfig',
 
     'django_quill',
+    'fontawesomefree',
 
     'django.contrib.admin',
     'django.contrib.auth',
