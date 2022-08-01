@@ -18,7 +18,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('', include('home.urls')),
-    path('admin/', admin.site.urls),
     path('blog/', include('blog.urls')),
-    path('products/', include('products.urls'))
+    path('products/', include('products.urls')),
+    path('admin/kreimben/', admin.site.urls),
+    path('status/', include('django_prometheus.urls'))
 ]
