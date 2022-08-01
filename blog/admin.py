@@ -16,7 +16,7 @@ class PostAdmin(admin.ModelAdmin):
 
     @admin.action(description='Make selected posts published.')
     def make_published(self, request, queryset):
-        updated = queryset.update(status='published')
+        updated = queryset.update(status='Published')
         self.message_user(request, ngettext(
             '%d story was successfully marked as published.',
             '%d stories were successfully marked as published.',
@@ -25,7 +25,7 @@ class PostAdmin(admin.ModelAdmin):
 
     @admin.action(description='Make selected posts drafted.')
     def make_drafted(self, request, queryset):
-        updated = queryset.update(status='drafted')
+        updated = queryset.update(status='Drafted')
         self.message_user(request, ngettext(
             '%d story was successfully marked as drafted.',
             '%d stories were successfully marked as drafted.',
