@@ -1,4 +1,7 @@
-django>=4.0.0
-python-dotenv>=0.20.0
-mysqlclient==2.1.0
-django-quill-editor>=0.1.0
+django
+python-dotenv
+mysqlclient
+django-quill-editor
+fontawesomefree
+hypercorn
+django-prometheus

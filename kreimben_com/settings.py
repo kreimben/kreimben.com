@@ -19,8 +19,6 @@ load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-STATIC_ROOT = BASE_DIR / 'static'
-STATIC_URL = 'static/'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -29,16 +27,37 @@ STATIC_URL = 'static/'
 SECRET_KEY = os.getenv('DJANGO_SECRET')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG')
+DEBUG = os.getenv('DJANGO_DEBUG') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '*.kreimben.com',
+    '.localhost',
+]
+
+# https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/#csrf-cookie-secure
+CSRF_COOKIE_SECURE = not DEBUG
+SESSION_COOKIE_SECURE = not DEBUG
+
+# https://docs.djangoproject.com/en/4.0/ref/settings/#std-setting-SECURE_SSL_REDIRECT
+SECURE_SSL_REDIRECT = not DEBUG
+
+# https://docs.djangoproject.com/en/4.0/ref/settings/#std-setting-SECURE_HSTS_SECONDS
+SECURE_HSTS_SECONDS = not DEBUG
+SECURE_HSTS_PRELOAD = not DEBUG
+
+# https://docs.djangoproject.com/en/4.0/ref/settings/#secure-hsts-include-subdomains
+SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
 
 # Application definition
 
 INSTALLED_APPS = [
+    'home.apps.HomeConfig',
     'blog.apps.BlogConfig',
+    'products.apps.ProductsConfig',
 
     'django_quill',
+    'fontawesomefree',
+    'django_prometheus',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -56,6 +75,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
 ROOT_URLCONF = 'kreimben_com.urls'
@@ -76,7 +97,7 @@ TEMPLATES = [
     },
 ]
 
-# WSGI_APPLICATION = 'kreimben_com.wsgi.application'
+WSGI_APPLICATION = 'kreimben_com.wsgi.application'
 ASGI_APPLICATION = 'kreimben_com.asgi.application'
 
 # Database
@@ -126,6 +147,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'static'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field

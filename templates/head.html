@@ -6,7 +6,9 @@
         crossorigin="anonymous"></script>
 
 {#FontAwesome#}
-<script src="https://kit.fontawesome.com/4e0a9aec16.js" crossorigin="anonymous"></script>
+{% load static %}
+<script src="{% static 'fontawesomefree/js/all.min.js' %}" crossorigin="anonymous"></script>
+<link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
 
 {# static quill editor #}
 <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
@@ -16,3 +18,25 @@
       href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/xcode-dusk.min.css">
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
 <script>hljs.highlightAll();</script>
+
+{# HTMX #}
+<script src="https://unpkg.com/htmx.org@1.8.0"></script>
+
+
+<script>
+    function dark_mode() {
+        const element = document.body;
+        element.classList.toggle("dark-mode");
+        {#alert(`class list: ${JSON.stringify(element.classList)}`)#}
+    }
+
+    function automatic_dark_mode() {
+        const current_hour = new Date().getHours();
+
+        if (current_hour >= 0 && current_hour <= 6 || current_hour >= 18 && current_hour <= 24) {
+            dark_mode()
+        }
+    }
+
+    window.onload = automatic_dark_mode;
+</script>
