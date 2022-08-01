@@ -113,6 +113,14 @@ DATABASES = {
         'PASSWORD': os.getenv('DB_PW'),
         'HOST': os.getenv('DB_HOST'),
         'PORT': os.getenv('DB_PORT')
+    },
+    'prometheus_db': {
+        'NAME': 'kreimben_com',
+        'ENGINE': 'django_prometheus.db.backends.mysql',
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PW'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT')
     }
 }
 
