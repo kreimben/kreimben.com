@@ -5,3 +5,4 @@ django-quill-editor
 fontawesomefree
 hypercorn
 django-prometheus
+django-admin-honeypot
