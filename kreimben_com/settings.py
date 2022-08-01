@@ -32,6 +32,7 @@ DEBUG = os.getenv('DJANGO_DEBUG') == 'True'
 ALLOWED_HOSTS = [
     '*.kreimben.com',
     '.localhost',
+    '127.0.0.1',
 ]
 
 # https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/#csrf-cookie-secure
