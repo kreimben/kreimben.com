@@ -27,9 +27,26 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('DJANGO_SECRET')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG')
+DEBUG = os.getenv('DJANGO_DEBUG') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '*.kreimben.com',
+    '.localhost',
+]
+
+# https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/#csrf-cookie-secure
+CSRF_COOKIE_SECURE = not DEBUG
+SESSION_COOKIE_SECURE = not DEBUG
+
+# https://docs.djangoproject.com/en/4.0/ref/settings/#std-setting-SECURE_SSL_REDIRECT
+SECURE_SSL_REDIRECT = not DEBUG
+
+# https://docs.djangoproject.com/en/4.0/ref/settings/#std-setting-SECURE_HSTS_SECONDS
+SECURE_HSTS_SECONDS = not DEBUG
+SECURE_HSTS_PRELOAD = not DEBUG
+
+# https://docs.djangoproject.com/en/4.0/ref/settings/#secure-hsts-include-subdomains
+SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
 
 # Application definition
 
