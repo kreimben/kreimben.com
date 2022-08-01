@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'django_quill',
     'fontawesomefree',
     'django_prometheus',
+    # 'admin_honeypot',
 
     'django.contrib.admin',
     'django.contrib.auth',
