@@ -14,6 +14,22 @@ class CategoryAdmin(admin.ModelAdmin):
 class PostAdmin(admin.ModelAdmin):
     actions = ['make_published', 'make_drafted']
 
+    list_display = [
+        'title',
+        'category',
+        'status',
+        'created_at',
+        'updated_at'
+    ]
+
+    search_fields = [
+        'title',
+        'status',
+        'content'
+    ]
+
+    list_filter = ('status',)
+
     @admin.action(description='Make selected posts published.')
     def make_published(self, request, queryset):
         updated = queryset.update(status='Published')
