@@ -3,3 +3,5 @@ python-dotenv
 mysqlclient
 django-quill-editor
 fontawesomefree
+hypercorn
+django-prometheus
