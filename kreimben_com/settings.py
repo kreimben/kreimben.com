@@ -57,6 +57,7 @@ INSTALLED_APPS = [
 
     'django_quill',
     'fontawesomefree',
+    'django_prometheus',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -74,6 +75,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
 
 ROOT_URLCONF = 'kreimben_com.urls'
