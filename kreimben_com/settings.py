@@ -30,9 +30,10 @@ SECRET_KEY = os.getenv('DJANGO_SECRET')
 DEBUG = os.getenv('DJANGO_DEBUG') == 'True'
 
 ALLOWED_HOSTS = [
-    os.getenv('SERVER_IP', default='0.0.0.0'),
-    'localhost',
-    '127.0.0.1',
+    # os.getenv('SERVER_IP', default='0.0.0.0'),
+    # 'localhost',
+    # '127.0.0.1',
+    '*',
 ]
 
 # https://docs.djangoproject.com/en/4.0/ref/settings/#use-x-forwarded-host
