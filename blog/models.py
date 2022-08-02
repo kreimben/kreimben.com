@@ -24,8 +24,8 @@ class Post(models.Model):
                               choices=(('Drafted', 'drafted'), ('Published', 'published')),
                               default='Drafted')
     content = QuillField()
-    created_at = models.DateTimeField(auto_now=True)
-    updated_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField()
+    updated_at = models.DateTimeField()
 
     def __str__(self):
         return self.title
