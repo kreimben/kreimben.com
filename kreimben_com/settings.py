@@ -36,15 +36,15 @@ ALLOWED_HOSTS = [
 ]
 
 # https://docs.djangoproject.com/en/4.0/ref/settings/#use-x-forwarded-host
-USE_X_FORWARDED_HOST = True
+# USE_X_FORWARDED_HOST = True
 
 # https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/#csrf-cookie-secure
-CSRF_COOKIE_SECURE = not DEBUG
-SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
 
 # https://docs.djangoproject.com/en/4.0/ref/settings/#std-setting-SECURE_HSTS_SECONDS
-# SECURE_HSTS_SECONDS = not DEBUG
-# SECURE_HSTS_PRELOAD = not DEBUG
+# SECURE_HSTS_SECONDS = True
+# SECURE_HSTS_PRELOAD = True
 
 # https://docs.djangoproject.com/en/4.0/ref/settings/#secure-hsts-include-subdomains
 # SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
