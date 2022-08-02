@@ -3,6 +3,6 @@ python-dotenv
 mysqlclient
 django-quill-editor
 fontawesomefree
-hypercorn
+daphne
 django-prometheus
 django-admin-honeypot
