@@ -48,7 +48,7 @@ SESSION_COOKIE_SECURE = True
 # SECURE_HSTS_PRELOAD = True
 
 # https://docs.djangoproject.com/en/4.0/ref/settings/#secure-hsts-include-subdomains
-# SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
 # Application definition
 
