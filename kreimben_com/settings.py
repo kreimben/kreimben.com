@@ -35,6 +35,9 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
 ]
 
+# https://docs.djangoproject.com/en/4.0/ref/settings/#use-x-forwarded-host
+USE_X_FORWARDED_HOST = True
+
 # https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/#csrf-cookie-secure
 CSRF_COOKIE_SECURE = not DEBUG
 SESSION_COOKIE_SECURE = not DEBUG
