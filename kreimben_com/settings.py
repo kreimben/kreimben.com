@@ -161,7 +161,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'static'
 if not DEBUG:
     STATICFILES_DIRS = (
-        '/app/static/',
+        '/app/kreimben_com/static/',
     )
 
 # Default primary key field type
