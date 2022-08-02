@@ -43,11 +43,11 @@ CSRF_COOKIE_SECURE = not DEBUG
 SESSION_COOKIE_SECURE = not DEBUG
 
 # https://docs.djangoproject.com/en/4.0/ref/settings/#std-setting-SECURE_HSTS_SECONDS
-SECURE_HSTS_SECONDS = not DEBUG
-SECURE_HSTS_PRELOAD = not DEBUG
+# SECURE_HSTS_SECONDS = not DEBUG
+# SECURE_HSTS_PRELOAD = not DEBUG
 
 # https://docs.djangoproject.com/en/4.0/ref/settings/#secure-hsts-include-subdomains
-SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
 
 # Application definition
 

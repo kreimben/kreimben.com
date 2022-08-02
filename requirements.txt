@@ -6,3 +6,4 @@ fontawesomefree
 daphne
 django-prometheus
 django-admin-honeypot
+Twisted[tls,http2]
