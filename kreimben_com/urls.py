@@ -15,8 +15,11 @@ Including another URLconf
 """
 import os
 
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+
+from kreimben_com import settings
 
 urlpatterns = [
     path('', include('home.urls')),
@@ -26,3 +29,4 @@ urlpatterns = [
     path(f'{os.getenv("DJANGO_REAL_ADMIN_URI")}/', admin.site.urls),
     path('status/', include('django_prometheus.urls'))
 ]
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
