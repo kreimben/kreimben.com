@@ -30,7 +30,8 @@ SECRET_KEY = os.getenv('DJANGO_SECRET')
 DEBUG = os.getenv('DJANGO_DEBUG') == 'True'
 
 ALLOWED_HOSTS = [
-    'https://www.kreimben.com',
+    'www.kreimben.com',
+    'localhost',
     '127.0.0.1',
 ]
 
