@@ -42,9 +42,6 @@ USE_X_FORWARDED_HOST = True
 CSRF_COOKIE_SECURE = not DEBUG
 SESSION_COOKIE_SECURE = not DEBUG
 
-# https://docs.djangoproject.com/en/4.0/ref/settings/#std-setting-SECURE_SSL_REDIRECT
-SECURE_SSL_REDIRECT = not DEBUG
-
 # https://docs.djangoproject.com/en/4.0/ref/settings/#std-setting-SECURE_HSTS_SECONDS
 SECURE_HSTS_SECONDS = not DEBUG
 SECURE_HSTS_PRELOAD = not DEBUG
