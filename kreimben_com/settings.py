@@ -43,6 +43,9 @@ USE_X_FORWARDED_HOST = True
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 
+# https://docs.djangoproject.com/en/4.0/ref/settings/#std-setting-CSRF_TRUSTED_ORIGINS
+CSRF_TRUSTED_ORIGINS = ['https://kreimben.com']
+
 # https://docs.djangoproject.com/en/4.0/ref/settings/#std-setting-SECURE_HSTS_SECONDS
 # SECURE_HSTS_SECONDS = True
 # SECURE_HSTS_PRELOAD = True
