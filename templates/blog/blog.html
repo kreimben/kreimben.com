@@ -8,8 +8,8 @@
 
     <div class="list-group">
         {% for post in page_obj %}
-            <a href="/blog/post/{{ post.id }}"
-               class="list-group-item m-3 p-3 gap-3"
+            <a href="{% url 'post' post.id %}"
+               class="list-group-item list-group-item-action p-3"
                aria-current="true">
                 <div class="d-flex gap-2 justify-content-between">
                     <div>
