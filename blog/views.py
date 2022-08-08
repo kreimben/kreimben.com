@@ -1,7 +1,7 @@
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import HttpRequest
-from django.views.generic import TemplateView, DetailView
+from django.views.generic import TemplateView, DetailView, ListView
 
 from .models import Post, Category
 
@@ -43,3 +43,18 @@ class BlogPostDetailView(DetailView):
             'post': post
         }
         return self.render_to_response(context)
+
+
+class PostSearchView(ListView):
+    template_name = 'blog/blog.html'
+    model = Post
+    paginate_by = 15
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        object_list = Post.objects \
+            .order_by('-created_at') \
+            .filter(Q(content__icontains=query) | Q(title__icontains=query) | Q(subtitle__icontains=query)) \
+            .filter(status='Published')
+        print(object_list)
+        return object_list

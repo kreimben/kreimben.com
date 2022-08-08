@@ -6,6 +6,16 @@
 
 {% block content %}
 
+    <form class="col-12 col-lg-auto my-3" method="get" action="{% url "search" %}">
+        {% csrf_token %}
+        <input name="q"
+               id="search_keyword"
+               type="search"
+               class="form-control"
+               placeholder="Search title, subtitle, posts..."
+               aria-label="Search">
+    </form>
+
     <div class="list-group">
         {% for post in page_obj %}
             <a href="{% url 'post' post.id %}"
