@@ -18,8 +18,8 @@ class Category(models.Model):
 
 class Post(models.Model):
     title = models.CharField(max_length=200, unique=True)
-    subtitle = models.CharField(max_length=200, null=True)
-    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+    subtitle = models.CharField(max_length=200, null=True, blank=True)
+    category = models.ForeignKey(Category, on_delete=models.SET_DEFAULT, default=1)
     status = models.CharField(max_length=10,
                               choices=(('Drafted', 'drafted'), ('Published', 'published')),
                               default='Drafted')
