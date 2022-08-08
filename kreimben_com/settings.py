@@ -46,13 +46,6 @@ SESSION_COOKIE_SECURE = True
 # https://docs.djangoproject.com/en/4.0/ref/settings/#std-setting-CSRF_TRUSTED_ORIGINS
 CSRF_TRUSTED_ORIGINS = ['https://kreimben.com']
 
-# https://docs.djangoproject.com/en/4.0/ref/settings/#std-setting-SECURE_HSTS_SECONDS
-# SECURE_HSTS_SECONDS = True
-# SECURE_HSTS_PRELOAD = True
-
-# https://docs.djangoproject.com/en/4.0/ref/settings/#secure-hsts-include-subdomains
-# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -162,11 +155,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'static'
-print(f'STATIC_ROOT: {STATIC_ROOT}')
-# if not DEBUG:
-#     STATICFILES_DIRS = [
-#         BASE_DIR / 'static/'
-#     ]
+
+MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = 'media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
