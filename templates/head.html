@@ -22,21 +22,5 @@
 {# HTMX #}
 <script src="https://unpkg.com/htmx.org@1.8.0"></script>
 
-
-<script>
-    function dark_mode() {
-        const element = document.body;
-        element.classList.toggle("dark-mode");
-        {#alert(`class list: ${JSON.stringify(element.classList)}`)#}
-    }
-
-    function automatic_dark_mode() {
-        const current_hour = new Date().getHours();
-
-        if (current_hour >= 0 && current_hour <= 6 || current_hour >= 18 && current_hour <= 24) {
-            dark_mode()
-        }
-    }
-
-    window.onload = automatic_dark_mode;
-</script>
+{# favicon.ico #}
+<link rel="icon" href="/static_ready/favicon.ico"/>
