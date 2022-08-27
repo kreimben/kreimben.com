@@ -22,9 +22,11 @@
                class="list-group-item list-group-item-action p-3"
                aria-current="true">
                 <div class="d-flex gap-2 justify-content-between">
-                    <div>
-                        <strong class="mb-0">{{ post.title }}</strong>
-                        <p class="mb-0 text-opacity-75">{{ post.subtitle }}</p>
+                    <div style="text-align: start">
+                        <strong class="mb-0">{{ post.title | capfirst }}</strong>
+                        {% if post.subtitle %}
+                            <p class="mb-0 text-opacity-75">{{ post.subtitle }}</p>
+                        {% endif %}
                     </div>
                     <div>
                         <div class="opacity-50 text-nowrap">{{ post.created_at | date }}</div>
