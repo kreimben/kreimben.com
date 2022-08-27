@@ -50,8 +50,6 @@ INSTALLED_APPS = [
 
     'django_quill',
     'fontawesomefree',
-    'django_prometheus',
-    # 'admin_honeypot',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -70,7 +68,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    'django_prometheus.middleware.PrometheusAfterMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = 'kreimben_com.urls'
@@ -105,14 +103,18 @@ DATABASES = {
         'PASSWORD': os.getenv('DB_PW'),
         'HOST': os.getenv('DB_HOST'),
         'PORT': os.getenv('DB_PORT')
-    },
-    'prometheus_db': {
-        'NAME': 'kreimben_com',
-        'ENGINE': 'django_prometheus.db.backends.mysql',
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PW'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT')
+    }
+}
+
+CACHE_TTL = 30
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': f"redis://{os.getenv('DB_HOST')}:{os.getenv('REDIS_PORT')}",
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            'TIMEOUT': 5,
+        },
     }
 }
 
@@ -149,8 +151,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'static_ready'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = BASE_DIR / 'static'
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = 'media/'

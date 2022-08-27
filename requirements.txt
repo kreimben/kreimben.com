@@ -4,6 +4,6 @@ mysqlclient
 django-quill-editor
 fontawesomefree
 daphne
-django-prometheus
-django-admin-honeypot
 Twisted[tls,http2]
+whitenoise
+django-redis
