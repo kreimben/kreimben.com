@@ -6,17 +6,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('blog', '0002_uploadedfile_post_file'),
+        ("blog", "0002_uploadedfile_post_file"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='post',
-            name='file',
+            model_name="post",
+            name="file",
         ),
         migrations.AddField(
-            model_name='post',
-            name='status',
-            field=models.CharField(choices=[('Drafted', 'drafted'), ('Published', 'published')], default='Drafted', max_length=10),
+            model_name="post",
+            name="status",
+            field=models.CharField(
+                choices=[("Drafted", "drafted"), ("Published", "published")],
+                default="Drafted",
+                max_length=10,
+            ),
         ),
     ]
