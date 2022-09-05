@@ -7,3 +7,4 @@ daphne
 Twisted[tls,http2]
 whitenoise
 django-redis
+django-storages
