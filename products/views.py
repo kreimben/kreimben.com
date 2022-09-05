@@ -3,10 +3,8 @@ from django.views.generic import DetailView
 
 
 class ProductsView(DetailView):
-    template_name = 'products/products.html'
+    template_name = "products/products.html"
 
     def get(self, request: HttpRequest, **kwargs):
-        context = {
-
-        }
+        context = {}
         return self.render_to_response(context)
