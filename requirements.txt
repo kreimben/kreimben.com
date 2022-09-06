@@ -8,3 +8,4 @@ Twisted[tls,http2]
 whitenoise
 django-redis
 django-storages
+boto3
