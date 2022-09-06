@@ -66,7 +66,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
+    # "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = "kreimben_com.urls"
@@ -109,7 +109,7 @@ CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.redis.RedisCache",
         "LOCATION":
-        f"redis://{os.getenv('DB_HOST')}:{os.getenv('REDIS_PORT')}",
+            f"redis://{os.getenv('DB_HOST')}:{os.getenv('REDIS_PORT')}",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "TIMEOUT": 5,
@@ -123,19 +123,19 @@ CACHES = {
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME":
-        "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+            "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
         "NAME":
-        "django.contrib.auth.password_validation.MinimumLengthValidator",
+            "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
         "NAME":
-        "django.contrib.auth.password_validation.CommonPasswordValidator",
+            "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
         "NAME":
-        "django.contrib.auth.password_validation.NumericPasswordValidator",
+            "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
@@ -153,14 +153,22 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = "staticfiles/"
-STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_S3_ACCESS_KEY_ID = os.getenv('AWS_S3_ACCESS_KEY_ID')
 AWS_S3_SECRET_ACCESS_KEY = os.getenv('AWS_S3_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_CUSTOM_DOMAIN = f"{os.getenv('AWS_S3_CUSTOM_DOMAIN')}/{AWS_STORAGE_BUCKET_NAME}"
+AWS_S3_USE_SSL = True
+AWS_DEFAULT_ACL = 'public-read'
+AWS_S3_SECURE_URLS = False
+AWS_QUERYSTRING_AUTH = False
+AWS_S3_ENDPOINT_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}"
+
+STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/static/"
+MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"
+# STATIC_ROOT = BASE_DIR / 'static/'
+# MEDIA_ROOT = BASE_DIR / 'media/'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
