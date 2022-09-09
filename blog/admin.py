@@ -2,7 +2,7 @@ from gettext import ngettext
 
 from django.contrib import admin, messages
 
-from .models import Category, Post
+from .models import Category, Post, SubmittedFile
 
 
 @admin.register(Category)
@@ -18,11 +18,11 @@ class PostAdmin(admin.ModelAdmin):
 
     search_fields = ["title", "status", "content"]
 
-    list_filter = ("status", )
+    list_filter = ["status"]
 
     @admin.action(description="Make selected posts published.")
     def make_published(self, request, queryset):
-        updated = queryset.update(status="Published")
+        updated = queryset.update(status="published")
         self.message_user(
             request,
             ngettext(
@@ -35,7 +35,7 @@ class PostAdmin(admin.ModelAdmin):
 
     @admin.action(description="Make selected posts drafted.")
     def make_drafted(self, request, queryset):
-        updated = queryset.update(status="Drafted")
+        updated = queryset.update(status="drafted")
         self.message_user(
             request,
             ngettext(
@@ -45,3 +45,9 @@ class PostAdmin(admin.ModelAdmin):
             ) % updated,
             messages.SUCCESS,
         )
+
+
+@admin.register(SubmittedFile)
+class SubmittedFileAdmin(admin.ModelAdmin):
+    list_display = ['id', 'file', 'download_count', 'post', 'created_at', 'updated_at']
+    search_fields = ['file_name', 'file_url', 'post']

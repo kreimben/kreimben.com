@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "django_quill",
     "fontawesomefree",
     "storages",
+    "debug_toolbar",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -66,7 +67,9 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    # "whitenoise.middleware.WhiteNoiseMiddleware",
+    # 'django.middleware.cache.UpdateCacheMiddleware',
+    # 'django.middleware.cache.FetchFromCacheMiddleware',
+    # "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "kreimben_com.urls"
@@ -104,18 +107,14 @@ DATABASES = {
     }
 }
 
-CACHE_TTL = 30
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION":
-            f"redis://{os.getenv('DB_HOST')}:{os.getenv('REDIS_PORT')}",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "TIMEOUT": 5,
-        },
-    }
-}
+# CACHE_TTL = 30
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django.core.cache.backends.redis.RedisCache",
+#         "LOCATION":
+#             f"redis://{os.getenv('DB_HOST')}:{os.getenv('REDIS_PORT')}",
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -162,15 +161,20 @@ AWS_S3_USE_SSL = True
 AWS_DEFAULT_ACL = 'public-read'
 AWS_S3_SECURE_URLS = False
 AWS_QUERYSTRING_AUTH = False
-AWS_S3_ENDPOINT_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}"
+AWS_S3_ENDPOINT_URL = f"https://{os.getenv('AWS_S3_CUSTOM_DOMAIN')}"
 
 STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/static/"
 MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"
-# STATIC_ROOT = BASE_DIR / 'static/'
-# MEDIA_ROOT = BASE_DIR / 'media/'
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+STATIC_ROOT = BASE_DIR / 'static/'
+MEDIA_ROOT = BASE_DIR / 'media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+INTERNAL_IPS = [
+    "127.0.0.1"
+]

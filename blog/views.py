@@ -1,9 +1,10 @@
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import HttpRequest
-from django.views.generic import DetailView, ListView, TemplateView
+from django.shortcuts import get_object_or_404
+from django.views.generic import DetailView, ListView, TemplateView, RedirectView
 
-from .models import Category, Post
+from .models import Category, Post, SubmittedFile
 
 
 class BlogView(TemplateView):
@@ -35,9 +36,25 @@ class BlogPostDetailView(DetailView):
     model = Post
 
     def get(self, request, **kwargs):
-        post = Post.objects.filter(id=kwargs["post_id"]).first()
-        context = {"post": post}
+        post = Post.objects.get(id=kwargs["post_id"])
+        try:
+            files = SubmittedFile.objects.filter(post=post)
+        except SubmittedFile.DoesNotExist:
+            files = None
+        context = {"post": post, 'files': files}
         return self.render_to_response(context)
+
+
+class BlogFileDownloadCounterView(RedirectView):
+    permanent = True
+    query_string = True
+    pattern_name = 'file_download'
+
+    def get_redirect_url(self, *args, **kwargs):
+        file: SubmittedFile = get_object_or_404(SubmittedFile, file=kwargs['file_name'])
+        print(f'file: {file}')
+        url = file.download
+        return url
 
 
 class PostSearchView(ListView):
