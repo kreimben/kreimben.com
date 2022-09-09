@@ -67,9 +67,9 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    # 'django.middleware.cache.UpdateCacheMiddleware',
-    # 'django.middleware.cache.FetchFromCacheMiddleware',
-    # "debug_toolbar.middleware.DebugToolbarMiddleware",
+    'django.middleware.cache.UpdateCacheMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "kreimben_com.urls"
@@ -107,14 +107,14 @@ DATABASES = {
     }
 }
 
-# CACHE_TTL = 30
-# CACHES = {
-#     "default": {
-#         "BACKEND": "django.core.cache.backends.redis.RedisCache",
-#         "LOCATION":
-#             f"redis://{os.getenv('DB_HOST')}:{os.getenv('REDIS_PORT')}",
-#     }
-# }
+CACHE_TTL = 30
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION":
+            f"redis://{os.getenv('DB_HOST')}:{os.getenv('REDIS_PORT')}",
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
