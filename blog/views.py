@@ -36,7 +36,7 @@ class BlogPostDetailView(DetailView):
     model = Post
 
     def get(self, request, **kwargs):
-        post = Post.objects.get(id=kwargs["post_id"])
+        post = get_object_or_404(Post, Q(id=kwargs["post_id"]) & Q(status='published'))
         try:
             files = SubmittedFile.objects.filter(post=post)
         except SubmittedFile.DoesNotExist:
