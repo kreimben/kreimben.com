@@ -9,3 +9,5 @@ whitenoise
 django-redis
 django-storages
 boto3
+django-debug-toolbar
+celery[redis]

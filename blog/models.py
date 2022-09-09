@@ -24,8 +24,8 @@ class Post(models.Model):
                                  default=1)
     status = models.CharField(
         max_length=10,
-        choices=(("Drafted", "drafted"), ("Published", "published")),
-        default="Drafted",
+        choices=(("drafted", "Drafted"), ("published", "Published")),
+        default="drafted",
     )
     content = QuillField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -38,3 +38,25 @@ class Post(models.Model):
         get_latest_by = ["title", "-created_at"]
         verbose_name = "post"
         verbose_name_plural = "posts"
+
+
+class SubmittedFile(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='files')
+    file = models.FileField()
+    download_count = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    @property
+    def download(self) -> str:
+        self.download_count += 1
+        self.save()
+        return self.file.url
+
+    def __str__(self):
+        return f'{self.file.name} ({self.post.title})'
+
+    class Meta:
+        get_latest_by = ['-updated_at']
+        verbose_name = 'File in post'
+        verbose_name_plural = 'Files in post'

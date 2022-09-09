@@ -17,6 +17,20 @@
 
             <h6 class="text-end">Published: {{ post.created_at }}</h6>
 
+            <div id="fileTimer">
+                {% if files %}
+                    <ul class="list-group">
+                        {% for file in files %}
+                            <div class="list-group-item">
+                                <a href="{% url 'file_download' post.id file.file.name %}">
+                                    {{ file.file.name }} ({{ file.file.size | filesizeformat }})
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
             <br/><br/>
 
             <div class="ql-snow">
