@@ -47,10 +47,12 @@ INSTALLED_APPS = [
     "home.apps.HomeConfig",
     "blog.apps.BlogConfig",
     "products.apps.ProductsConfig",
+
     "django_quill",
     "fontawesomefree",
     "storages",
     "debug_toolbar",
+
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -67,8 +69,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    'django.middleware.cache.UpdateCacheMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware',
+
     "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
@@ -104,15 +105,6 @@ DATABASES = {
         "PASSWORD": os.getenv("DB_PW"),
         "HOST": os.getenv("DB_HOST"),
         "PORT": os.getenv("DB_PORT"),
-    }
-}
-
-CACHE_TTL = 30
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION":
-            f"redis://{os.getenv('REDIS_HOST')}:{os.getenv('REDIS_PORT')}",
     }
 }
 

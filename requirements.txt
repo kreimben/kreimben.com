@@ -5,9 +5,6 @@ django-quill-editor
 fontawesomefree
 daphne
 Twisted[tls,http2]
-whitenoise
-django-redis
 django-storages
 boto3
 django-debug-toolbar
-celery[redis]
