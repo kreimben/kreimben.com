@@ -1,10 +1,13 @@
+from urllib.request import urlopen
+import ujson
+
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import HttpRequest
 from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView, ListView, TemplateView, RedirectView
 
-from .models import Category, Post, SubmittedFile
+from .models import Category, Post, SubmittedFile, Downloader
 
 
 class BlogView(TemplateView):
@@ -35,13 +38,22 @@ class BlogPostDetailView(DetailView):
     template_name = "../templates/blog/blog_post.html"
     model = Post
 
+    def _get_client_ip(self, request: HttpRequest):
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0]
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+        return ip
+
     def get(self, request, **kwargs):
         post = get_object_or_404(Post, Q(id=kwargs["post_id"]) & Q(status='published'))
         try:
             files = SubmittedFile.objects.filter(post=post)
         except SubmittedFile.DoesNotExist:
             files = None
-        context = {"post": post, 'files': files}
+        print(f'files: {files}')
+        context = {"post": post, 'files': files, 'ip': self._get_client_ip(request)}
         return self.render_to_response(context)
 
 
@@ -50,9 +62,38 @@ class BlogFileDownloadCounterView(RedirectView):
     query_string = True
     pattern_name = 'file_download'
 
+    def _get_geo_info(self, ip):
+        response = urlopen("http://ip-api.com/json/" + ip).read().decode('utf-8')
+        return ujson.loads(response)
+
+    def _extract_downloader_info(self, file_id, ip_address) -> Downloader:
+        info = self._get_geo_info(ip_address)
+
+        file = get_object_or_404(SubmittedFile, id=file_id)
+
+        if info['status'] == 'fail':
+            d = Downloader(
+                file=file,
+                ip_address=ip_address
+            )
+        else:
+            d = Downloader(
+                file=file,
+                ip_address=ip_address,
+                city=info['city'],
+                country_name=info['country'],
+                latitude=info['lat'],
+                longitude=info['lon'],
+                time_zone=info['timezone'],
+            )
+
+        d.save()
+
+        return d
+
     def get_redirect_url(self, *args, **kwargs):
-        file: SubmittedFile = get_object_or_404(SubmittedFile, file=kwargs['file_name'])
-        print(f'file: {file}')
+        self._extract_downloader_info(kwargs['file_id'], kwargs['ip'])
+        file: SubmittedFile = get_object_or_404(SubmittedFile, id=kwargs['file_id'])
         url = file.download
         return url
 

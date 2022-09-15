@@ -22,7 +22,7 @@
                     <ul class="list-group">
                         {% for file in files %}
                             <div class="list-group-item">
-                                <a href="{% url 'file_download' post.id file.file.name %}">
+                                <a href="{% url 'file_download' post.id ip file.id %}">
                                     {{ file.file.name }} ({{ file.file.size | filesizeformat }})
                                 </a>
                             </div>
