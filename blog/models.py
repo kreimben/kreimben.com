@@ -58,5 +58,24 @@ class SubmittedFile(models.Model):
 
     class Meta:
         get_latest_by = ['-updated_at']
-        verbose_name = 'File in post'
-        verbose_name_plural = 'Files in post'
+        verbose_name = 'Submitted File'
+        verbose_name_plural = 'Submitted Files'
+
+
+class Downloader(models.Model):
+    file = models.ForeignKey(SubmittedFile, on_delete=models.CASCADE, related_name='downloaders')
+    ip_address = models.GenericIPAddressField()
+    city = models.CharField(max_length=1000, null=True, blank=True)
+    country_name = models.CharField(max_length=1000, null=True, blank=True)
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
+    time_zone = models.CharField(max_length=1000, null=True, blank=True)
+    download_request_time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.ip_address} ({self.city})'
+
+    class Meta:
+        get_latest_by = ['-download_request_time']
+        verbose_name = 'Downloader'
+        verbose_name_plural = 'Downloaders'
