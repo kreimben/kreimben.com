@@ -46,7 +46,6 @@ CSRF_TRUSTED_ORIGINS = ["https://kreimben.com"]
 INSTALLED_APPS = [
     "home.apps.HomeConfig",
     "blog.apps.BlogConfig",
-    "products.apps.ProductsConfig",
 
     "django_quill",
     "fontawesomefree",
