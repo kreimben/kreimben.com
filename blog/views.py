@@ -1,6 +1,6 @@
 from urllib.request import urlopen
-import ujson
 
+import ujson
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import HttpRequest
@@ -19,7 +19,6 @@ class BlogView(TemplateView):
         if category is not None:
             posts = (Post.objects.order_by("-created_at").filter(
                 Q(category__name=category) & Q(status="published")).all())
-            print(f"posts: {posts}")
         else:
             posts = (Post.objects.order_by("-created_at").filter(
                 status="published").all())
@@ -109,5 +108,4 @@ class PostSearchView(ListView):
             Q(content__icontains=query)
             | Q(title__icontains=query)
             | Q(subtitle__icontains=query)).filter(status="Published"))
-        print(object_list)
         return object_list
