@@ -169,3 +169,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 INTERNAL_IPS = [
     "127.0.0.1"
 ]
+
+# https://docs.djangoproject.com/en/4.1/ref/settings/#std:setting-DATA_UPLOAD_MAX_MEMORY_SIZE
+DATA_UPLOAD_MAX_MEMORY_SIZE = None
