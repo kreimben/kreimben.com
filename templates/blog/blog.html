@@ -5,7 +5,6 @@
 {% endblock %}
 
 {% block content %}
-
     <form class="col-12 col-lg-auto my-3" method="get" action="{% url "search" %}">
         {% csrf_token %}
         <input name="q"
@@ -92,5 +91,4 @@
             {% endif %}
         </ul>
     </nav>
-    </div>
 {% endblock %}
