@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "fontawesomefree",
     "storages",
     "debug_toolbar",
+    "daphne",
 
     "django.contrib.admin",
     "django.contrib.auth",
