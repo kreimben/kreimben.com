@@ -16,6 +16,14 @@ class Category(models.Model):
         verbose_name_plural = "categories"
 
 
+class PublishedPostManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset() \
+            .select_related('category') \
+            .order_by("-created_at") \
+            .filter(status__exact='published')
+
+
 class Post(models.Model):
     title = models.CharField(max_length=200, unique=True)
     subtitle = models.CharField(max_length=200, null=True, blank=True)
@@ -31,6 +39,8 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    published = PublishedPostManager()
+
     def __str__(self):
         return self.title
 
@@ -38,6 +48,7 @@ class Post(models.Model):
         get_latest_by = ["title", "-created_at"]
         verbose_name = "post"
         verbose_name_plural = "posts"
+        ordering = ['-created_at']
 
 
 class SubmittedFile(models.Model):
