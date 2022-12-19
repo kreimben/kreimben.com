@@ -1,32 +1,39 @@
 from urllib.request import urlopen
 
 import ujson
+from django.core.cache import cache
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import HttpRequest
 from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView, ListView, TemplateView, RedirectView
 
-from .models import Category, Post, SubmittedFile, Downloader
+from .models import Post, SubmittedFile, Downloader, Category
 
 
 class BlogView(TemplateView):
     template_name = "../templates/blog/blog.html"
 
-    def get(self, request: HttpRequest, **kwargs):
-        posts = ""
-        category = request.GET.get("category")
+    def get(self, request: HttpRequest, *args, **kwargs):
+        category = request.GET.get("category", None)
+
         if category is not None:
-            posts = (Post.objects.order_by("-created_at").filter(
-                Q(category__name=category) & Q(status="published")).all())
+            posts = list(Post.published.filter(category__name__exact=category))
+        elif cache.get('posts'):
+            posts = cache.get('posts')
         else:
-            posts = (Post.objects.order_by("-created_at").filter(
-                status="published").all())
+            posts = list(Post.published.all())
+            cache.set('posts', posts, 3600 * 24)
+
         page = Paginator(posts, 15)
 
-        categories = Category.objects.order_by("name").all()
+        if cache.get('categories'):
+            categories = cache.get('categories')
+        else:
+            categories = list(Category.objects.order_by("name").all())
+            cache.set('categories', categories, 3600 * 24)
 
-        page_number = request.GET.get("page")
+        page_number = request.GET.get("page", 1)
         page_obj = page.get_page(page_number)
 
         context = {"page_obj": page_obj, "categories": categories}
@@ -68,16 +75,16 @@ class BlogFileDownloadCounterView(RedirectView):
     def _extract_downloader_info(self, file_id, ip_address) -> Downloader:
         info = self._get_geo_info(ip_address)
 
-        file = get_object_or_404(SubmittedFile, id=file_id)
+        f = get_object_or_404(SubmittedFile, id=file_id)
 
         if info['status'] == 'fail':
             d = Downloader(
-                file=file,
+                file=f,
                 ip_address=ip_address
             )
         else:
             d = Downloader(
-                file=file,
+                file=f,
                 ip_address=ip_address,
                 city=info['city'],
                 country_name=info['country'],
@@ -90,10 +97,10 @@ class BlogFileDownloadCounterView(RedirectView):
 
         return d
 
-    def get_redirect_url(self, *args, **kwargs):
+    async def get_redirect_url(self, *args, **kwargs):
         self._extract_downloader_info(kwargs['file_id'], kwargs['ip'])
-        file: SubmittedFile = get_object_or_404(SubmittedFile, id=kwargs['file_id'])
-        url = file.download
+        f: SubmittedFile = get_object_or_404(SubmittedFile, id=kwargs['file_id'])
+        url = f.download
         return url
 
 
@@ -104,8 +111,8 @@ class PostSearchView(ListView):
 
     def get_queryset(self):
         query = self.request.GET.get("q")
-        object_list = (Post.objects.order_by("-created_at").filter(
+        object_list = (Post.published.filter(
             Q(content__icontains=query)
             | Q(title__icontains=query)
-            | Q(subtitle__icontains=query)).filter(status="Published"))
+            | Q(subtitle__icontains=query)))
         return object_list
