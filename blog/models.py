@@ -41,6 +41,7 @@ class Post(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     published = PublishedPostManager()
+    objects = models.Manager()
 
     def __str__(self):
         return self.title
