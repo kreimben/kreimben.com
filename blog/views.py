@@ -58,7 +58,12 @@ class BlogPostDetailView(DetailView):
             files = SubmittedFile.objects.filter(post=post)
         except SubmittedFile.DoesNotExist:
             files = None
-        print(f'files: {files}')
+
+        if not cache.get(f'{post.id}/{self._get_client_ip(request)}'):
+            post.view_count += 1
+            post.save()
+            cache.set(f'{post.id}/{self._get_client_ip(request)}', True, 30 * 60)
+
         context = {"post": post, 'files': files, 'ip': self._get_client_ip(request)}
         return self.render_to_response(context)
 

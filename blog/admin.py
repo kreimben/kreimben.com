@@ -14,7 +14,7 @@ class CategoryAdmin(admin.ModelAdmin):
 class PostAdmin(admin.ModelAdmin):
     actions = ["make_published", "make_drafted"]
 
-    list_display = ["title", "category", "status", "created_at", "updated_at"]
+    list_display = ["title", "category", "status", "view_count", "created_at", "updated_at"]
 
     search_fields = ["title", "status", "content"]
 
