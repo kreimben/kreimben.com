@@ -13,12 +13,15 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
     actions = ["make_published", "make_drafted"]
-
-    list_display = ["title", "category", "status", "view_count", "created_at", "updated_at"]
-
+    list_display = ["id", "title", "category", "status", "created_at", "updated_at"]
+    readonly_fields = ['view_count']
     search_fields = ["title", "status", "content"]
-
     list_filter = ["status"]
+    show_full_result_count = True
+
+    def get_queryset(self, request):
+        qs = self.model.objects.get_queryset()
+        return qs
 
     @admin.action(description="Make selected posts published.")
     def make_published(self, request, queryset):
