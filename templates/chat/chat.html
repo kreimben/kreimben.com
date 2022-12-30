@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Anonymous Chat
+{% endblock %}
+
+{% block content %}
+    <div>
+        <div>
+            Anonymous Chat
+        </div>
+        <div>
+            <div id="chat_box"></div>
+
+            <input type="text" id="chat_input" onkeydown="if(window.event.keyCode==13){send_message()}">
+        </div>
+    </div>
+
+    <style>
+        #chat_box {
+            overflow: scroll;
+            width: auto;
+            height: auto;
+        }
+    </style>
+
+
+    <script>
+        const ws = new WebSocket('ws://localhost:8000/ws/chat/');
+
+        window.onload = () => {
+            fetch('http://ip-api.com/json/')
+                .then(res => res.json())
+                .then(json => {
+                    ws.send(JSON.stringify({'ip': json}));
+                })
+                .catch(err => console.error(err))
+        }
+
+        const user_input = document.getElementById('chat_input');
+        const chat_box = document.getElementById('chat_box');
+        let chatter_id = '';
+        let hashed_value = '';
+
+        const send_message = () => {
+            if (chatter_id !== '' && hashed_value !== '') {
+                ws.send(JSON.stringify({
+                    'message': user_input.value,
+                    'hashed_value': hashed_value,
+                    'chatter_id': chatter_id
+                }));
+            }
+        }
+
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            console.log(`data: ${data}`)
+
+            if (data["success"]) {
+                chatter_id = data['chatter_id'];
+                hashed_value = data['hashed_value'];
+                console.log(`chatter id: ${chatter_id} hashed value: ${hashed_value}`);
+            } else {
+                clear_input();
+                chat_box.innerHTML = `<div>[${data["hashed_value"]}] ${data["message"]} (${data["time"]})</div>`
+            }
+        }
+
+        const clear_input = () => {
+            user_input.value = '';
+        }
+    </script>
+{% endblock %}

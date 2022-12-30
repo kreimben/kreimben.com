@@ -11,3 +11,5 @@ django-debug-toolbar
 ujson
 redis
 hiredis
+channels
+channels_redis

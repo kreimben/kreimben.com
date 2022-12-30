@@ -46,12 +46,14 @@ CSRF_TRUSTED_ORIGINS = ["https://kreimben.com"]
 INSTALLED_APPS = [
     "home.apps.HomeConfig",
     "blog.apps.BlogConfig",
+    'chat.apps.ChatConfig',
 
     "django_quill",
     "fontawesomefree",
     "storages",
     "debug_toolbar",
     "daphne",
+    'channels',
 
     "django.contrib.admin",
     "django.contrib.auth",
@@ -115,6 +117,15 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.redis.RedisCache',
         'LOCATION': f'redis://{os.getenv("REDIS_HOST")}:{os.getenv("REDIS_PORT")}',
     }
+}
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [(os.getenv('REDIS_HOST'), os.getenv('REDIS_PORT'))],
+        },
+    },
 }
 
 # Password validation
