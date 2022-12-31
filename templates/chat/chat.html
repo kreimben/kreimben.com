@@ -88,8 +88,6 @@
 
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
-            console.log(`data: ${data}`)
-
             if (data["success"]) {
                 chatter_id = data['chatter_id'];
                 hashed_value = data['hashed_value'];
