@@ -54,10 +54,13 @@
 
         window.onload = () => {
             $.getJSON("{{ ip_geo_url }}", function (data) {
-                const d = JSON.stringify(data);
-                console.log(`data: ${d}`);
-                ws.send(d);
-                loading_spin.parentNode.removeChild(loading_spin);
+                if (ws.readyState === WebSocket.OPEN) {
+                    const d = JSON.stringify(data);
+                    ws.send(d);
+                    loading_spin.parentNode.removeChild(loading_spin);
+                } else {
+                    console.error(`Websocket is not connected!`);
+                }
             })
         }
 
