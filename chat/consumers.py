@@ -9,6 +9,7 @@ from chat.models import Chatter, Chat
 class ChatConsumer(AsyncJsonWebsocketConsumer):
     async def connect(self):
         self.room_group_name = 'anonymous_chat'
+        self.chatter = None
 
         await self.channel_layer.group_add(
             self.room_group_name, self.channel_name
@@ -17,7 +18,15 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         await self.accept()
 
     async def disconnect(self, close_code):
-        # Leave room group
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                'type': 'chat.broadcast',
+                'message': f'{self.chatter.hashed_value} has left.',
+                'hashed_value': '[System]',
+                'chatter_id': self.chatter.id
+            }
+        )
         await self.channel_layer.group_discard(
             self.room_group_name, self.channel_name
         )
@@ -42,7 +51,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
             if not data:
                 return
             else:
-                chatter = await Chatter.objects.acreate(
+                self.chatter = await Chatter.objects.acreate(
                     hashed_value=str(uuid4())[:8],
                     ip_address=data.get('query', None),
                     country=data.get('country', None),
@@ -50,7 +59,17 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
                     city=data.get('city', None),
                     timezone=data.get('timezone', None)
                 )
-                await self.send_json({'success': True, 'chatter_id': chatter.id, 'hashed_value': chatter.hashed_value})
+                await self.send_json(
+                    {'success': True, 'chatter_id': self.chatter.id, 'hashed_value': self.chatter.hashed_value})
+                await self.channel_layer.group_send(
+                    self.room_group_name,
+                    {
+                        'type': 'chat.broadcast',
+                        'message': f'{self.chatter.hashed_value} has entered.',
+                        'hashed_value': 'System',
+                        'chatter_id': self.chatter.id
+                    }
+                )
 
     async def chat_broadcast(self, event):
         time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')

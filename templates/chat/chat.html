@@ -10,35 +10,60 @@
             Anonymous Chat
         </div>
         <div>
-            <div id="chat_box"></div>
+            <div id="loading_spin" class="d-flex justify-content-center mt-3">
+                <div class="spinner-grow" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
 
-            <input type="text" id="chat_input" onkeydown="if(window.event.keyCode==13){send_message()}">
+            <div id="failed_info">
+            </div>
+
+            <div id="chat_box" class="bg-body-tertiary"></div>
+
+            <input type="text" id="chat_input" style="margin-bottom: 30px;"
+                   onkeydown="if(window.event.keyCode==13){send_message()}">
         </div>
     </div>
 
     <style>
         #chat_box {
-            overflow: scroll;
+            overflow-y: scroll;
             width: auto;
-            height: auto;
+            height: 65vh;
+            margin-bottom: 30px;
+            margin-top: 30px;
+            -ms-overflow-style: none; /* 인터넷 익스플로러 */
+            scrollbar-width: none; /* 파이어폭스 */
+        }
+
+        #chat_box::-webkit-scrollbar {
+            display: none; /* 크롬, 사파리, 오페라, 엣지 */
         }
     </style>
 
 
     <script>
-        const ws = new WebSocket('ws://localhost:8000/ws/chat/');
+        const ws = new WebSocket("{{ websocket_endpoint }}");
+
+        const user_input = document.getElementById('chat_input');
+        const chat_box = document.getElementById('chat_box');
+        const failed_info = document.getElementById('failed_info');
+        const loading_spin = document.getElementById('loading_spin');
 
         window.onload = () => {
             fetch('http://ip-api.com/json/')
                 .then(res => res.json())
                 .then(json => {
                     ws.send(JSON.stringify({'ip': json}));
+                    loading_spin.parentNode.removeChild(loading_spin);
                 })
-                .catch(err => console.error(err))
+                .catch(err => {
+                    console.error(`error to connect websocket: ${JSON.stringify(err)}`);
+                    loading_spin.parentNode.removeChild(loading_spin);
+                    failed_info.innerText = 'Failed to connect websocket to server.\nWhy don\'t you refresh this page?';
+                })
         }
-
-        const user_input = document.getElementById('chat_input');
-        const chat_box = document.getElementById('chat_box');
         let chatter_id = '';
         let hashed_value = '';
 
@@ -52,6 +77,18 @@
             }
         }
 
+        const make_text_box = (chat) => {
+            chat_box.innerHTML += `
+                <div class="card m-3">
+                    <div class="card-body">
+                        <strong class="card-title">[${chat["hashed_value"]}] ${chat["hashed_value"] == hashed_value ? "(me)" : ""}</string>
+                        <p class="card-text">${chat["message"]}</p>
+                        <p class="card-text">${chat["time"]}</p>
+                    </div>
+                </div>
+            `;
+        }
+
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
             console.log(`data: ${data}`)
@@ -59,10 +96,10 @@
             if (data["success"]) {
                 chatter_id = data['chatter_id'];
                 hashed_value = data['hashed_value'];
-                console.log(`chatter id: ${chatter_id} hashed value: ${hashed_value}`);
             } else {
                 clear_input();
-                chat_box.innerHTML = `<div>[${data["hashed_value"]}] ${data["message"]} (${data["time"]})</div>`
+                make_text_box(data);
+                chat_box.scrollTop = chat_box.scrollHeight;
             }
         }
 
