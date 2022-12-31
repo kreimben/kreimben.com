@@ -52,7 +52,7 @@
         const loading_spin = document.getElementById('loading_spin');
 
         window.onload = () => {
-            fetch('http://ip-api.com/json/')
+            fetch("{{ ip_geo_url }}")
                 .then(res => res.json())
                 .then(json => {
                     ws.send(JSON.stringify({'ip': json}));
