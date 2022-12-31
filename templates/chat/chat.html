@@ -45,7 +45,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <script>
-        const ws = new WebSocket("{{ websocket_endpoint }}");
+        let ws = new WebSocket("{{ websocket_endpoint }}");
+        console.log(`ws state: ${ws.readyState}`)
 
         const user_input = document.getElementById('chat_input');
         const chat_box = document.getElementById('chat_box');
@@ -54,13 +55,9 @@
 
         window.onload = () => {
             $.getJSON("{{ ip_geo_url }}", function (data) {
-                if (ws.readyState === WebSocket.OPEN) {
-                    const d = JSON.stringify(data);
-                    ws.send(d);
-                    loading_spin.parentNode.removeChild(loading_spin);
-                } else {
-                    console.error(`Websocket is not connected!`);
-                }
+                const d = JSON.stringify(data);
+                ws.send(d);
+                loading_spin.parentNode.removeChild(loading_spin);
             })
         }
 
