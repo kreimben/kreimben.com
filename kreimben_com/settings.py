@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "daphne",
     'channels',
+    'geoip2',
 
     "django.contrib.admin",
     "django.contrib.auth",
@@ -193,3 +194,5 @@ INTERNAL_IPS = [
 
 # https://docs.djangoproject.com/en/4.1/ref/settings/#std:setting-DATA_UPLOAD_MAX_MEMORY_SIZE
 DATA_UPLOAD_MAX_MEMORY_SIZE = None
+
+GEOIP_PATH = os.path.join('geoip')

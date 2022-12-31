@@ -2,6 +2,8 @@ from datetime import datetime
 from uuid import uuid4
 
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
+from django.contrib.gis.geoip2 import GeoIP2
+from geoip2.errors import AddressNotFoundError
 
 from chat.models import Chatter, Chat
 
@@ -22,9 +24,9 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
             self.room_group_name,
             {
                 'type': 'chat.broadcast',
-                'message': f'{self.chatter.hashed_value} has left.',
+                'message': f'{self.chatter.hashed_value if self.chatter is not None else ""} has left.',
                 'hashed_value': '[System]',
-                'chatter_id': self.chatter.id
+                'chatter_id': self.chatter.id if self.chatter is not None else 0
             }
         )
         await self.channel_layer.group_discard(
@@ -47,18 +49,20 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
                 }
             )
         elif content.get('ip', None):
-            data = content.get('ip', None)
-            if not data:
-                return
-            else:
+            ip_address = content.get('ip', None)
+            g = GeoIP2()
+            try:
+                location = g.city(ip_address)
+
                 self.chatter = await Chatter.objects.acreate(
                     hashed_value=str(uuid4())[:8],
-                    ip_address=data.get('query', None),
-                    country=data.get('country', None),
-                    region_name=data.get('regionName', None),
-                    city=data.get('city', None),
-                    timezone=data.get('timezone', None)
+                    ip_address=ip_address,
+                    country=location["country_name"],
+                    region_name=location['region'],
+                    city=location["city"],
+                    timezone=location['time_zone']
                 )
+                print(f'{self.chatter=}')
                 await self.send_json(
                     {'success': True, 'chatter_id': self.chatter.id, 'hashed_value': self.chatter.hashed_value})
                 await self.channel_layer.group_send(
@@ -70,6 +74,11 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
                         'chatter_id': self.chatter.id
                     }
                 )
+            except AddressNotFoundError as _:
+                await self.send_json({
+                    'success': False,
+                    'msg': 'Failed to get geo info.'
+                })
 
     async def chat_broadcast(self, event):
         time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')

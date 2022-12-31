@@ -13,3 +13,4 @@ redis
 hiredis
 channels
 channels_redis
+geoip2

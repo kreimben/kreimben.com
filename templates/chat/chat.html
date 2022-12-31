@@ -42,6 +42,7 @@
         }
     </style>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <script>
         const ws = new WebSocket("{{ websocket_endpoint }}");
@@ -52,18 +53,14 @@
         const loading_spin = document.getElementById('loading_spin');
 
         window.onload = () => {
-            fetch("{{ ip_geo_url }}")
-                .then(res => res.json())
-                .then(json => {
-                    ws.send(JSON.stringify({'ip': json}));
-                    loading_spin.parentNode.removeChild(loading_spin);
-                })
-                .catch(err => {
-                    console.error(`error to connect websocket: ${JSON.stringify(err)}`);
-                    loading_spin.parentNode.removeChild(loading_spin);
-                    failed_info.innerText = 'Failed to connect websocket to server.\nWhy don\'t you refresh this page?';
-                })
+            $.getJSON("{{ ip_geo_url }}", function (data) {
+                const d = JSON.stringify(data);
+                console.log(`data: ${d}`);
+                ws.send(d);
+                loading_spin.parentNode.removeChild(loading_spin);
+            })
         }
+
         let chatter_id = '';
         let hashed_value = '';
 
