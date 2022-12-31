@@ -16,13 +16,18 @@
                 </div>
             </div>
 
-            <div id="failed_info">
+            <div id="failed_info"></div>
+
+            <div id="chat_box" class="container text-center"></div>
+
+            <div>
+                <div id="loading_spin_input" class="spinner-grow" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <input type="text" id="chat_input" style="margin-bottom: 30px;width:80%;"
+                       onkeydown="if(window.event.keyCode==13){send_message();clear_input();}">
+                <input type="button" id="send_button" value="Send" onclick="send_message();clear_input();"/>
             </div>
-
-            <div id="chat_box" class="bg-body-tertiary"></div>
-
-            <input type="text" id="chat_input" style="margin-bottom: 30px;"
-                   onkeydown="if(window.event.keyCode==13){send_message()}">
         </div>
     </div>
 
@@ -33,6 +38,9 @@
             height: 65vh;
             margin-bottom: 30px;
             margin-top: 30px;
+            background-image: url('https://cdn.britannica.com/57/75757-050-122EC2ED/Changgyong-Palace-background-Seoul.jpg');
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
             -ms-overflow-style: none; /* 인터넷 익스플로러 */
             scrollbar-width: none; /* 파이어폭스 */
         }
@@ -40,18 +48,34 @@
         #chat_box::-webkit-scrollbar {
             display: none; /* 크롬, 사파리, 오페라, 엣지 */
         }
+
+        .k_chat_box {
+            /* From https://css.glass */
+            background: rgba(225, 210, 48, 0.18);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(8.4px);
+            -webkit-backdrop-filter: blur(8.4px);
+            border: 1px solid rgba(225, 210, 48, 0.58);
+        }
     </style>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <script>
         let ws = new WebSocket("{{ websocket_endpoint }}");
-        console.log(`ws state: ${ws.readyState}`)
+        if (ws.readyState !== WebSocket.OPEN) {
+            console.error(`websocket connection is not opened.`);
+        }
 
         const user_input = document.getElementById('chat_input');
         const chat_box = document.getElementById('chat_box');
         const failed_info = document.getElementById('failed_info');
         const loading_spin = document.getElementById('loading_spin');
+        const send_button = document.getElementById('send_button');
+        const loading_spin_input = document.getElementById('loading_spin_input');
+
+        loading_spin_input.style.visibility = 'hidden';
 
         window.onload = () => {
             $.getJSON("{{ ip_geo_url }}", function (data) {
@@ -66,23 +90,37 @@
 
         const send_message = () => {
             if (chatter_id !== '' && hashed_value !== '') {
+                make_disable();
                 ws.send(JSON.stringify({
                     'message': user_input.value,
                     'hashed_value': hashed_value,
                     'chatter_id': chatter_id
                 }));
+                make_enable();
             }
+        }
+
+        const make_disable = () => {
+            user_input.disabled = true;
+            send_button.disabled = true;
+            loading_spin_input.style.visibility = 'visible';
+        }
+
+        const make_enable = () => {
+            user_input.disabled = false;
+            send_button.disabled = false;
+            loading_spin_input.style.visibility = 'hidden';
         }
 
         const make_text_box = (chat) => {
             chat_box.innerHTML += `
-                <div class="card m-3">
-                    <div class="card-body">
-                        <strong class="card-title">[${chat["hashed_value"]}] ${chat["hashed_value"] == hashed_value ? "(me)" : ""}</string>
-                        <p class="card-text">${chat["message"]}</p>
-                        <p class="card-text">${chat["time"]}</p>
-                    </div>
+            <div class="row justify-content-center">
+                <div class="k_chat_box m-3 col-6">
+                    <strong>[${chat["hashed_value"]}] ${chat["hashed_value"] == hashed_value ? "(me)" : ""}</string>
+                    <p>${chat["message"]}</p>
+                    <p>${chat["time"]}</p>
                 </div>
+            </div>
             `;
         }
 
@@ -92,7 +130,6 @@
                 chatter_id = data['chatter_id'];
                 hashed_value = data['hashed_value'];
             } else {
-                clear_input();
                 make_text_box(data);
                 chat_box.scrollTop = chat_box.scrollHeight;
             }

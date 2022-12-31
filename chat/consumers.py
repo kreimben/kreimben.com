@@ -24,8 +24,8 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
             self.room_group_name,
             {
                 'type': 'chat.broadcast',
-                'message': f'{self.chatter.hashed_value if self.chatter is not None else ""} has left.',
-                'hashed_value': '[System]',
+                'message': f'[{self.chatter.hashed_value if self.chatter is not None else ""}] has left.',
+                'hashed_value': 'System',
                 'chatter_id': self.chatter.id if self.chatter is not None else 0
             }
         )
@@ -69,7 +69,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
                     self.room_group_name,
                     {
                         'type': 'chat.broadcast',
-                        'message': f'{self.chatter.hashed_value} has entered.',
+                        'message': f'[{self.chatter.hashed_value}] has entered.',
                         'hashed_value': 'System',
                         'chatter_id': self.chatter.id
                     }
