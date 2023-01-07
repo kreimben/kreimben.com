@@ -13,7 +13,7 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
     actions = ["make_published", "make_drafted"]
-    list_display = ["id", "title", "category", "status", "created_at", "updated_at"]
+    list_display = ["id", "title", 'view_count', "category", "status", "created_at", "updated_at"]
     readonly_fields = ['view_count']
     search_fields = ["title", "status", "content"]
     list_filter = ["status"]
