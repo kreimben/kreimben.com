@@ -9,4 +9,4 @@ EXPOSE 8000
 EXPOSE 10120
 
 #ENTRYPOINT ["daphne", "-b", "0.0.0.0", "-p", "8000", "kreimben_com.asgi:application"]
-ENTRYPOINT ["hypercorn", "--quic-bind", "0.0.0.0:8000", "kreimben_com.asgi:application"]
+ENTRYPOINT ["hypercorn", "-b", "0.0.0.0", "-p", "8000", "--quic-bind", "0.0.0.0:4433", "kreimben_com.asgi:application"]
