@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     "fontawesomefree",
     "storages",
     "debug_toolbar",
-    # "daphne",
+    "daphne",
     'channels',
     'geoip2',
 

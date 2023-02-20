@@ -3,9 +3,8 @@ python-dotenv
 mysqlclient
 django-quill-editor
 fontawesomefree
-# daphne
-# Twisted[tls,http2]
-hypercorn[h3]
+daphne
+Twisted[tls,http2]
 django-storages
 boto3
 django-debug-toolbar
