@@ -104,7 +104,7 @@ ASGI_APPLICATION = "kreimben_com.asgi.application"
 
 DATABASES = {
     "default": {
-        "NAME": "kreimben_com",
+        "NAME": os.getenv('DB_NAME'),
         "ENGINE": "django.db.backends.mysql",
         "USER": os.getenv("DB_USER"),
         "PASSWORD": os.getenv("DB_PW"),
