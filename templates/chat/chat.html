@@ -60,24 +60,7 @@
         }
     </style>
 
-    {#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>#}
-
     <script>
-        let ws = new WebSocket("{{ websocket_endpoint }}");
-
-        ws.onopen = () => {
-            ws.send('{{ ip|escapejs }}');
-            loading_spin.parentNode.removeChild(loading_spin);
-        }
-
-        ws.onerror = (err) => {
-            console.log(`err: ${err}`)
-        }
-
-        if (ws.readyState !== WebSocket.OPEN) {
-            console.error(`websocket connection is not opened.`);
-        }
-
         const user_input = document.getElementById('chat_input');
         const chat_box = document.getElementById('chat_box');
         const failed_info = document.getElementById('failed_info');
@@ -89,6 +72,17 @@
 
         let chatter_id = '';
         let hashed_value = '';
+        
+        let ws = new WebSocket("{{ websocket_endpoint }}");
+
+        ws.onopen = () => {
+            ws.send('{{ ip|escapejs }}');
+            loading_spin.parentNode.removeChild(loading_spin);
+        }
+
+        ws.onerror = (err) => {
+            console.log(`err: ${JSON.stringify(err)}`)
+        }
 
         const send_message = () => {
             if (chatter_id !== '' && hashed_value !== '') {
