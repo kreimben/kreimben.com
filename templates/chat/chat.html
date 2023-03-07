@@ -64,6 +64,16 @@
 
     <script>
         let ws = new WebSocket("{{ websocket_endpoint }}");
+
+        ws.onopen = () => {
+            ws.send('{{ ip|escapejs }}');
+            loading_spin.parentNode.removeChild(loading_spin);
+        }
+
+        ws.onerror = (err) => {
+            console.log(`err: ${err}`)
+        }
+
         if (ws.readyState !== WebSocket.OPEN) {
             console.error(`websocket connection is not opened.`);
         }
@@ -76,13 +86,6 @@
         const loading_spin_input = document.getElementById('loading_spin_input');
 
         loading_spin_input.style.visibility = 'hidden';
-
-        window.onload = () => {
-            setTimeout(() => {
-                ws.send('{{ ip|escapejs }}');
-                loading_spin.parentNode.removeChild(loading_spin);
-            }, 1000);
-        }
 
         let chatter_id = '';
         let hashed_value = '';
