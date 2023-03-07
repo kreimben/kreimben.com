@@ -5,7 +5,7 @@ from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from django.contrib.gis.geoip2 import GeoIP2
 from geoip2.errors import AddressNotFoundError
 
-from chat.models import Chatter, Chat
+from chat.models import Chat, Chatter
 
 
 class ChatConsumer(AsyncJsonWebsocketConsumer):
@@ -34,7 +34,6 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         )
 
     async def receive_json(self, content, **kwargs):
-        print(f'{content=}')
         if content.get('message', None):
             chat = await Chat.objects.acreate(message=content.get('message', None),
                                               chatter_id=content.get('chatter_id', None))
@@ -62,7 +61,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
                     city=location["city"],
                     timezone=location['time_zone']
                 )
-                print(f'{self.chatter=}')
+                # print(f'{self.chatter=}')
                 await self.send_json(
                     {'success': True, 'chatter_id': self.chatter.id, 'hashed_value': self.chatter.hashed_value})
                 await self.channel_layer.group_send(

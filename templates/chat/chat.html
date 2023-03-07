@@ -60,7 +60,7 @@
         }
     </style>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    {#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>#}
 
     <script>
         let ws = new WebSocket("{{ websocket_endpoint }}");
@@ -78,11 +78,10 @@
         loading_spin_input.style.visibility = 'hidden';
 
         window.onload = () => {
-            $.getJSON("{{ ip_geo_url }}", function (data) {
-                const d = JSON.stringify(data);
-                ws.send(d);
+            setTimeout(() => {
+                ws.send('{{ ip|escapejs }}');
                 loading_spin.parentNode.removeChild(loading_spin);
-            })
+            }, 1000);
         }
 
         let chatter_id = '';
