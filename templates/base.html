@@ -9,8 +9,7 @@
     {% include 'head.html' %}
 </head>
 <body class="mb-3 container text-center">
-{% csrf_token %}
-{% include 'menu.html' %}
+{% block menu %}{% endblock %}
 {% block content %}{% endblock %}
 {% include 'footer.html' %}
 </body>

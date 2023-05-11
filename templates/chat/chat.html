@@ -4,6 +4,10 @@
     Anonymous Chat
 {% endblock %}
 
+{% block menu %}
+    {% include 'menu.html' %}
+{% endblock %}
+
 {% block content %}
     <div>
         <div>
@@ -72,7 +76,7 @@
 
         let chatter_id = '';
         let hashed_value = '';
-        
+
         let ws = new WebSocket("{{ websocket_endpoint }}");
 
         ws.onopen = () => {

@@ -1,7 +1,7 @@
 import json
 import os
 
-from django.views.generic import TemplateView
+from home.views import BaseTemplateView
 
 
 def get_client_ip(request):
@@ -13,7 +13,7 @@ def get_client_ip(request):
     return ip
 
 
-class ChatView(TemplateView):
+class ChatView(BaseTemplateView):
     template_name = '../templates/chat/chat.html'
 
     def get(self, request, *args, **kwargs):

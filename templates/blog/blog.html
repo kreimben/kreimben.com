@@ -4,6 +4,10 @@
     Kreimben's Blog.
 {% endblock %}
 
+{% block menu %}
+    {% include 'menu.html' %}
+{% endblock %}
+
 {% block content %}
     <form class="col-12 col-lg-auto my-3" method="get" action="{% url "search" %}">
         {% csrf_token %}

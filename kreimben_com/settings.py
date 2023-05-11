@@ -55,6 +55,11 @@ INSTALLED_APPS = [
     "daphne",
     'channels',
     'geoip2',
+    # allauth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 
     "django.contrib.admin",
     "django.contrib.auth",
@@ -76,6 +81,14 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 
     "debug_toolbar.middleware.DebugToolbarMiddleware",
+]
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to log in by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 ROOT_URLCONF = "kreimben_com.urls"
@@ -201,3 +214,20 @@ INTERNAL_IPS = [
 DATA_UPLOAD_MAX_MEMORY_SIZE = None
 
 GEOIP_PATH = os.path.join('geoip')
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+            'openid',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'OAUTH_PKCE_ENABLED': True,
+    }
+}
+
+LOGIN_REDIRECT_URL = '/'
+ACCOUNT_SIGNUP_REDIRECT_URL = '/'

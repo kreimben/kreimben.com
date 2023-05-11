@@ -7,5 +7,21 @@
         <li class="nav-item"><a href="{% url 'home' %}" class="nav-link" aria-current="page">Home</a></li>
         <li class="nav-item"><a href="{% url 'blog' %}" class="nav-link">Blog</a></li>
         <li class="nav-item"><a href="{% url 'chat' %}" class="nav-link">Chat</a></li>
+        {% if django_user and google_user %}
+            {% csrf_token %}
+            <li class="nav-item"><a href="{% url 'account_logout' %}" class="nav-link">Log Out</a></li>
+            {% load account %}
+            <li class="nav-item">{% user_display user %}</li>
+        {% elif django_user and google_user is None %}
+            <li class="nav-item">
+                {% csrf_token %}
+                <a href="{% url 'socialaccount_connections' %}" class="nav-link">Connect to google</a>
+            </li>
+        {% else %}
+
+            <li class="nav-item">
+                {% csrf_token %}<a href="{% url 'google_login' %}" class="nav-link">Log In</a>
+            </li>
+        {% endif %}
     </ul>
 </header>

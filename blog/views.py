@@ -6,12 +6,13 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import HttpRequest
 from django.shortcuts import get_object_or_404
-from django.views.generic import DetailView, ListView, TemplateView, RedirectView
+from django.views.generic import DetailView, ListView, RedirectView
 
+from home.views import BaseTemplateView
 from .models import Post, SubmittedFile, Downloader, Category
 
 
-class BlogView(TemplateView):
+class BlogView(BaseTemplateView):
     template_name = "../templates/blog/blog.html"
 
     def get(self, request: HttpRequest, *args, **kwargs):
