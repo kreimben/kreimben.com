@@ -1,7 +1,7 @@
 from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth.models import AnonymousUser
 from django.http import HttpRequest
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, FormView
 from django.views.generic.detail import DetailView
 
 
@@ -22,6 +22,12 @@ class BaseTemplateView(TemplateView):
 
 
 class BaseDetailView(BaseTemplateView, DetailView):
+    """
+    Just for convenience.
+    """
+
+
+class BaseFormView(BaseTemplateView, FormView):
     """
     Just for convenience.
     """

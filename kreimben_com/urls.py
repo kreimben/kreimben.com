@@ -7,9 +7,10 @@ urlpatterns = [
     path("", include("home.urls")),
     path("blog/", include("blog.urls")),
     path('chat/', include('chat.urls')),
+    path('image_to_ascii_art/', include('image_to_ascii_art.urls')),
 
     path(f'{os.getenv("DJANGO_REAL_ADMIN_URI")}/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
-    path('accounts/', include('custom_account.urls')),
+    # path('accounts/', include('custom_account.urls')),
     path('__debug__/', include('debug_toolbar.urls')),
 ]

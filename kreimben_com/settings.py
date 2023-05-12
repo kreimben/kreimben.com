@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "blog.apps.BlogConfig",
     'chat.apps.ChatConfig',
     'custom_account.apps.CustomAccountConfig',
+    'image_to_ascii_art.apps.ImageToAsciiArtConfig',
 
     "django_quill",
     "fontawesomefree",
