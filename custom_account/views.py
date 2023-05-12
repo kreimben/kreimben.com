@@ -16,7 +16,6 @@ class CustomLogoutView(LogoutFunctionalityMixin, BaseTemplateView):
             response = redirect(self.get_redirect_url())
             return _ajax_response(self.request, response)
         ctx = self.get_context_data()
-        # print(f'{ctx=}')
         response = self.render_to_response(ctx)
         return _ajax_response(self.request, response)
 
@@ -29,7 +28,6 @@ class CustomLogoutView(LogoutFunctionalityMixin, BaseTemplateView):
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data()
-        print(f'get_context_data: {ctx=}')
         redirect_field_value = get_request_param(self.request, self.redirect_field_name)
         ctx.update(
             {
