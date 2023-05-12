@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "home.apps.HomeConfig",
     "blog.apps.BlogConfig",
     'chat.apps.ChatConfig',
+    'custom_account.apps.CustomAccountConfig',
 
     "django_quill",
     "fontawesomefree",
