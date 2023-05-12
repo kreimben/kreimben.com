@@ -6,9 +6,9 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import HttpRequest
 from django.shortcuts import get_object_or_404
-from django.views.generic import DetailView, ListView, RedirectView
+from django.views.generic import ListView, RedirectView
 
-from home.views import BaseTemplateView
+from home.views import BaseTemplateView, BaseDetailView
 from .models import Post, SubmittedFile, Downloader, Category
 
 
@@ -17,6 +17,7 @@ class BlogView(BaseTemplateView):
 
     def get(self, request: HttpRequest, *args, **kwargs):
         category = request.GET.get("category", None)
+        context = self.get_context_data()
 
         if category is not None:
             posts = list(Post.published.filter(category__name__exact=category))
@@ -37,11 +38,12 @@ class BlogView(BaseTemplateView):
         page_number = request.GET.get("page", 1)
         page_obj = page.get_page(page_number)
 
-        context = {"page_obj": page_obj, "categories": categories}
+        context["page_obj"] = page_obj
+        context["categories"] = categories
         return self.render_to_response(context)
 
 
-class BlogPostDetailView(DetailView):
+class BlogPostDetailView(BaseDetailView):
     template_name = "../templates/blog/blog_post.html"
     model = Post
 
@@ -65,7 +67,10 @@ class BlogPostDetailView(DetailView):
             post.save()
             cache.set(f'{post.id}/{self._get_client_ip(request)}', True, 30 * 60)
 
-        context = {"post": post, 'files': files, 'ip': self._get_client_ip(request)}
+        context = self.get_context_data()
+        context['post'] = post
+        context['files'] = files
+        context['ip'] = self._get_client_ip(request)
         return self.render_to_response(context)
 
 
