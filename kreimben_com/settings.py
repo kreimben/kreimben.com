@@ -216,7 +216,7 @@ INTERNAL_IPS = [
 ]
 
 # https://docs.djangoproject.com/en/4.1/ref/settings/#std:setting-DATA_UPLOAD_MAX_MEMORY_SIZE
-DATA_UPLOAD_MAX_MEMORY_SIZE = None
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024
 
 GEOIP_PATH = os.path.join('geoip')
 
