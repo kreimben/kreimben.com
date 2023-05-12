@@ -53,9 +53,13 @@ class Post(models.Model):
         ordering = ['-created_at']
 
 
+def submitted_file_path(instance, filename):
+    return f'submitted_files/{filename}'
+
+
 class SubmittedFile(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='files')
-    file = models.FileField()
+    file = models.FileField(upload_to=submitted_file_path)
     download_count = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
