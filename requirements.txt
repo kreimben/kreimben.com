@@ -16,3 +16,4 @@ channels_redis
 geoip2
 Pillow
 django-allauth
+django-extensions

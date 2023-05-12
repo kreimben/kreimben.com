@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "daphne",
     'channels',
     'geoip2',
+    'django_extensions',
     # allauth
     'allauth',
     'allauth.account',
