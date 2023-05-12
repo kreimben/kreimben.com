@@ -39,3 +39,13 @@ class HomeView(BaseTemplateView):
     def get(self, request: HttpRequest, **kwargs):
         context = self.get_context_data()
         return self.render_to_response(context)
+
+
+class ProfileView(BaseTemplateView):
+    template_name = "profile/profile.html"
+
+    def get(self, request: HttpRequest, **kwargs):
+        context = self.get_context_data()
+        context['provider'] = context['google_user'].provider
+        context['profile_image'] = context['google_user'].extra_data['picture']
+        return self.render_to_response(context)

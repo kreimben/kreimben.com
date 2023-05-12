@@ -12,7 +12,11 @@
             {% csrf_token %}
             <li class="nav-item"><a href="{% url 'account_logout' %}" class="nav-link">Log Out</a></li>
             {% load account %}
-            <li class="nav-item">{% user_display user %}</li>
+            <li class="nav-item">
+                <a href={% url 'profile' %}>
+                    {% user_display user %}
+                </a>
+            </li>
         {% elif django_user and google_user is None %}
             <li class="nav-item">
                 {% csrf_token %}
