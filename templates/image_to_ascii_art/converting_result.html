@@ -8,18 +8,23 @@
     <a class="m-4" href={% url 'image_to_ascii_art_view' %}>
         Go back to generate ascii art!
     </a>
-    <ul class="m-4">
+    <div class="m-4 d-inline-flex justify-content-center flex-wrap">
         {% for result in results %}
             {% load image_to_ascii_art_extras %}
-            <a href={% url 'converting_result_detail' result.pk %}>
-                <li>{{ result.upload_image.image.name | get_last_from_string }} (compress
-                    level: {{ result.compress_level }} / created at: {{ result.created_at|date:"Y-m-d H:i:s" }})
-                </li>
-            </a>
+            <div class="card m-4" style="width: 18rem;">
+                <img src="{{ result.upload_image.image.url }}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{ result.upload_image.image.name | get_last_from_string }}</h5>
+                    <p class="card-text">compress level: {{ result.compress_level }}</p>
+                    <p class="card-text">created at: {{ result.created_at|date:"Y-m-d H:i:s" }}</p>
+                    <a class="btn btn-primary text-white" href={% url 'converting_result_detail' result.pk %}>See
+                        details</a>
+                </div>
+            </div>
         {% empty %}
             <div class="m-4 fs-1">
                 There are no any converted results!
             </div>
         {% endfor %}
-    </ul>
+    </div>
 {% endblock %}
