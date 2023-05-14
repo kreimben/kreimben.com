@@ -15,9 +15,24 @@ class UserUploadedImage(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.user.username} uploaded {self.image.name}'
+        return f'{self.image.name.split("/")[-1]} (uploaded by {self.user.username})'
 
     class Meta:
         get_latest_by = ['-updated_at']
         verbose_name = 'User Uploaded Image'
         verbose_name_plural = 'User Uploaded Images'
+
+
+class ImageConvertingResult(models.Model):
+    upload_image = models.ForeignKey(UserUploadedImage, on_delete=models.CASCADE)
+    compress_level = models.PositiveSmallIntegerField()
+    result = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)  # exactly converted at
+
+    def __str__(self):
+        return f'{self.upload_image.user.username}'
+
+    class Meta:
+        get_latest_by = ['-created_at']
+        verbose_name = 'Image Converting Result'
+        verbose_name_plural = 'Image Converting Results'

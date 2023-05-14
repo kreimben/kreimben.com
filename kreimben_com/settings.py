@@ -58,6 +58,8 @@ INSTALLED_APPS = [
     'channels',
     'geoip2',
     'django_extensions',
+    'celery',
+    'django_celery_results',
     # allauth
     'allauth',
     'allauth.account',
@@ -240,3 +242,13 @@ ACCOUNT_SIGNUP_REDIRECT_URL = '/'
 ACCOUNT_ALLOW_SIGNUPS = False
 SITE_ID = 0
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
+
+# Celery related
+CELERY_BROKER_URL = f'redis://{os.getenv("REDIS_HOST")}:{os.getenv("REDIS_PORT")}/5'
+CELERY_TIMEZONE = 'Asia/Seoul'
+CELERY_TASK_TRACK_STARTED = True
+CELERY_USE_UTC = True
+CELERY_TASK_TIME_LIMIT = 5 * 60
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_CACHE_BACKEND = 'default'
+CELERY_TASK_SERIALIZER = 'json'

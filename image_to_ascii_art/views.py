@@ -5,6 +5,7 @@ from django.shortcuts import render
 
 from home.views import BaseFormView
 from image_to_ascii_art.forms import ImageUploadForm, UserUploadedImageForm
+from image_to_ascii_art.tasks import draw_ascii_art
 
 
 class ImageToAsciiView(BaseFormView):
@@ -36,7 +37,8 @@ class ImageToAsciiView(BaseFormView):
             is_valid = await sync_to_async(new_form.is_valid)()
 
             if is_valid:
-                await sync_to_async(new_form.save)()
+                instance = await sync_to_async(new_form.save)()
+                draw_ascii_art.delay(pk=instance.pk, compress_amount=int(compress_amount[0]))
                 return render(request, 'image_to_ascii_art/result_success.html', {})
 
         return self.form_invalid(form)

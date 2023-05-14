@@ -17,3 +17,5 @@ geoip2
 Pillow
 django-allauth
 django-extensions
+celery[redis]
+django-celery-results
