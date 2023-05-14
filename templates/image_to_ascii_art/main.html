@@ -9,22 +9,29 @@
 {% endblock %}
 
 {% block content %}
+    {% for message in messages %}
+        <div class="container-fluid p-0">
+            <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+                {{ message }}
+            </div>
+        </div>
+    {% endfor %}
+
     {% if django_user and google_user %}
         <div class="alert alert-danger" role="alert">
             Maximum image size is 10MB!
         </div>
-        <form hx-post="" enctype="multipart/form-data" target="upload_response" hx-indicator="#indicator"
-              hx-swap="outerHTML">
+        <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit" class="btn btn-primary mb-4">Submit</button>
-
-            <div id="indicator" class="htmx-indicator">
-                <i class="fa-solid fa-spinner-third fa-spin fa-xl"></i>
-            </div>
         </form>
-        <div id="upload_response"></div>
     {% else %}
         <div class="m-4 fs-1">You need to have a account of kreimben.com!</div>
     {% endif %}
+
+    <div class="m-4">
+        <a class="btn btn-primary" style="color:white;" href={% url 'converting_result' %}>Get past results</a>
+    </div>
 {% endblock %}

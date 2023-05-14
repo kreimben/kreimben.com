@@ -1,7 +1,8 @@
 from asgiref.sync import sync_to_async
+from django.contrib import messages
 from django.contrib.auth.models import User, AnonymousUser
 from django.http import HttpRequest
-from django.shortcuts import render
+from django.urls import reverse
 
 from home.views import BaseFormView, BaseTemplateView, BaseDetailView
 from image_to_ascii_art.forms import ImageUploadForm, UserUploadedImageForm
@@ -18,6 +19,9 @@ class ImageToAsciiView(BaseFormView):
     template_name = "image_to_ascii_art/main.html"
     form_class = ImageUploadForm
     view_is_async = True
+
+    def get_success_url(self):
+        return reverse('image_to_ascii_art_view')
 
     async def get(self, request: HttpRequest, *args, **kwargs):
         context = await sync_to_async(self.get_context_data)(**kwargs)
@@ -41,7 +45,8 @@ class ImageToAsciiView(BaseFormView):
             if is_valid:
                 instance = await sync_to_async(new_form.save)()
                 draw_ascii_art.delay(pk=instance.pk, compress_amount=int(compress_amount[0]))
-                return render(request, 'image_to_ascii_art/result_success.html', {})
+                messages.success(request, 'Image is being converted to ASCII art now.')
+                return self.form_valid(form)
 
         return self.form_invalid(form)
 
