@@ -30,7 +30,7 @@ class ImageConvertingResult(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)  # exactly converted at
 
     def __str__(self):
-        return f'{self.upload_image.user.username}'
+        return f'{self.upload_image.image.name.split("/")[-1]} (converted at {self.created_at.strftime("%Y-%m-%d %H:%M:%S")})'
 
     class Meta:
         get_latest_by = ['-created_at']

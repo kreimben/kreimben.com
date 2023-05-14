@@ -1,0 +1,46 @@
+{% extends 'site_base.html' %}
+
+{% block menu %}
+    {% include 'menu.html' %}
+{% endblock %}
+
+{% block content %}
+    <a class="m-4" href={% url 'image_to_ascii_art_view' %}>
+        Go back to generate ascii art!
+    </a>
+
+    <a class="m-4" href={% url 'converting_result' %}>
+        Go to the result!
+    </a>
+
+    <div class="m-4">
+        {% if result %}
+            <div>
+                uploaded by: {{ result.upload_image.user.username }}
+            </div>
+            <div>
+                original image: <img class="block" width="128px"
+                                     src={{ result.upload_image.image.url }} alt={{ result.upload_image.image.name }}/>
+            </div>
+            <div>
+                uploaded at: {{ result.upload_image.created_at }}
+            </div>
+            <div>
+                compression level: {{ result.compress_level }}
+            </div>
+            <div>
+                converted at: {{ result.created_at }}
+            </div>
+
+            <div id="ascii_result" style="white-space: pre; font-family: monospace;">{{ result.result }}</div>
+            <style>
+                {% load image_to_ascii_art_extras %}
+                #ascii_result {
+                    font-size: {{ result.compress_level | multiply:2 }}px;
+                }
+            </style>
+        {% else %}
+            <div class="m-4">There is no result yet!</div>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -3,9 +3,15 @@ from django.contrib.auth.models import User, AnonymousUser
 from django.http import HttpRequest
 from django.shortcuts import render
 
-from home.views import BaseFormView
+from home.views import BaseFormView, BaseTemplateView, BaseDetailView
 from image_to_ascii_art.forms import ImageUploadForm, UserUploadedImageForm
+from image_to_ascii_art.models import ImageConvertingResult
 from image_to_ascii_art.tasks import draw_ascii_art
+
+
+@sync_to_async
+def get_user_from_request(request: HttpRequest) -> User | AnonymousUser | None:
+    return request.user if bool(request.user) else None
 
 
 class ImageToAsciiView(BaseFormView):
@@ -17,13 +23,9 @@ class ImageToAsciiView(BaseFormView):
         context = await sync_to_async(self.get_context_data)(**kwargs)
         return self.render_to_response(context)
 
-    @sync_to_async
-    def get_user_from_request(self, request: HttpRequest) -> User | AnonymousUser | None:
-        return request.user if bool(request.user) else None
-
     async def post(self, request: HttpRequest, *args, **kwargs):
         form = ImageUploadForm(request.POST, request.FILES)
-        user = await self.get_user_from_request(request)
+        user = await get_user_from_request(request)
 
         if user:
             data = dict(request.POST)
@@ -42,3 +44,31 @@ class ImageToAsciiView(BaseFormView):
                 return render(request, 'image_to_ascii_art/result_success.html', {})
 
         return self.form_invalid(form)
+
+
+class ImageConvertingResultView(BaseTemplateView):
+    template_name = "image_to_ascii_art/converting_result.html"
+
+    async def get(self, request: HttpRequest, *args, **kwargs):
+        context = await sync_to_async(self.get_context_data)(**kwargs)
+        user = await get_user_from_request(request)
+        results = await sync_to_async(list)(
+            ImageConvertingResult.objects.select_related('upload_image') \
+                .filter(upload_image__user_id__exact=user.id) \
+                .order_by('-created_at'))
+        context['results'] = results
+        return self.render_to_response(context)
+
+
+class ImageConvertingResultDetailView(BaseDetailView):
+    template_name = "image_to_ascii_art/converting_result_detail.html"
+
+    async def get(self, request: HttpRequest, *args, **kwargs):
+        context = await sync_to_async(self.get_context_data)(**kwargs)
+        result: ImageConvertingResult = await ImageConvertingResult.objects \
+            .select_related('upload_image') \
+            .aget(pk=kwargs['pk'])
+        print(f'{result.upload_image.image.url=}')
+        context['result'] = result
+        print(f'{result=}')
+        return self.render_to_response(context)

@@ -1,0 +1,25 @@
+{% extends 'site_base.html' %}
+
+{% block menu %}
+    {% include 'menu.html' %}
+{% endblock %}
+
+{% block content %}
+    <a class="m-4" href={% url 'image_to_ascii_art_view' %}>
+        Go back to generate ascii art!
+    </a>
+    <ul class="m-4">
+        {% for result in results %}
+            {% load image_to_ascii_art_extras %}
+            <a href={% url 'converting_result_detail' result.pk %}>
+                <li>{{ result.upload_image.image.name | get_last_from_string }} (compress
+                    level: {{ result.compress_level }} / created at: {{ result.created_at|date:"Y-m-d H:i:s" }})
+                </li>
+            </a>
+        {% empty %}
+            <div class="m-4 fs-1">
+                There are no any converted results!
+            </div>
+        {% endfor %}
+    </ul>
+{% endblock %}
