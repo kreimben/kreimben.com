@@ -19,3 +19,5 @@ django-allauth
 django-extensions
 celery[redis]
 django-celery-results
+django-crispy-forms
+crispy-bootstrap5

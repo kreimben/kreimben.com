@@ -22,9 +22,10 @@
         <div class="alert alert-danger" role="alert">
             Maximum image size is 10MB!
         </div>
+        {% load crispy_forms_tags %}
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            {{ form.as_p }}
+            {{ form | crispy }}
             <button type="submit" class="btn btn-primary mb-4">Submit</button>
         </form>
     {% else %}

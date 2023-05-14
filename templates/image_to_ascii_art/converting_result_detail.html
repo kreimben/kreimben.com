@@ -5,13 +5,15 @@
 {% endblock %}
 
 {% block content %}
-    <a class="m-4" href={% url 'image_to_ascii_art_view' %}>
-        Go back to generate ascii art!
-    </a>
+    <div class="d-grid col-6 mx-auto gap-2">
+        <a class="btn btn-primary text-white" href={% url 'image_to_ascii_art_view' %}>
+            Go back to generate ascii art!
+        </a>
 
-    <a class="m-4" href={% url 'converting_result' %}>
-        Go to the result!
-    </a>
+        <a class="btn btn-primary text-white" href={% url 'converting_result' %}>
+            Go to the result!
+        </a>
+    </div>
 
     <div class="m-4">
         {% if result %}

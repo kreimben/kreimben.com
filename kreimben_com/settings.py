@@ -61,6 +61,8 @@ INSTALLED_APPS = [
     'django_extensions',
     'celery',
     'django_celery_results',
+    'crispy_forms',
+    'crispy_bootstrap5',
     # allauth
     'allauth',
     'allauth.account',
@@ -232,6 +234,7 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024
 
 GEOIP_PATH = os.path.join('geoip')
 
+# allauth
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': [
@@ -261,3 +264,7 @@ CELERY_TASK_TIME_LIMIT = 5 * 60
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_CACHE_BACKEND = 'default'
 CELERY_TASK_SERIALIZER = 'json'
+
+# django form crispy
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
