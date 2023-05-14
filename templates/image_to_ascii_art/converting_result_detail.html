@@ -7,11 +7,11 @@
 {% block content %}
     <div class="d-grid col-6 mx-auto gap-2">
         <a class="btn btn-primary text-white" href={% url 'image_to_ascii_art_view' %}>
-            Go back to generate ascii art!
+            Generate ascii art
         </a>
 
         <a class="btn btn-primary text-white" href={% url 'converting_result' %}>
-            Go to the result!
+            Past result
         </a>
     </div>
 
@@ -38,7 +38,7 @@
             <style>
                 {% load image_to_ascii_art_extras %}
                 #ascii_result {
-                    font-size: {{ result.compress_level | multiply:2 }}px;
+                    font-size: {{ result.compress_level | multiply:1.4 }}px;
                 }
             </style>
         {% else %}
