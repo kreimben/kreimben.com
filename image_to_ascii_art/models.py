@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.utils.safestring import mark_safe
 
 
 def user_uploaded_image_path(instance, filename):
@@ -32,6 +33,9 @@ class ImageConvertingResult(models.Model):
 
     def __str__(self):
         return f'{self.upload_image.image.name.split("/")[-1]} (converted at {self.created_at.strftime("%Y-%m-%d %H:%M:%S")})'
+
+    def image_tag(self):
+        return mark_safe(f'<img src="{self.upload_image.image.url}" width="256" />')
 
     class Meta:
         get_latest_by = ['-created_at']
