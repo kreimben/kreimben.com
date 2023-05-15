@@ -5,8 +5,8 @@ from django.http import HttpRequest
 from django.shortcuts import redirect
 from django.urls import reverse
 
-from home.views import BaseFormView, BaseTemplateView, BaseDetailView
-from image_to_ascii_art.forms import ImageUploadForm, UserUploadedImageForm
+from home.views import BaseFormView, BaseTemplateView
+from image_to_ascii_art.forms import ImageUploadForm, UserUploadedImageForm, MakeThisImagePublicForm
 from image_to_ascii_art.models import ImageConvertingResult
 from image_to_ascii_art.tasks import draw_ascii_art
 
@@ -71,12 +71,13 @@ class ImageConvertingResultView(BaseTemplateView):
         return self.render_to_response(context)
 
 
-class ImageConvertingResultDetailView(BaseDetailView):
+class ImageConvertingResultDetailView(BaseFormView):
     template_name = "image_to_ascii_art/converting_result_detail.html"
+    form_class = MakeThisImagePublicForm
 
     def get(self, request: HttpRequest, *args, **kwargs):
         context = self.get_context_data(**kwargs)
-        result: ImageConvertingResult = ImageConvertingResult.objects \
+        result = ImageConvertingResult.objects \
             .select_related('upload_image') \
             .get(pk=kwargs['pk'])
 
@@ -86,3 +87,30 @@ class ImageConvertingResultDetailView(BaseDetailView):
         else:
             messages.error(request, 'This image is not public.')
             return redirect(reverse('image_to_ascii_art_view'))
+
+    def get_success_url(self):
+        return reverse('image_to_ascii_art_view')
+
+    def post(self, request: HttpRequest, *args, **kwargs):
+        form = MakeThisImagePublicForm(request.POST)
+
+        if request.user.is_authenticated:
+            make_public = bool(form.data.get('make_public', False))
+            result = ImageConvertingResult.objects \
+                .select_related('upload_image') \
+                .get(pk=kwargs['pk'])
+
+            if result.upload_image.user == request.user:
+                result.is_public = make_public
+                result.save()
+                if make_public is True:
+                    messages.success(request, 'Image is now public.')
+                else:
+                    messages.success(request, 'Image is now private.')
+                return self.form_valid(form)
+            else:
+                messages.error(request, 'You are not owner of this image.')
+                return self.form_invalid(form)
+        else:
+            messages.error(request, 'You are not authenticated. Please log in.')
+            return self.form_invalid(form)

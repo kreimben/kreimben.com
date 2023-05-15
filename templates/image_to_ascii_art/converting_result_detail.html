@@ -1,4 +1,5 @@
 {% extends 'site_base.html' %}
+{% load crispy_forms_filters %}
 {% load image_to_ascii_art_extras %}
 
 {% block menu %}
@@ -43,6 +44,13 @@
                     <p>Only you can see this.</p>
                 {% endif %}
             </div>
+            <form method="POST" class="w-25 mx-auto">
+                {% csrf_token %}
+                {{ form | crispy }}
+                <button type="submit" class="btn btn-primary text-white">
+                    Make Public/Private
+                </button>
+            </form>
 
             <div id="ascii_result" class="m-4"
                  style="white-space: pre; font-family: monospace;">{{ result.result }}</div>

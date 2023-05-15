@@ -23,3 +23,10 @@ class UserUploadedImageForm(forms.ModelForm):
     class Meta:
         model = UserUploadedImage
         fields = ['user', 'image']
+
+
+class MakeThisImagePublicForm(forms.Form):
+    """
+    It's for make image public or private.
+    """
+    make_public = forms.BooleanField(required=False, initial=True)
