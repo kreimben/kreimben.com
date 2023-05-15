@@ -5,8 +5,9 @@ from django.http import HttpRequest
 from django.shortcuts import redirect
 from django.urls import reverse
 
-from home.views import BaseFormView, BaseTemplateView
-from image_to_ascii_art.forms import ImageUploadForm, UserUploadedImageForm, MakeThisImagePublicForm
+from home.views import BaseFormView
+from image_to_ascii_art.forms import ImageUploadForm, UserUploadedImageForm, MakeThisImagePublicForm, \
+    DeleteConvertingResult
 from image_to_ascii_art.models import ImageConvertingResult
 from image_to_ascii_art.tasks import draw_ascii_art
 
@@ -57,18 +58,43 @@ class ImageToAsciiView(BaseFormView):
         return self.form_invalid(form)
 
 
-class ImageConvertingResultView(BaseTemplateView):
+class ImageConvertingResultView(BaseFormView):
     template_name = "image_to_ascii_art/converting_result.html"
+    form_class = DeleteConvertingResult
 
-    async def get(self, request: HttpRequest, *args, **kwargs):
-        context = await sync_to_async(self.get_context_data)(**kwargs)
-        user = await get_user_from_request(request)
-        results = await sync_to_async(list)(
-            ImageConvertingResult.objects.select_related('upload_image') \
-                .filter(upload_image__user_id__exact=user.id) \
-                .order_by('-created_at'))
+    def get(self, request: HttpRequest, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        results = ImageConvertingResult.objects.select_related('upload_image') \
+            .filter(upload_image__user_id__exact=request.user.id) \
+            .order_by('-created_at')
         context['results'] = results
         return self.render_to_response(context)
+
+    def get_success_url(self):
+        return reverse('converting_result')
+
+    def post(self, request: HttpRequest, *args, **kwargs):
+        form = DeleteConvertingResult(request.POST)
+        pk = form.data.get('pk', None)
+        if not pk:
+            messages.error(request, 'Invalid form.')
+            return self.form_invalid(form)
+
+        if request.user.is_authenticated:
+            result = ImageConvertingResult.objects \
+                .select_related('upload_image') \
+                .get(pk=pk)
+
+            if result.upload_image.user == request.user:
+                result.delete()
+                messages.success(request, 'Ascii art is deleted.')
+                return self.form_valid(form)
+            else:
+                messages.error(request, 'You are not owner of this image.')
+                return self.form_invalid(form)
+        else:
+            messages.error(request, 'You are not authenticated.')
+            return self.form_invalid(form)
 
 
 class ImageConvertingResultDetailView(BaseFormView):

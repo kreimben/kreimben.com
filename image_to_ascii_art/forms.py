@@ -30,3 +30,10 @@ class MakeThisImagePublicForm(forms.Form):
     It's for make image public or private.
     """
     make_public = forms.BooleanField(required=False, initial=True)
+
+
+class DeleteConvertingResult(forms.Form):
+    """
+    It's for delete converting result.
+    """
+    pk = forms.IntegerField(required=True)  # ImageConvertingResult pk

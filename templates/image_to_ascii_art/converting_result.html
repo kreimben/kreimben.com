@@ -24,8 +24,15 @@
                             private
                         {% endif %}
                     </strong>
-                    <a class="btn btn-primary text-white" href={% url 'converting_result_detail' result.pk %}>See
-                        details</a>
+                    <a class="btn btn-primary text-white" href={% url 'converting_result_detail' result.pk %}>
+                        See details
+                    </a>
+
+                    <form method="POST" class="mt-4">
+                        {% csrf_token %}
+                        <input id="name" name="pk" value="{{ result.pk }}" style="display:none;"/>
+                        <button class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+                    </form>
                 </div>
             </div>
         {% empty %}
