@@ -16,7 +16,14 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ result.upload_image.image.name | get_last_from_string }}</h5>
                     <p class="card-text">compress level: {{ result.compress_level }}</p>
-                    <p class="card-text">created at: {{ result.created_at|date:"Y-m-d H:i:s" }}</p>
+                    <p class="card-text">created at: {{ result.created_at|date:"Y-m-d" }}</p>
+                    <strong class="card-text d-block mb-4">
+                        {% if result.is_public %}
+                            public
+                        {% else %}
+                            private
+                        {% endif %}
+                    </strong>
                     <a class="btn btn-primary text-white" href={% url 'converting_result_detail' result.pk %}>See
                         details</a>
                 </div>
