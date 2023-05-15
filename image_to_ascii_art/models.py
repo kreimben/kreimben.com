@@ -26,6 +26,7 @@ class UserUploadedImage(models.Model):
 class ImageConvertingResult(models.Model):
     upload_image = models.ForeignKey(UserUploadedImage, on_delete=models.CASCADE)
     compress_level = models.PositiveSmallIntegerField()
+    is_public = models.BooleanField(default=False)
     result = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)  # exactly converted at
 

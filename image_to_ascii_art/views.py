@@ -2,6 +2,7 @@ from asgiref.sync import sync_to_async
 from django.contrib import messages
 from django.contrib.auth.models import User, AnonymousUser
 from django.http import HttpRequest
+from django.shortcuts import redirect
 from django.urls import reverse
 
 from home.views import BaseFormView, BaseTemplateView, BaseDetailView
@@ -35,7 +36,8 @@ class ImageToAsciiView(BaseFormView):
             data = dict(request.POST)
             data['user'] = request.user
             data['image'] = request.FILES.get('image', None)
-            compress_amount = data.pop('compress_amount')
+            compress_amount = int(data.pop('compress_amount')[0])
+            is_public = bool(data.pop('is_public')[0])
             data.pop('csrfmiddlewaretoken')
 
             new_form = UserUploadedImageForm(data, request.FILES)
@@ -44,7 +46,11 @@ class ImageToAsciiView(BaseFormView):
 
             if is_valid:
                 instance = await sync_to_async(new_form.save)()
-                draw_ascii_art.delay(pk=instance.pk, compress_amount=int(compress_amount[0]))
+                draw_ascii_art.delay(
+                    pk=instance.pk,
+                    compress_amount=compress_amount,
+                    is_public=is_public
+                )
                 messages.success(request, 'Image is being converted to ASCII art now.')
                 return self.form_valid(form)
 
@@ -68,12 +74,15 @@ class ImageConvertingResultView(BaseTemplateView):
 class ImageConvertingResultDetailView(BaseDetailView):
     template_name = "image_to_ascii_art/converting_result_detail.html"
 
-    async def get(self, request: HttpRequest, *args, **kwargs):
-        context = await sync_to_async(self.get_context_data)(**kwargs)
-        result: ImageConvertingResult = await ImageConvertingResult.objects \
+    def get(self, request: HttpRequest, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        result: ImageConvertingResult = ImageConvertingResult.objects \
             .select_related('upload_image') \
-            .aget(pk=kwargs['pk'])
-        print(f'{result.upload_image.image.url=}')
-        context['result'] = result
-        print(f'{result=}')
-        return self.render_to_response(context)
+            .get(pk=kwargs['pk'])
+
+        if result.is_public or result.upload_image.user == request.user:
+            context['result'] = result
+            return self.render_to_response(context)
+        else:
+            messages.error(request, 'This image is not public.')
+            return redirect(reverse('image_to_ascii_art_view'))
