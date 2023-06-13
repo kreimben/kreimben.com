@@ -3,6 +3,8 @@ import os
 from django.contrib import admin
 from django.urls import include, path
 
+from server_error.views import ServerErrorView
+
 urlpatterns = [
     path("", include("home.urls")),
     path("blog/", include("blog.urls")),
@@ -14,3 +16,5 @@ urlpatterns = [
     # path('accounts/', include('custom_account.urls')),
     path('__debug__/', include('debug_toolbar.urls')),
 ]
+
+handler500 = ServerErrorView.as_view()

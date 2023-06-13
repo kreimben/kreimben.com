@@ -1,0 +1,25 @@
+{% extends 'site_base.html' %}
+
+{% block title %}
+    Error!
+{% endblock %}
+
+{% block menu %}
+    {% include 'menu.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="d-flex text-center main_wrapper m-5 p-5" style="height: 60vh;">
+        <div class="m-auto">
+            <h1 class="centered-div">There is an error!</h1>
+        </div>
+    </div>
+    <style>
+        .centered-div {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+{% endblock %}

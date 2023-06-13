@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 import os
+from datetime import datetime
 from pathlib import Path
 
 from django.contrib import messages
@@ -50,6 +51,7 @@ INSTALLED_APPS = [
     'chat.apps.ChatConfig',
     'custom_account.apps.CustomAccountConfig',
     'image_to_ascii_art.apps.ImageToAsciiArtConfig',
+    'server_error.apps.ServerErrorConfig',
 
     "django_quill",
     "fontawesomefree",
@@ -271,3 +273,30 @@ CELERY_TASK_SERIALIZER = 'json'
 # django form crispy
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+# logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': f'./{datetime.now().strftime("%Y-%m-%d")}.log',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    },
+    'formatters': {
+        'verbose': {
+            'format': '{asctime} {levelname} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+    },
+}
