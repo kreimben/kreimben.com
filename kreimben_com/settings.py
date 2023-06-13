@@ -282,7 +282,7 @@ LOGGING = {
         'file': {
             'level': 'ERROR',
             'class': 'logging.FileHandler',
-            'filename': f'./{datetime.now().strftime("%Y-%m-%d")}.log',
+            'filename': f'./logs/{datetime.now().strftime("%Y-%m-%d")}.log',
             'formatter': 'verbose',
         },
     },
