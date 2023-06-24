@@ -4,7 +4,7 @@ WORKDIR app
 COPY . /app
 
 RUN apk update \
-    && apk add gcc musl-dev mariadb-connector-c-dev libffi-dev
+    && apk add gcc musl-dev mariadb-connector-c-dev libffi-dev mysql-client
 RUN pip install mysqlclient
 
 RUN pip install -r requirements.txt
