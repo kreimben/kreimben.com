@@ -7,7 +7,7 @@ name: Docker
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 env:
   REGISTRY: registry.kreimben.com
