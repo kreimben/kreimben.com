@@ -1,11 +1,7 @@
-FROM python:3.11-alpine
+FROM python:3.11
 
 WORKDIR app
 COPY . /app
-
-RUN apk update \
-    && apk add gcc musl-dev mariadb-connector-c-dev libffi-dev py-mysqldb
-#RUN pip install mysqlclient
 
 RUN pip install -r requirements.txt
 
