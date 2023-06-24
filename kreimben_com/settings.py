@@ -202,7 +202,10 @@ MESSAGE_TAGS = {
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STORAGES = {
+    "default": {"BACKEND": "storages.backends.s3boto3.S3Boto3Storage"},
+    "staticfiles": {"BACKEND": "storages.backends.s3boto3.S3StaticStorage"},
+}
 AWS_S3_ACCESS_KEY_ID = os.getenv('AWS_S3_ACCESS_KEY_ID')
 AWS_S3_SECRET_ACCESS_KEY = os.getenv('AWS_S3_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
@@ -211,11 +214,10 @@ AWS_S3_USE_SSL = True
 AWS_DEFAULT_ACL = 'public-read'
 AWS_S3_SECURE_URLS = False
 AWS_QUERYSTRING_AUTH = False
-AWS_S3_ENDPOINT_URL = f"https://{os.getenv('AWS_S3_CUSTOM_DOMAIN')}"
+AWS_IS_GZIPPED = True
 
 STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/static/"
 MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 STATIC_ROOT = BASE_DIR / 'static/'
 MEDIA_ROOT = BASE_DIR / 'media/'
