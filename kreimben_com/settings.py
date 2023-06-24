@@ -56,7 +56,6 @@ INSTALLED_APPS = [
     "django_quill",
     "fontawesomefree",
     "storages",
-    "debug_toolbar",
     "daphne",
     'channels',
     'geoip2',
@@ -90,8 +89,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 AUTHENTICATION_BACKENDS = [

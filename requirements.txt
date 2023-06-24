@@ -7,7 +7,6 @@ daphne
 Twisted[tls,http2]
 django-storages
 boto3
-django-debug-toolbar
 ujson
 redis
 hiredis

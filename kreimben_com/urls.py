@@ -14,7 +14,6 @@ urlpatterns = [
     path(f'{os.getenv("DJANGO_REAL_ADMIN_URI")}/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     # path('accounts/', include('custom_account.urls')),
-    path('__debug__/', include('debug_toolbar.urls')),
 ]
 
 handler500 = ServerErrorView.as_view()
