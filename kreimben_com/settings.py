@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'meta',
+    'silk',
     # allauth
     'allauth',
     'allauth.account',
@@ -89,6 +90,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+
+    'silk.middleware.SilkyMiddleware',
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -257,8 +260,10 @@ ACCOUNT_ALLOW_SIGNUPS = False
 SITE_ID = 0
 if DEBUG:
     ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'http'
+    SILKY_PYTHON_PROFILER = True
 else:
     ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
+    SILKY_PYTHON_PROFILER = False
 
 # Celery related
 CELERY_BROKER_URL = f'redis://{os.getenv("REDIS_HOST")}:{os.getenv("REDIS_PORT")}/5'

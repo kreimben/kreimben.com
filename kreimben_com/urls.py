@@ -15,4 +15,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
 ]
 
+if os.getenv("DJANGO_DEBUG") == "True":
+    urlpatterns += [path('silk/', include('silk.urls', namespace='silk'))]
+
 handler500 = ServerErrorView.as_view()
