@@ -16,7 +16,7 @@ def multiply(value, arg):
 @register.filter
 def get_string_kilo_bytes(value: str):
     # get string's bytes size
-    return f"{len(value.encode('utf-8')) / 1024} KB"
+    return f"{len(value.encode('utf-8')) / 1024:.2f} KB"
 
 
 @register.filter
