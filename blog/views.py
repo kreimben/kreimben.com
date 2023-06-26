@@ -9,33 +9,26 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, RedirectView
 
 from home.views import BaseTemplateView, BaseDetailView
-from .models import Post, SubmittedFile, Downloader, Category
+from .models import Post, SubmittedFile, Downloader
 
 
 class BlogView(BaseTemplateView):
     template_name = "../templates/blog/blog.html"
 
     def get(self, request: HttpRequest, *args, **kwargs):
-        category = request.GET.get("category", None)
+        category_name = request.GET.get('category', None)
         context = self.get_context_data()
 
-        if category is not None:
-            posts = list(Post.published.filter(category__name__exact=category))
-        elif cache.get('posts'):
-            posts = cache.get('posts')
+        if category_name is None:
+            posts = Post.published.all()
         else:
-            posts = list(Post.published.all())
-            cache.set('posts', posts, 3600 * 24)
+            posts = Post.published.filter(category__name=category_name)
+
+        categories = set(list(post.category.name for post in posts))
 
         page = Paginator(posts, 15)
 
-        if cache.get('categories'):
-            categories = cache.get('categories')
-        else:
-            categories = list(Category.objects.order_by("name").all())
-            cache.set('categories', categories, 3600 * 24)
-
-        page_number = request.GET.get("page", 1)
+        page_number = request.GET.get('page', 1)
         page_obj = page.get_page(page_number)
 
         context["page_obj"] = page_obj
