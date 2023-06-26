@@ -1,7 +1,7 @@
 from celery import shared_task
 
-from image_to_ascii_art.ascii import get_gray_image_from_s3, convert_to_ascii
-from image_to_ascii_art.models import UserUploadedImage, ImageConvertingResult
+from projects.image_to_ascii_art.ascii import get_gray_image_from_s3, convert_to_ascii
+from projects.image_to_ascii_art.models import UserUploadedImage, ImageConvertingResult
 
 
 @shared_task

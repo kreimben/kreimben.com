@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     "blog.apps.BlogConfig",
     'chat.apps.ChatConfig',
     'custom_account.apps.CustomAccountConfig',
-    'image_to_ascii_art.apps.ImageToAsciiArtConfig',
+    'projects.apps.ProjectsConfig',
+    'projects.image_to_ascii_art.apps.ImageToAsciiArtConfig',
     'server_error.apps.ServerErrorConfig',
 
     "django_quill",

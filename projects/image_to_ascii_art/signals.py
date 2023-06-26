@@ -4,7 +4,7 @@ import boto3
 from django.db.models.signals import pre_delete
 from django.dispatch import receiver
 
-from image_to_ascii_art.models import UserUploadedImage
+from projects.image_to_ascii_art.models import UserUploadedImage
 
 
 def load():

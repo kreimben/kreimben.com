@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from image_to_ascii_art.models import UserUploadedImage, ImageConvertingResult
+from projects.image_to_ascii_art.models import UserUploadedImage, ImageConvertingResult
 
 
 @admin.register(UserUploadedImage)

@@ -1,6 +1,6 @@
 from django import forms
 
-from image_to_ascii_art.models import UserUploadedImage
+from projects.image_to_ascii_art.models import UserUploadedImage
 
 
 class ImageUploadForm(forms.ModelForm):

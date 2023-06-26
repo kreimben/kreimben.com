@@ -6,10 +6,10 @@ from django.shortcuts import redirect
 from django.urls import reverse
 
 from home.views import BaseFormView
-from image_to_ascii_art.forms import ImageUploadForm, UserUploadedImageForm, MakeThisImagePublicForm, \
+from projects.image_to_ascii_art.forms import ImageUploadForm, UserUploadedImageForm, MakeThisImagePublicForm, \
     DeleteConvertingResult
-from image_to_ascii_art.models import ImageConvertingResult
-from image_to_ascii_art.tasks import draw_ascii_art
+from projects.image_to_ascii_art.models import ImageConvertingResult
+from projects.image_to_ascii_art.tasks import draw_ascii_art
 
 
 @sync_to_async
