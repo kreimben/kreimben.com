@@ -47,7 +47,7 @@ class ImageToAsciiView(BaseFormView):
 
             if is_valid:
                 instance = await sync_to_async(new_form.save)()
-                draw_ascii_art.delay(
+                _ = draw_ascii_art.delay(
                     pk=instance.pk,
                     compress_amount=compress_amount,
                     is_public=is_public
