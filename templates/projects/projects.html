@@ -1,0 +1,51 @@
+{% extends 'site_base.html' %}
+
+{% block menu %}
+    {% include 'menu.html' %}
+{% endblock %}
+
+{% block content %}
+    <!-- Parent div of Every Content. -->
+    <div class="m-4 d-flex justify-content-evenly">
+        <div class="card" style="width: 18rem;" id="ascii">
+            <div class="card-body">
+                <h5 class="card-title">Image To Ascii Art</h5>
+                <h6 class="card-subtitle mb-2 text-body-secondary">Photo to Text</h6>
+                <p class="card-text">ASCII art is a graphic design technique that uses computers for presentation and
+                    consists of pictures pieced together from the 95 printable</p>
+                <a href="{% url 'image_to_ascii_art_view' %}" class="card-link">Go!</a>
+            </div>
+        </div>
+
+        <div class="card" style="width: 18rem;" id="sort">
+            <div class="card-body">
+                <h5 class="card-title">Sort Visualizer</h5>
+                <h6 class="card-subtitle mb-2 text-body-secondary">See every stunning sorting!</h6>
+                <p class="card-text">Sort Visualizer presents you every kind of sorting and it's even animated!</p>
+                <a href="" class="card-link" disabled="true">Not ready yet!</a>
+            </div>
+        </div>
+    </div>
+
+
+    <style>
+        #ascii { /* From https://css.glass */
+            background: rgba(32, 220, 48, 0.34);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(12.7px);
+            -webkit-backdrop-filter: blur(12.7px);
+            border: 1px solid rgba(32, 220, 48, 0.3);
+        }
+
+        #sort {
+            /* From https://css.glass */
+            background: rgba(32, 56, 220, 0.34);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(12.7px);
+            -webkit-backdrop-filter: blur(12.7px);
+            border: 1px solid rgba(32, 56, 220, 0.3);
+        }
+    </style>
+{% endblock %}

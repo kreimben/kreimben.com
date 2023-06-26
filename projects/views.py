@@ -1,3 +1,5 @@
-from django.shortcuts import render
+from home.views import BaseTemplateView
 
-# Create your views here.
+
+class ProjectsView(BaseTemplateView):
+    template_name = 'projects/projects.html'
