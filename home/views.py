@@ -3,9 +3,11 @@ from django.contrib.auth.models import AnonymousUser
 from django.http import HttpRequest
 from django.views.generic import TemplateView, FormView
 from django.views.generic.detail import DetailView
+from silk.profiling.profiler import silk_profile
 
 
 class BaseTemplateView(TemplateView):
+    @silk_profile(name='get_context_data')
     def get_context_data(self, **kwargs):
         self.object = []
         context = super().get_context_data(**kwargs)
