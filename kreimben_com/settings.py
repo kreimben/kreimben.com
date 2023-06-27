@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'custom_account.apps.CustomAccountConfig',
     'projects.apps.ProjectsConfig',
     'projects.image_to_ascii_art.apps.ImageToAsciiArtConfig',
+    'projects.sort_visualizer.apps.SortVisualizerConfig',
     'server_error.apps.ServerErrorConfig',
 
     "django_quill",
