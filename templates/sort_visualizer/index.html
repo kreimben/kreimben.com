@@ -1,0 +1,50 @@
+{% extends 'site_base.html' %}
+
+{% block menu %}
+    {% include 'menu.html' %}
+{% endblock %}
+
+{% block content %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <h1>Sort Visualizer</h1>
+
+    <canvas id="myChart"></canvas>
+
+    <div id="data"></div>
+
+    <script>
+        // generate random number of array.
+        let sizeOfArray = 10;
+        let datas = [];
+        for (let i = 0; i < sizeOfArray; i++) {
+            datas.push(Math.floor(Math.random() * 100));
+        }
+        let dataSets = [{
+            data: datas,
+            barPercentage: 0.5,
+            barThickness: 6,
+            maxBarThickness: 8,
+            minBarLength: 2,
+        }];
+
+        document.getElementById("data").innerHTML = `data: [${datas.join(", ")}]`;
+
+        let ctx = document.getElementById("myChart").getContext("2d");
+        let myChart = new Chart(ctx, {
+            type: "bar", // Specify the chart type
+            data: {
+                datasets: dataSets, // Pass the array of data sets
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                },
+            },
+        });
+    </script>
+{% endblock %}
