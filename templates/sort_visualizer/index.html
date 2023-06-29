@@ -1,4 +1,5 @@
 {% extends 'site_base.html' %}
+{% load sort_visualizer_extras %}
 
 {% block title %}
     {{ title }} [kreimben.com]
@@ -19,10 +20,28 @@
     </div>
 
     <div class="my-4">
-        {% for sort in sorting %}
-        {% empty %}
+        {% if sorting %}
+            <select name="selected_sorting_algorithm" id="selected_sorting_algorithm" onchange="describe_sorting()">
+                {% for sort in sorting %}
+                    <option value="{{ sort.name }}">{{ sort.name }}</option>
+                {% endfor %}
+            </select>
+        {% else %}
             <p>No sorting algorithms found.</p>
-        {% endfor %}
+        {% endif %}
+
+        <div id="sorting_describe">
+            {% for sort in sorting %}
+                <div id="{{ sort.name }}" hidden="hidden">
+                    <div>Time Complexity: {{ sort.time_complexity | represent | safe }}</div>
+                    <div>Space Complexity: {{ sort.space_complexity | represent | safe }}</div>
+                    <div>Best Case: {{ sort.best_case | represent | safe }}</div>
+                    <div>Worst Case: {{ sort.worst_case | represent | safe }}</div>
+                    <div>Method: {{ sort.method }}</div>
+                </div>
+            {% endfor %}
+        </div>
+
         <button onclick="start_sorting()">Sort!</button>
     </div>
 
@@ -33,6 +52,7 @@
     <script>
         window.onload = () => {
             bind_slider();
+            describe_sorting();
         };
 
         // functions
@@ -55,7 +75,7 @@
                 element.style.position = 'absolute';
                 element.style.left = `${i / numberOfElements * 100}%`;
                 element.style.height = `${Math.random() * 100}%`;
-                element.style.width = `${Math.floor(1 / numberOfElements * 100)}%`;
+                element.style.width = `${1 / numberOfElements * 100}%`;
                 element.style.backgroundColor = 'gray';
                 element.style.borderColor = 'black';
                 element.style.borderStyle = 'solid';
@@ -81,6 +101,17 @@
 
         const start_sorting = () => {
             // TODO: Implement start sorting
+        };
+
+        const describe_sorting = () => {
+            const selected_sorting = document.getElementById('selected_sorting_algorithm').value;
+            // make all hidden
+            const sorting = document.getElementById('sorting_describe');
+            for (let i = 0; i < sorting.children.length; i++) {
+                sorting.children[i].hidden = true;
+            }
+            // make selected visible
+            document.getElementById(selected_sorting).hidden = false;
         };
     </script>
 
