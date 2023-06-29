@@ -14,7 +14,9 @@
     </div>
 
     <div id="box">
-        <div id="container"></div>
+        <div id="container">
+            <div id="debug_container"></div>
+        </div>
     </div>
 
     <script>
@@ -44,6 +46,7 @@
                 container.appendChild(element);
             }
         };
+
         const bind_slider = () => {
             stop_sorting();
 
@@ -56,9 +59,11 @@
                 init_container(slider.value);
             };
         };
+
         const stop_sorting = () => {
             // TODO: Implement stop sorting
         };
+        
         const start_sorting = () => {
             // TODO: Implement start sorting
         };
