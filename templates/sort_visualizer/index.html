@@ -1,5 +1,9 @@
 {% extends 'site_base.html' %}
 
+{% block title %}
+    {{ title }} [kreimben.com]
+{% endblock %}
+
 {% block menu %}
     {% include 'menu.html' %}
 {% endblock %}
@@ -15,9 +19,7 @@
     </div>
 
     <div id="box">
-        <div id="container">
-            <div id="debug_container"></div>
-        </div>
+        <div id="container"></div>
     </div>
 
     <script>
