@@ -18,6 +18,14 @@
         <button onclick="init_container()">Regenerate</button>
     </div>
 
+    <div class="my-4">
+        {% for sort in sorting %}
+        {% empty %}
+            <p>No sorting algorithms found.</p>
+        {% endfor %}
+        <button onclick="start_sorting()">Sort!</button>
+    </div>
+
     <div id="box">
         <div id="container"></div>
     </div>
