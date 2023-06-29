@@ -7,6 +7,12 @@
 {% block content %}
     <h1>Sort Visualizer</h1>
 
+    {# slide bar with numbers #}
+    <div class="slidecontainer">
+        <input type="range" min="10" max="1000" value="100" class="slider" id="myRange">
+        <p>Value: <span id="demo"></span></p>
+    </div>
+
     <div id="box">
         <div id="container"></div>
     </div>
@@ -14,12 +20,21 @@
     <script>
         // functions
         const init_container = (numberOfElements) => {
+            stop_sorting();
+
             const container = document.getElementById('container');
+
+            // remove all children in container
+            while (container.firstChild) {
+                container.removeChild(container.firstChild);
+            }
+
+            // append new children
             for (let i = 0; i < numberOfElements; i++) {
                 // generate random height
                 const element = document.createElement('div');
                 element.classList.add('element');
-                element.style.position = 'relative';
+                element.style.position = 'absolute';
                 element.style.left = `${Math.floor(i / numberOfElements * 100)}%`;
                 element.style.height = `${Math.floor(Math.random() * 100)}%`;
                 element.style.width = `${Math.floor(1 / numberOfElements * 100)}%`;
@@ -29,10 +44,29 @@
                 container.appendChild(element);
             }
         };
+        const bind_slider = () => {
+            stop_sorting();
+
+            const slider = document.getElementById('myRange');
+            const output = document.getElementById('demo');
+            output.innerHTML = slider.value;
+
+            slider.oninput = () => {
+                output.innerHTML = slider.value;
+                init_container(slider.value);
+            };
+        };
+        const stop_sorting = () => {
+            // TODO: Implement stop sorting
+        };
+        const start_sorting = () => {
+            // TODO: Implement start sorting
+        };
     </script>
 
     <script>
         // logics
+        // first script
         init_container(10);
     </script>
 
