@@ -11,6 +11,7 @@
     <div class="slidecontainer">
         <input type="range" min="10" max="1000" value="100" class="slider" id="myRange">
         <p>Value: <span id="demo"></span></p>
+        <button onclick="init_container()">Regenerate</button>
     </div>
 
     <div id="box">
@@ -20,11 +21,16 @@
     </div>
 
     <script>
+        window.onload = () => {
+            bind_slider();
+        };
+
         // functions
-        const init_container = (numberOfElements) => {
+        const init_container = () => {
             stop_sorting();
 
             const container = document.getElementById('container');
+            const numberOfElements = document.getElementById('myRange').value;
 
             // remove all children in container
             while (container.firstChild) {
@@ -37,8 +43,8 @@
                 const element = document.createElement('div');
                 element.classList.add('element');
                 element.style.position = 'absolute';
-                element.style.left = `${Math.floor(i / numberOfElements * 100)}%`;
-                element.style.height = `${Math.floor(Math.random() * 100)}%`;
+                element.style.left = `${i / numberOfElements * 100}%`;
+                element.style.height = `${Math.random() * 100}%`;
                 element.style.width = `${Math.floor(1 / numberOfElements * 100)}%`;
                 element.style.backgroundColor = 'gray';
                 element.style.borderColor = 'black';
@@ -56,14 +62,13 @@
 
             slider.oninput = () => {
                 output.innerHTML = slider.value;
-                init_container(slider.value);
             };
         };
 
         const stop_sorting = () => {
             // TODO: Implement stop sorting
         };
-        
+
         const start_sorting = () => {
             // TODO: Implement start sorting
         };
@@ -72,7 +77,7 @@
     <script>
         // logics
         // first script
-        init_container(10);
+        init_container();
     </script>
 
     <style>
