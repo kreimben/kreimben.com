@@ -48,7 +48,7 @@
         <button onclick="start_sorting()">Sort!</button>
     </div>
 
-    <div id="box">
+    <div id="box" class="mb-4">
         <div id="container"></div>
     </div>
 
@@ -60,8 +60,8 @@
         };
 
         // variables
-        const SHUFFLE_DELAY = 5000;
-        const SORT_DELAY = 10000;
+        const SHUFFLE_DELAY = 500;
+        const SORT_DELAY = 5000;
         const FREQ_MIN = 200;
         const FREQ_MAX = 600;
 
@@ -69,7 +69,7 @@
         let running = false;
 
         // functions
-        const init_container = () => {
+        const init_container = async () => {
             const container = document.getElementById('container');
             const numberOfElements = document.getElementById('myRange').value;
             const size = 100 / numberOfElements;
@@ -95,7 +95,7 @@
             }
 
             // after init, shuffle it.
-            shuffle();
+            await shuffle();
             resetColors();
         };
 
@@ -170,11 +170,11 @@
             });
         }
 
-        const shuffle = () => {
+        const shuffle = async () => {
             running = true;
             for (let i = 0; i < elements.length; i++) {
                 let rand_index = Math.floor(Math.random() * elements.length);
-                swap(i, rand_index, SHUFFLE_DELAY / elements.length);
+                await swap(i, rand_index, SHUFFLE_DELAY / elements.length);
             }
             running = false;
         }
