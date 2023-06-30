@@ -8,6 +8,7 @@ class Sort(models.Model):
     best_case = models.CharField(max_length=100)
     worst_case = models.CharField(max_length=100)
     method = models.CharField(max_length=100)
+    extra_info = models.TextField(null=True, blank=True)
 
     class META:
         ordering = ['name']
