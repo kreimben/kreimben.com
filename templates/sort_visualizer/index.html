@@ -30,6 +30,7 @@
             <p>No sorting algorithms found.</p>
         {% endif %}
 
+        <br/><br/>
         <div id="sorting_describe">
             {% for sort in sorting %}
                 <div id="{{ sort.name }}" hidden="hidden">
@@ -41,6 +42,7 @@
                 </div>
             {% endfor %}
         </div>
+        <br/>
 
         <button onclick="start_sorting()">Sort!</button>
     </div>
