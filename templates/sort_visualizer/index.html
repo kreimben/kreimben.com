@@ -19,7 +19,7 @@
         <button onclick="init_container()">Regenerate</button>
     </div>
 
-    <div class="my-4">
+    <div class="my-4" id="info_box">
         {% if sorting %}
             <select name="selected_sorting_algorithm" id="selected_sorting_algorithm" onchange="describe_sorting()">
                 {% for sort in sorting %}
