@@ -13,9 +13,9 @@
     <h1>Sort Visualizer</h1>
 
     {# slide bar with numbers #}
-    <div class="slidecontainer">
-        <input type="range" min="10" max="1000" value="100" class="slider" id="myRange">
-        <p>Value: <span id="demo"></span></p>
+    <div class="slide_container">
+        <input type="range" min="10" max="1000" value="100" class="slider" id="range_slider">
+        <p>Value: <span id="value"></span></p>
         <button onclick="init_container()">Regenerate</button>
     </div>
 
@@ -91,7 +91,7 @@
                 element.style.height = `${(i + 1) * size}%`;
                 element.style.width = `${size}%`;
                 element.style.color = `transparent`;
-                element.innerText = (i + 1) * size;
+                element.innerText = `${(i + 1) * size}`;
                 elements.push(element);
                 container.appendChild(element);
             }
@@ -102,8 +102,8 @@
         };
 
         const bind_slider = () => {
-            const slider = document.getElementById('myRange');
-            const output = document.getElementById('demo');
+            const slider = document.getElementById('range_slider');
+            const output = document.getElementById('value');
             output.innerHTML = slider.value;
 
             slider.oninput = () => {
