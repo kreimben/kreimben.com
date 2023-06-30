@@ -7,7 +7,6 @@ class Sort(models.Model):
     space_complexity = models.CharField(max_length=100)
     best_case = models.CharField(max_length=100)
     worst_case = models.CharField(max_length=100)
-    code = models.TextField(null=True, blank=True)
     method = models.CharField(max_length=100)
 
     class META:
