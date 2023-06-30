@@ -90,6 +90,8 @@
                 element.style.left = `${i * size}%`;
                 element.style.height = `${(i + 1) * size}%`;
                 element.style.width = `${size}%`;
+                element.style.color = `transparent`;
+                element.innerText = (i + 1) * size;
                 elements.push(element);
                 container.appendChild(element);
             }
