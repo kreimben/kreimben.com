@@ -39,6 +39,7 @@
                     <div>Best Case: {{ sort.best_case | represent | safe }}</div>
                     <div>Worst Case: {{ sort.worst_case | represent | safe }}</div>
                     <div>Method: {{ sort.method }}</div>
+                    <div hidden="hidden" id="{{ sort.name }}-code">{{ sort.code }}</div>
                 </div>
             {% endfor %}
         </div>
@@ -53,21 +54,32 @@
 
     <script>
         window.onload = () => {
+            init_container();
             bind_slider();
             describe_sorting();
         };
 
+        // variables
+        const SHUFFLE_DELAY = 5000;
+        const SORT_DELAY = 10000;
+        const FREQ_MIN = 200;
+        const FREQ_MAX = 600;
+
+        let elements = [];
+        let running = false;
+
         // functions
         const init_container = () => {
-            stop_sorting();
-
             const container = document.getElementById('container');
             const numberOfElements = document.getElementById('myRange').value;
+            const size = 100 / numberOfElements;
 
             // remove all children in container
             while (container.firstChild) {
                 container.removeChild(container.firstChild);
             }
+
+            elements = [];
 
             // append new children
             for (let i = 0; i < numberOfElements; i++) {
@@ -75,19 +87,19 @@
                 const element = document.createElement('div');
                 element.classList.add('element');
                 element.style.position = 'absolute';
-                element.style.left = `${i / numberOfElements * 100}%`;
-                element.style.height = `${Math.random() * 100}%`;
-                element.style.width = `${1 / numberOfElements * 100}%`;
-                element.style.backgroundColor = 'gray';
-                element.style.borderColor = 'black';
-                element.style.borderStyle = 'solid';
+                element.style.left = `${i * size}%`;
+                element.style.height = `${(i + 1) * size}%`;
+                element.style.width = `${size}%`;
+                elements.push(element);
                 container.appendChild(element);
             }
+
+            // after init, shuffle it.
+            shuffle();
+            resetColors();
         };
 
         const bind_slider = () => {
-            stop_sorting();
-
             const slider = document.getElementById('myRange');
             const output = document.getElementById('demo');
             output.innerHTML = slider.value;
@@ -97,12 +109,26 @@
             };
         };
 
-        const stop_sorting = () => {
-            // TODO: Implement stop sorting
-        };
+        const start_sorting = async () => {
+            if (running) return;
+            running = true;
 
-        const start_sorting = () => {
-            // TODO: Implement start sorting
+            const selected = document.getElementById('selected_sorting_algorithm').value;
+
+            if (selected === "QuickSort")
+                await QuickSort(elements, 0, elements.length - 1);
+            else if (selected === "BubbleSort")
+                await BubbleSort(elements);
+            else if (selected === "HeapSort")
+                await HeapSort(elements);
+            else if (selected === "InsertionSort")
+                await InsertionSort(elements);
+            else if (selected === "MergeSort")
+                await MergeSort(elements, 0, elements.length);
+            else if (selected === "SelectionSort")
+                await SelectionSort(elements);
+
+            running = false;
         };
 
         const describe_sorting = () => {
@@ -115,12 +141,201 @@
             // make selected visible
             document.getElementById(selected_sorting).hidden = false;
         };
+
+        const get_code = (name) => {
+            return document.getElementById(`${name}-code`).innerHTML;
+        };
+
+        const swap = async (i, j, delay) => {
+            if (typeof delay === "undefined") delay = SORT_DELAY / elements.length;
+            if (!running) return;
+            changeColor(i, 'red');
+            [elements[i].style.left, elements[j].style.left] = [elements[j].style.left, elements[i].style.left];
+            [elements[i], elements[j]] = [elements[j], elements[i]];
+            await sleep(delay);
+            resetColor(j);
+        }
+
+        const getValue = (i) => {
+            return typeof i === "object" ? parseFloat(i.style.height.slice(0, -1)) : parseFloat(elements[i].style.height.slice(0, -1));
+        }
+
+        const compare = (x, y) => {
+            return getValue(x) >= getValue(y);
+        }
+
+        const sleep = (delay) => {
+            return new Promise(resolve => {
+                setTimeout(resolve, delay);
+            });
+        }
+
+        const shuffle = () => {
+            running = true;
+            for (let i = 0; i < elements.length; i++) {
+                let rand_index = Math.floor(Math.random() * elements.length);
+                swap(i, rand_index, SHUFFLE_DELAY / elements.length);
+            }
+            running = false;
+        }
+
+        const changeColor = (i, color) => {
+            elements[i].style.backgroundColor = color;
+            elements[i].style.borderColor = color;
+        }
+
+        const resetColor = (i) => {
+            elements[i].style.backgroundColor = 'gray';
+            elements[i].style.borderColor = 'gray';
+        }
+
+        const resetColors = () => {
+            for (let i = 0; i < elements.length; i++)
+                resetColor(i);
+        }
     </script>
 
     <script>
-        // logics
-        // first script
-        init_container();
+        // Sort Functions
+        async function QuickSort(array, left, right) {
+            if (left < right) {
+                let pivot = left;
+                changeColor(pivot, 'red');
+                let i = left;
+                let j = right;
+                changeColor(j, 'blue');
+
+                while (i < j) {
+                    if (!running) return;
+                    while (compare(pivot, i) && i < j) {
+                        resetColor(i);
+                        i++;
+                        changeColor(i, 'green');
+                    }
+                    while (!compare(pivot, j)) {
+                        resetColor(j);
+                        j--;
+                        changeColor(j, 'blue');
+                    }
+                    changeColor(pivot, 'red');
+                    if (i < j) {
+                        await swap(i, j);
+                    }
+                }
+                await swap(pivot, j);
+                resetColor(i);
+                resetColor(j);
+                resetColor(pivot);
+                await QuickSort(array, left, j - 1);
+                await QuickSort(array, j + 1, right);
+            }
+        }
+
+        async function BubbleSort(array) {
+            for (let i = 1; i < array.length; i++) {
+                for (let j = 0; j < array.length - i; j++) {
+                    if (!running) return;
+                    if (compare(j, j + 1)) {
+                        await swap(j, j + 1);
+                    }
+                }
+            }
+        }
+
+        async function HeapSort(elements) {
+            async function heapify(elements, length, i) {
+                if (!running) return;
+                let largest = i;
+                let left = i * 2 + 1;
+                let right = left + 1;
+
+                if (left < length && compare(left, largest)) {
+                    largest = left;
+                }
+
+                if (right < length && compare(right, largest)) {
+                    largest = right;
+                }
+
+                if (largest != i) {
+                    await swap(i, largest);
+                    await heapify(elements, length, largest);
+                }
+            }
+
+            let length = elements.length;
+            let i = Math.floor(length / 2 - 1);
+            let k = length - 1;
+
+            while (i >= 0) {
+                if (!running) return;
+                await heapify(elements, length, i);
+                i--;
+            }
+
+            while (k >= 0) {
+                if (!running) return;
+                await swap(0, k);
+                await heapify(elements, k, 0);
+                k--;
+            }
+        }
+
+        async function InsertionSort(elements) {
+            for (let i = 1; i < elements.length; i++) {
+                if (!running) return;
+                let j = i;
+                while (j > 0 && !compare(j, j - 1)) {
+                    if (!running) return;
+                    await swap(j, j - 1);
+                    j--;
+                }
+            }
+        }
+
+        async function MergeSort(arr, start, end) {
+            if (start >= end - 1) return;
+            var mid = start + ~~((end - start) / 2);
+
+            await MergeSort(arr, start, mid);
+            await MergeSort(arr, mid, end);
+
+            var cache = Array(end - start).fill(arr[0]);
+            var k = mid;
+
+            for (var i = start, r = 0; i < mid; r++, i++) {
+                if (!running) return;
+                while (k < end && getValue(arr[k]) < getValue(arr[i])) {
+                    cache[r] = arr[k];
+                    r++;
+                    k++;
+                }
+                cache[r] = arr[i];
+            }
+
+            for (var i = 0; i < k - start; i++) {
+                if (!running) return;
+                arr[i + start] = cache[i];
+                arr[i + start].style.left = (100 / elements.length) * (i + start) + "%";
+                changeColor(i + start, RED);
+                playNote(calculateFreq(i + start), NOTE_DURATION);
+                await sleep(SORT_DELAY / elements.length);
+                resetColor(i + start);
+            }
+        }
+
+        async function SelectionSort(elements) {
+            for (let i = 0; i < elements.length; i++) {
+                let min = i;
+                for (let j = i; j < elements.length; j++) {
+                    if (!running) return;
+                    if (!compare(j, min)) {
+                        min = j;
+                    }
+                }
+                await swap(i, min);
+            }
+        }
     </script>
 
     <style>
