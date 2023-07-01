@@ -298,15 +298,15 @@
 
         async function MergeSort(arr, start, end) {
             if (start >= end - 1) return;
-            var mid = start + ~~((end - start) / 2);
+            let mid = start + ~~((end - start) / 2);
 
             await MergeSort(arr, start, mid);
             await MergeSort(arr, mid, end);
 
-            var cache = Array(end - start).fill(arr[0]);
-            var k = mid;
+            let cache = Array(end - start).fill(arr[0]);
+            let k = mid;
 
-            for (var i = start, r = 0; i < mid; r++, i++) {
+            for (let i = start, r = 0; i < mid; r++, i++) {
                 if (!running) return;
                 while (k < end && getValue(arr[k]) < getValue(arr[i])) {
                     cache[r] = arr[k];
@@ -316,12 +316,11 @@
                 cache[r] = arr[i];
             }
 
-            for (var i = 0; i < k - start; i++) {
+            for (let i = 0; i < k - start; i++) {
                 if (!running) return;
                 arr[i + start] = cache[i];
                 arr[i + start].style.left = (100 / elements.length) * (i + start) + "%";
-                changeColor(i + start, RED);
-                playNote(calculateFreq(i + start), NOTE_DURATION);
+                changeColor(i + start, 'red');
                 await sleep(SORT_DELAY / elements.length);
                 resetColor(i + start);
             }
