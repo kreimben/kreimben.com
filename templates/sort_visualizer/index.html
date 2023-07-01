@@ -172,6 +172,7 @@
         }
 
         const getValue = (i) => {
+            // console.log(`value: ${i}, type: ${typeof i} bool: ${typeof i === "object"}`)
             return typeof i === "object" ? parseFloat(i.style.height.slice(0, -1)) : parseFloat(elements[i].style.height.slice(0, -1));
         }
 
