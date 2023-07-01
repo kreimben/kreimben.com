@@ -39,8 +39,9 @@
                     <div>Best Case: {{ sort.best_case | represent | safe }}</div>
                     <div>Worst Case: {{ sort.worst_case | represent | safe }}</div>
                     <div>Method: {{ sort.method }}</div>
-                    <div class="my-4">{{ sort.extra_info }}</div>
-                    <div hidden="hidden" id="{{ sort.name }}-code">{{ sort.code }}</div>
+                    {% if sort.extra_info %}
+                        <div class="my-4">{{ sort.extra_info }}</div>
+                    {% endif %}
                 </div>
             {% endfor %}
         </div>
