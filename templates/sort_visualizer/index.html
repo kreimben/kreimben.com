@@ -160,6 +160,17 @@
             resetColor(j);
         }
 
+        const swap_other = async (i, j, elements, delay) => {
+            if (typeof delay === "undefined") delay = SORT_DELAY / elements.length;
+            if (!running) return;
+            changeColor(i, 'red');
+            [elements[i].style.left, elements[j].style.left] = [elements[j].style.left, elements[i].style.left];
+            [elements[i], elements[j]] = [elements[j], elements[i]];
+            await sleep(delay);
+            resetColor(i);
+            resetColor(j);
+        }
+
         const getValue = (i) => {
             return typeof i === "object" ? parseFloat(i.style.height.slice(0, -1)) : parseFloat(elements[i].style.height.slice(0, -1));
         }
@@ -261,7 +272,7 @@
                     largest = right;
                 }
 
-                if (largest != i) {
+                if (largest !== i) {
                     await swap(i, largest);
                     await heapify(elements, length, largest);
                 }
