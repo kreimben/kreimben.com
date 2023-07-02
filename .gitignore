@@ -1,8 +1,8 @@
 ### CUSTOM
 .idea/
-static/
+**/static/**/*
 **/*.log
-.aws/
+.aws/**/*
 
 ### Python template
 # Byte-compiled / optimized / DLL files
