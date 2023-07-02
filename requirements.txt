@@ -22,3 +22,4 @@ django-crispy-forms
 crispy-bootstrap5
 django-meta
 django-silk
+zappa

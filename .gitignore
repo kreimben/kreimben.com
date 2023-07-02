@@ -3,6 +3,7 @@
 **/static/**/*
 **/*.log
 .aws/**/*
+zappa_settings.json
 
 ### Python template
 # Byte-compiled / optimized / DLL files
