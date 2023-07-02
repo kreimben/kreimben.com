@@ -2,6 +2,7 @@
 .idea/
 static/
 **/*.log
+.aws/
 
 ### Python template
 # Byte-compiled / optimized / DLL files
