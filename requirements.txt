@@ -3,15 +3,10 @@ python-dotenv
 mysqlclient
 django-quill-editor
 fontawesomefree
-daphne
-Twisted[tls,http2]
 django-storages
 boto3
 ujson
-redis
 hiredis
-channels
-channels_redis
 geoip2
 Pillow
 django-allauth

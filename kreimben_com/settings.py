@@ -48,7 +48,6 @@ CSRF_TRUSTED_ORIGINS = ["https://kreimben.com"]
 INSTALLED_APPS = [
     "home.apps.HomeConfig",
     "blog.apps.BlogConfig",
-    'chat.apps.ChatConfig',
     'custom_account.apps.CustomAccountConfig',
     'projects.apps.ProjectsConfig',
     'projects.image_to_ascii_art.apps.ImageToAsciiArtConfig',
@@ -58,8 +57,6 @@ INSTALLED_APPS = [
     "django_quill",
     "fontawesomefree",
     "storages",
-    "daphne",
-    'channels',
     'geoip2',
     'django_extensions',
     'celery',

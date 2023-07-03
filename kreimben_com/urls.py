@@ -8,7 +8,6 @@ from server_error.views import ServerErrorView
 urlpatterns = [
     path("", include("home.urls")),
     path("blog/", include("blog.urls")),
-    path('chat/', include('chat.urls')),
     path('projects/', include('projects.urls')),
 
     path(f'{os.getenv("DJANGO_REAL_ADMIN_URI")}/', admin.site.urls),
