@@ -4,6 +4,8 @@
 **/*.log
 .aws/**/*
 zappa_settings.json
+buildanddeployzappa.sh
+buildandrunlocal.sh
 
 ### Python template
 # Byte-compiled / optimized / DLL files
