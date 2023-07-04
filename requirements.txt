@@ -8,8 +8,6 @@ boto3
 Pillow
 django-allauth
 django-extensions
-celery[redis]
-django-celery-results
 django-crispy-forms
 crispy-bootstrap5
 django-silk

@@ -58,8 +58,6 @@ INSTALLED_APPS = [
     "fontawesomefree",
     "storages",
     'django_extensions',
-    'celery',
-    'django_celery_results',
     'crispy_forms',
     'crispy_bootstrap5',
     'silk',
@@ -139,22 +137,6 @@ DATABASES = {
         'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
         'charset': 'utf8mb4',
         'use_unicode': True,
-    },
-}
-
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-        'LOCATION': f'redis://{os.getenv("REDIS_HOST")}:{os.getenv("REDIS_PORT")}',
-    }
-}
-
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [(os.getenv('REDIS_HOST'), os.getenv('REDIS_PORT'))],
-        },
     },
 }
 
@@ -260,16 +242,6 @@ if DEBUG:
     SILKY_PYTHON_PROFILER = True
 else:
     SILKY_PYTHON_PROFILER = False
-
-# Celery related
-CELERY_BROKER_URL = f'redis://{os.getenv("REDIS_HOST")}:{os.getenv("REDIS_PORT")}/5'
-CELERY_TIMEZONE = 'Asia/Seoul'
-CELERY_TASK_TRACK_STARTED = True
-CELERY_USE_UTC = True
-CELERY_TASK_TIME_LIMIT = 5 * 60
-CELERY_RESULT_BACKEND = 'django-db'
-CELERY_CACHE_BACKEND = 'default'
-CELERY_TASK_SERIALIZER = 'json'
 
 # django form crispy
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
