@@ -2,11 +2,15 @@ django
 python-dotenv
 mysqlclient
 django-quill-editor
+fontawesomefree
 django-storages
-geoip2
+boto3
 Pillow
 django-allauth
+django-extensions
 celery[redis]
 django-celery-results
 django-crispy-forms
+crispy-bootstrap5
+django-silk
 zappa
