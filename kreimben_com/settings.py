@@ -57,7 +57,6 @@ INSTALLED_APPS = [
     "django_quill",
     "fontawesomefree",
     "storages",
-    'geoip2',
     'django_extensions',
     'celery',
     'django_celery_results',
