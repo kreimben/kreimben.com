@@ -63,7 +63,6 @@ INSTALLED_APPS = [
     'django_celery_results',
     'crispy_forms',
     'crispy_bootstrap5',
-    'meta',
     'silk',
     # allauth
     'allauth',
