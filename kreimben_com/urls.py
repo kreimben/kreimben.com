@@ -12,6 +12,7 @@ urlpatterns = [
 
     path(f'{os.getenv("DJANGO_REAL_ADMIN_URI")}/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
+    path('accounts/', include('custom_account.urls')),
 ]
 
 if os.getenv("DJANGO_DEBUG") == "True":
