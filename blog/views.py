@@ -1,6 +1,3 @@
-from urllib.request import urlopen
-
-import ujson
 from django.core.cache import cache
 from django.core.paginator import Paginator
 from django.db.models import Q
@@ -72,38 +69,18 @@ class BlogFileDownloadCounterView(RedirectView):
     query_string = True
     pattern_name = 'file_download'
 
-    def _get_geo_info(self, ip):
-        response = urlopen("http://ip-api.com/json/" + ip).read().decode('utf-8')
-        return ujson.loads(response)
-
-    def _extract_downloader_info(self, file_id, ip_address) -> Downloader:
-        info = self._get_geo_info(ip_address)
-
+    def __save_ip_and_get_file(self, file_id, ip_address):
         f = get_object_or_404(SubmittedFile, id=file_id)
 
-        if info['status'] == 'fail':
-            d = Downloader(
-                file=f,
-                ip_address=ip_address
-            )
-        else:
-            d = Downloader(
-                file=f,
-                ip_address=ip_address,
-                city=info['city'],
-                country_name=info['country'],
-                latitude=info['lat'],
-                longitude=info['lon'],
-                time_zone=info['timezone'],
-            )
+        d = Downloader.objects.create(
+            file=f,
+            ip_address=ip_address
+        )
 
-        d.save()
+        return f
 
-        return d
-
-    async def get_redirect_url(self, *args, **kwargs):
-        self._extract_downloader_info(kwargs['file_id'], kwargs['ip'])
-        f: SubmittedFile = get_object_or_404(SubmittedFile, id=kwargs['file_id'])
+    def get_redirect_url(self, *args, **kwargs):
+        f: SubmittedFile = self.__save_ip_and_get_file(kwargs['file_id'], kwargs['ip'])
         url = f.download
         return url
 
