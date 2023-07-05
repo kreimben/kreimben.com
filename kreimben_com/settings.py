@@ -31,7 +31,7 @@ SECRET_KEY = os.getenv("DJANGO_SECRET")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DJANGO_DEBUG") == "True"
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "kreimben.com"]
 
 # https://docs.djangoproject.com/en/4.0/ref/settings/#use-x-forwarded-host
 USE_X_FORWARDED_HOST = True
