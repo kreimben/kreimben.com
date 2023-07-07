@@ -35,15 +35,15 @@ def __get_gray_image(image):
     return image.convert("L")
 
 
-def convert_to_ascii(image, compress_ratio: int = 3) -> str:
+def convert_to_ascii(image) -> str:
     width, height = image.size
     ratio = height / width
-    height = int(width * ratio * 0.5)
-    image = image.resize((width, height), PILI.LANCZOS)
+    target_width, target_height = 400, int(400 * ratio)
+    image = image.resize((target_width, target_height), PILI.LANCZOS)
     res = ''
     N = len(char_set)
-    for i in range(0, height, compress_ratio):
-        for j in range(0, width, compress_ratio):
+    for i in range(0, target_height):
+        for j in range(0, target_width):
             pixel = image.getpixel((j, i))
             res += char_set[int(pixel / (256 / N))]
         res += '\n'
