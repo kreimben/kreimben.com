@@ -9,6 +9,7 @@ from home.views import BaseFormView
 from projects.image_to_ascii_art.forms import ImageUploadForm, UserUploadedImageForm, MakeThisImagePublicForm, \
     DeleteConvertingResult
 from projects.image_to_ascii_art.models import ImageConvertingResult
+from projects.image_to_ascii_art.tasks import draw_ascii_art
 
 
 @sync_to_async
@@ -45,12 +46,11 @@ class ImageToAsciiView(BaseFormView):
 
             if is_valid:
                 instance = await sync_to_async(new_form.save)()
-                # _ = draw_ascii_art.delay(
-                #     pk=instance.pk,
-                #     compress_amount=compress_amount,
-                #     is_public=is_public
-                # )
-                messages.success(request, 'Image is being converted to ASCII art now.')
+                _ = await sync_to_async(draw_ascii_art)(
+                    pk=instance.pk,
+                    is_public=is_public
+                )
+                messages.success(request, 'Image is converted to ASCII art now.')
                 return self.form_valid(form)
 
         return self.form_invalid(form)
