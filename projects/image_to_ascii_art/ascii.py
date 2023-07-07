@@ -18,20 +18,20 @@ def get_gray_image_from_s3(key: str):
     output = io.BytesIO()
     s3.download_fileobj(Bucket=os.getenv('AWS_STORAGE_BUCKET_NAME'), Key=key, Fileobj=output)
     output.seek(0)
-    image = get_gray_image(get_image(output))
+    image = __get_gray_image(__get_image(output))
     output.close()
     s3.close()
     return image
 
 
-def get_image(image_name):
+def __get_image(image_name):
     """
     :param image_name - real file name or file-like object.
     """
     return PILI.open(image_name)
 
 
-def get_gray_image(image):
+def __get_gray_image(image):
     return image.convert("L")
 
 
