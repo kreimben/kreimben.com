@@ -36,7 +36,6 @@ class ImageToAsciiView(BaseFormView):
             data = dict(request.POST)
             data['user'] = request.user
             data['image'] = request.FILES.get('image', None)
-            compress_amount = int(data.pop('compress_amount')[0])
             is_public = bool(data.pop('is_public')[0])
             data.pop('csrfmiddlewaretoken')
 
