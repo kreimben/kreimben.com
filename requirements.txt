@@ -5,10 +5,10 @@ django-quill-editor
 fontawesomefree
 django-storages
 boto3
-Pillow
 django-allauth
 django-extensions
 django-crispy-forms
 crispy-bootstrap5
 django-silk
 zappa
+Pillow
