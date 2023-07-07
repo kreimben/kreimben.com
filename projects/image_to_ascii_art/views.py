@@ -85,7 +85,7 @@ class ImageConvertingResultView(BaseFormView):
 
             if result.upload_image.user == request.user:
                 result.delete()
-                messages.success(request, 'Ascii art is deleted.')
+                messages.success(request, 'Ascii art has been deleted.')
                 return self.form_valid(form)
             else:
                 messages.error(request, 'You are not owner of this image.')
