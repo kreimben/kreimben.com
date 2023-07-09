@@ -5,6 +5,7 @@
 .aws/**/*
 zappa_settings.json
 Dockerfile
+build.sh
 
 ### Python template
 # Byte-compiled / optimized / DLL files
