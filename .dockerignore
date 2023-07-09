@@ -1,5 +1,5 @@
-venv/
-**/*.log
+.git/
+.idea/
 
 
 ### Python template
