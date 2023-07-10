@@ -4,7 +4,6 @@
 **/*.log
 .aws/**/*
 zappa_settings.json
-Dockerfile
 build.sh
 
 ### Python template
