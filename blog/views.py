@@ -1,4 +1,3 @@
-from django.core.cache import cache
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import HttpRequest
@@ -52,10 +51,8 @@ class BlogPostDetailView(BaseDetailView):
         except SubmittedFile.DoesNotExist:
             files = None
 
-        if not cache.get(f'{post.id}/{self._get_client_ip(request)}'):
-            post.view_count += 1
-            post.save()
-            cache.set(f'{post.id}/{self._get_client_ip(request)}', True, 30 * 60)
+        post.view_count += 1
+        post.save()
 
         context = self.get_context_data()
         context['post'] = post
