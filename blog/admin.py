@@ -16,7 +16,7 @@ class PostAdmin(admin.ModelAdmin):
     list_display = ["id", "title", 'view_count', "category", "status", "created_at", "updated_at"]
     readonly_fields = ['view_count']
     search_fields = ["title", "status", "content"]
-    list_filter = ["status"]
+    list_filter = ["status", "category"]
     show_full_result_count = True
 
     def get_queryset(self, request):
