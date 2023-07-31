@@ -28,8 +28,9 @@
                     <div style="text-align: start">
                         <strong class="mb-0">{{ post.title | capfirst }}</strong>
                         {% if post.subtitle %}
-                            <p class="mb-0 text-opacity-75">{{ post.subtitle }}</p>
+                            <p class="mb-0 opacity-75">{{ post.subtitle }}</p>
                         {% endif %}
+                        <p class="mb-0 opacity-50">{{ post.view_count }} views</p>
                     </div>
                     <div>
                         <div class="opacity-50 text-nowrap">{{ post.created_at | date }}</div>
