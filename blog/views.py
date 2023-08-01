@@ -32,17 +32,18 @@ class BlogView(BaseTemplateView):
         return self.render_to_response(context)
 
 
+def _get_client_ip(request: HttpRequest):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+
 class BlogPostDetailView(BaseDetailView):
     template_name = "../templates/blog/blog_post.html"
     model = Post
-
-    def _get_client_ip(self, request: HttpRequest):
-        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-        if x_forwarded_for:
-            ip = x_forwarded_for.split(',')[0]
-        else:
-            ip = request.META.get('REMOTE_ADDR')
-        return ip
 
     def get(self, request, **kwargs):
         post = get_object_or_404(Post, Q(id=kwargs["post_id"]) & Q(status='published'))
@@ -57,7 +58,7 @@ class BlogPostDetailView(BaseDetailView):
         context = self.get_context_data()
         context['post'] = post
         context['files'] = files
-        context['ip'] = self._get_client_ip(request)
+        context['ip'] = _get_client_ip(request)
         return self.render_to_response(context)
 
 
