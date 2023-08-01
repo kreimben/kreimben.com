@@ -1,3 +1,4 @@
+from django.core.cache import cache
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import HttpRequest
@@ -29,6 +30,7 @@ class BlogView(BaseTemplateView):
 
         context["page_obj"] = page_obj
         context["categories"] = categories
+        context["selected_category_name"] = category_name
         return self.render_to_response(context)
 
 
@@ -52,8 +54,10 @@ class BlogPostDetailView(BaseDetailView):
         except SubmittedFile.DoesNotExist:
             files = None
 
-        post.view_count += 1
-        post.save()
+        if not cache.get(f"post_{post.id}_viewed"):
+            cache.set(f"post_{post.id}_viewed", True)  # use default timeout
+            post.view_count += 1
+            post.save()
 
         context = self.get_context_data()
         context['post'] = post
