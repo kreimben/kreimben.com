@@ -66,23 +66,24 @@ class BlogPostDetailView(BaseDetailView):
         return self.render_to_response(context)
 
 
+def _save_ip_and_get_file(file_id, ip_address):
+    f = get_object_or_404(SubmittedFile, id=file_id)
+
+    d = Downloader.objects.create(
+        file=f,
+        ip_address=ip_address
+    )
+
+    return f
+
+
 class BlogFileDownloadCounterView(RedirectView):
     permanent = True
     query_string = True
     pattern_name = 'file_download'
 
-    def __save_ip_and_get_file(self, file_id, ip_address):
-        f = get_object_or_404(SubmittedFile, id=file_id)
-
-        d = Downloader.objects.create(
-            file=f,
-            ip_address=ip_address
-        )
-
-        return f
-
     def get_redirect_url(self, *args, **kwargs):
-        f: SubmittedFile = self.__save_ip_and_get_file(kwargs['file_id'], kwargs['ip'])
+        f: SubmittedFile = _save_ip_and_get_file(kwargs['file_id'], kwargs['ip'])
         url = f.download
         return url
 
