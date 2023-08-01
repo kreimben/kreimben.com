@@ -53,17 +53,31 @@
             <a href="?category={{ category }}"
                class="badge text-bg-dark rounded-pill">{{ category }}</a>
         {% endfor %}
+        {% if selected_category_name %}
+            <a href="/blog/"
+               class="badge text-bg-dark rounded-pill">All</a>
+        {% endif %}
     </div>
 
     <nav class="mt-3">
         <ul class="pagination justify-content-center">
             {% if page_obj.has_previous %}
-                <li class="page-item">
-                    <a href="?page=1" class="page-link">&laquo; first</a>
-                </li>
-                <li class="page-item">
-                    <a href="?page={{ page_obj.previous_page_number }}" class="page-link">previous</a>
-                </li>
+                {% if selected_category_name %}
+                    <li class="page-item">
+                        <a href="?category={{ selected_category_name }}" class="page-link">&laquo; first</a>
+                    </li>
+                    <li class="page-item">
+                        <a href="?page={{ page_obj.previous_page_number }}&category={{ selected_category_name }}"
+                           class="page-link">previous</a>
+                    </li>
+                {% else %}
+                    <li class="page-item">
+                        <a href="/blog/" class="page-link">&laquo; first</a>
+                    </li>
+                    <li class="page-item">
+                        <a href="?page={{ page_obj.previous_page_number }}" class="page-link">previous</a>
+                    </li>
+                {% endif %}
             {% else %}
                 <li class="page-item">
                     <a class="page-link disabled">&laquo; first</a>
@@ -75,17 +89,29 @@
 
             <li class="page-item">
                 <a class="page-link">
-                    {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}
+                    {{ page_obj.number }} page of {{ page_obj.paginator.num_pages }} pages
                 </a>
             </li>
 
             {% if page_obj.has_next %}
-                <li class="page-item">
-                    <a href="?page={{ page_obj.next_page_number }}" class="page-link">next</a>
-                </li>
-                <li class="page-item">
-                    <a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">last &raquo;</a>
-                </li>
+                {% if selected_category_name %}
+                    <li class="page-item">
+                        <a href="?page={{ page_obj.next_page_number }}&category={{ selected_category_name }}"
+                           class="page-link">next</a>
+                    </li>
+                    <li class="page-item">
+                        <a href="?page={{ page_obj.paginator.num_pages }}&category={{ selected_category_name }}"
+                           class="page-link">last &raquo;</a>
+                    </li>
+                {% else %}
+                    <li class="page-item">
+                        <a href="?page={{ page_obj.next_page_number }}" class="page-link">next</a>
+                    </li>
+                    <li class="page-item">
+                        <a href="?page={{ page_obj.paginator.num_pages }}"
+                           class="page-link">last &raquo;</a>
+                    </li>
+                {% endif %}
             {% else %}
                 <li class="page-item">
                     <a class="page-link disabled">next</a>
