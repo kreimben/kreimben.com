@@ -84,6 +84,9 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 
+    # only for silk.
+    'allauth.account.middleware.AccountMiddleware',
+
     'silk.middleware.SilkyMiddleware',
 ]
 
