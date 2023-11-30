@@ -12,3 +12,4 @@ crispy-bootstrap5
 django-silk
 zappa
 Pillow
+django-passkeys

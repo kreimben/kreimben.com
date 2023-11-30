@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'passkeys',
 
     "django.contrib.admin",
     "django.contrib.auth",
