@@ -48,7 +48,6 @@ CSRF_TRUSTED_ORIGINS = ["https://kreimben.com"]
 INSTALLED_APPS = [
     "home.apps.HomeConfig",
     "blog.apps.BlogConfig",
-    'custom_account.apps.CustomAccountConfig',
     'projects.apps.ProjectsConfig',
     'projects.image_to_ascii_art.apps.ImageToAsciiArtConfig',
     'projects.sort_visualizer.apps.SortVisualizerConfig',
@@ -61,11 +60,6 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'silk',
-    # allauth
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
     'passkeys',
 
     "django.contrib.admin",
@@ -86,8 +80,6 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 
     # only for silk.
-    'allauth.account.middleware.AccountMiddleware',
-
     'silk.middleware.SilkyMiddleware',
 ]
 
@@ -95,8 +87,8 @@ AUTHENTICATION_BACKENDS = [
     # Needed to log in by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
 
-    # `allauth` specific authentication methods, such as login by e-mail
-    'allauth.account.auth_backends.AuthenticationBackend',
+    # passkeys
+    'passkeys.backend.PasskeyModelBackend',
 ]
 
 ROOT_URLCONF = "kreimben_com.urls"
@@ -104,10 +96,7 @@ ROOT_URLCONF = "kreimben_com.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [
-            os.path.join(BASE_DIR, "templates"),
-            os.path.join(BASE_DIR, 'templates/allauth'),
-        ],
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -226,21 +215,6 @@ INTERNAL_IPS = [
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024
 
 GEOIP_PATH = os.path.join('geoip')
-
-# allauth
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'SCOPE': [
-            'profile',
-            'email',
-            'openid',
-        ],
-        'AUTH_PARAMS': {
-            'access_type': 'online',
-        },
-        'OAUTH_PKCE_ENABLED': True,
-    }
-}
 
 LOGIN_REDIRECT_URL = '/'
 ACCOUNT_SIGNUP_REDIRECT_URL = '/'
