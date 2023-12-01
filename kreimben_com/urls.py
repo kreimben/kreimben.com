@@ -11,8 +11,8 @@ urlpatterns = [
     path('projects/', include('projects.urls')),
 
     path(f'{os.getenv("DJANGO_REAL_ADMIN_URI")}/', admin.site.urls),
-    path('accounts/', include('allauth.urls')),
-    path('accounts/', include('custom_account.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('passkeys/', include('passkeys.urls')),
 ]
 
 if os.getenv("DJANGO_DEBUG") == "True":
