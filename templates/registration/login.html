@@ -23,4 +23,15 @@
         </button>
         {% include 'passkeys.js' %}
     </form>
+
+    <div id="pk" class="alert alert-info" style="display: none">Your device supports passkeys, <a
+            href="{% url 'passkeys:enroll' %}">Enroll</a></div>
+    <script type="text/javascript">
+        function register_pk() {
+            $('#pk').show();
+        }
+
+        {% include 'check_passkeys.js'%}
+        $(document).ready(check_passkey(true, register_pk))
+    </script>
 {% endblock %}
