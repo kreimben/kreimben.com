@@ -7,7 +7,7 @@ class ImageUploadForm(forms.ModelForm):
     """
     Just for get compression level.
     """
-    is_public = forms.BooleanField(required=True, initial=True)
+    is_public = forms.BooleanField(required=False, initial=False)
 
     class Meta:
         model = UserUploadedImage
