@@ -37,7 +37,10 @@ class ImageToAsciiView(BaseFormView):
             data = dict(request.POST)
             data['user'] = request.user
             data['image'] = request.FILES.get('image', None)
-            is_public = bool(data.pop('is_public')[0])
+            if 'is_public' not in data.keys():
+                is_public = False
+            else:
+                is_public = bool(data.pop('is_public')[0])
             data.pop('csrfmiddlewaretoken')
 
             new_form = UserUploadedImageForm(data, request.FILES)
