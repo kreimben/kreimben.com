@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-    {% if django_user and google_user %}
+    {% if user.is_authenticated %}
         <div class="alert alert-danger" role="alert">
             Maximum image size is 10MB!
         </div>
@@ -24,6 +24,6 @@
             <a class="btn btn-primary" style="color:white;" href={% url 'converting_result' %}>Past results</a>
         </div>
     {% else %}
-        <div class="m-4 fs-1">You need to have a account of kreimben.com!</div>
+        <div class="m-4 fs-1">You need to have an account of kreimben.com!</div>
     {% endif %}
 {% endblock %}
