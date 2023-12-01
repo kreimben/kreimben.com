@@ -229,3 +229,7 @@ else:
 # django form crispy
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+# Passkeys
+FIDO_SERVER_ID = "https://kreimben.com"
+FIDO_SERVER_NAME = "kreimben.com"
