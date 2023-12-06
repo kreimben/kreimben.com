@@ -9,115 +9,108 @@
 {% endblock %}
 
 {% block content %}
-    <form class="col-12 col-lg-auto my-3" method="get" action="{% url "search" %}">
+    <!-- search input -->
+    <form class="w-100 col-lg-auto my-3" method="get" action="{% url 'search' %}">
         {% csrf_token %}
-        <input name="q"
-               id="search_keyword"
-               type="search"
-               class="form-control"
-               placeholder="Search title, subtitle, posts..."
-               aria-label="Search">
+        <input
+                name="q"
+                id="search_keyword"
+                type="search"
+                class="form-control form-control-lg rounded-lg py-2 px-3 shadow-sm w-1/2"
+                placeholder="Search title, subtitle, posts..."
+                aria-label="Search"
+                autofocus
+        >
+        <button class="btn btn-outline-secondary" type="submit">
+            <i class="fas fa-search"></i>
+        </button>
     </form>
 
-    <div class="list-group">
+    <!-- summary -->
+    <div class="list-group bg-gray-100 rounded-lg shadow-md p-4">
         {% for post in page_obj %}
-            <a href="{% url 'post' post.id %}"
-               class="list-group-item list-group-item-action p-3"
-               aria-current="true">
-                <div class="d-flex gap-2 justify-content-between">
-                    <div style="text-align: start">
-                        <strong class="mb-0">{{ post.title | capfirst }}</strong>
-                        {% if post.subtitle %}
-                            <p class="mb-0 opacity-75">{{ post.subtitle }}</p>
-                        {% endif %}
-                        <p class="mb-0 opacity-50">{{ post.view_count }} views</p>
+            <div class="flex items-center justify-between">
+                <a href="{% url 'post' post.id %}"
+                   class="text-center mx-auto m-2 p-12 w-full md:w-1/2 lg:w-1/3 xl:w-1/2 list-group-item list-group-item-action rounded-lg bg-white border border-gray-200 flex flex-col hover:shadow-xl">
+                    <div class="flex items-center justify-between">
+                        <div class="flex flex-col w-full">
+                            <strong class="text-gray-900 mb-2">{{ post.title | capfirst }}</strong>
+                            {% if post.subtitle %}
+                                <p class="text-gray-600 mb-2">{{ post.subtitle }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="flex flex-wrap gap-2 items-center">
+                            <span class="text-gray-500"><i class="fas fa-eye"></i> {{ post.view_count }}</span>
+                            <span class="bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg px-3 py-1 font-semibold">{{ post.category }}</span>
+                            <span class="text-gray-500 text-sm">{{ post.created_at | date }}</span>
+                        </div>
                     </div>
-                    <div>
-                        <div class="opacity-50 text-nowrap">{{ post.created_at | date }}</div>
-                        <div class="badge text-bg-primary rounded-pill">{{ post.category }}</div>
-                    </div>
-                </div>
-            </a>
-        {% empty %}
-            <div>
-                Sorry, I don't have any posts to give you
+                </a>
             </div>
-            <div>
-                :(
+        {% empty %}
+            <div class="p-4 text-center">
+                <h3 class="text-gray-900 mb-4">Sorry, I don't have any posts to give you</h3>
+                <div>
+                    :(
+                </div>
             </div>
         {% endfor %}
     </div>
 
-    <div class="p-3 m-3">
+    <!-- categories -->
+    <div class="p-3 m-3 flex flex-wrap justify-center gap-2">
         {% for category in categories %}
             <a href="?category={{ category }}"
-               class="badge text-bg-dark rounded-pill">{{ category }}</a>
+               class="badge bg-gray-700 text-white rounded-lg px-4 py-2 text-sm font-semibold">
+                {{ category }}
+            </a>
         {% endfor %}
+
         {% if selected_category_name %}
-            <a href="/blog/"
-               class="badge text-bg-dark rounded-pill">All</a>
+            <a href="/blog/" class="badge bg-gray-300 text-gray-700 rounded-lg px-4 py-2 text-sm font-semibold">
+                All
+            </a>
         {% endif %}
     </div>
 
-    <nav class="mt-3">
-        <ul class="pagination justify-content-center">
+    <!-- paginator -->
+    <nav class="flex justify-center my-4">
+        <ul class="flex items-center gap-4">
             {% if page_obj.has_previous %}
-                {% if selected_category_name %}
-                    <li class="page-item">
-                        <a href="?category={{ selected_category_name }}" class="page-link">&laquo; first</a>
-                    </li>
-                    <li class="page-item">
-                        <a href="?page={{ page_obj.previous_page_number }}&category={{ selected_category_name }}"
-                           class="page-link">previous</a>
-                    </li>
-                {% else %}
-                    <li class="page-item">
-                        <a href="/blog/" class="page-link">&laquo; first</a>
-                    </li>
-                    <li class="page-item">
-                        <a href="?page={{ page_obj.previous_page_number }}" class="page-link">previous</a>
-                    </li>
-                {% endif %}
-            {% else %}
                 <li class="page-item">
-                    <a class="page-link disabled">&laquo; first</a>
+                    <a href="?page={{ page_obj.previous_page_number }}"
+                       class="page-link bg-gray-200 text-gray-700 rounded-md px-4 py-2">
+                        <i class="fas fa-chevron-left"></i>
+                        Previous
+                    </a>
                 </li>
-                <li class="page-item">
-                    <a class="page-link disabled">previous</a>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link bg-gray-500 text-gray-400 rounded-md px-4 py-2 cursor-not-allowed">
+                        <i class="fas fa-chevron-left"></i>
+                        Previous
+                    </a>
                 </li>
             {% endif %}
 
             <li class="page-item">
-                <a class="page-link">
-                    {{ page_obj.number }} page of {{ page_obj.paginator.num_pages }} pages
-                </a>
+                <span class="page-link text-gray-800">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
             </li>
 
             {% if page_obj.has_next %}
-                {% if selected_category_name %}
-                    <li class="page-item">
-                        <a href="?page={{ page_obj.next_page_number }}&category={{ selected_category_name }}"
-                           class="page-link">next</a>
-                    </li>
-                    <li class="page-item">
-                        <a href="?page={{ page_obj.paginator.num_pages }}&category={{ selected_category_name }}"
-                           class="page-link">last &raquo;</a>
-                    </li>
-                {% else %}
-                    <li class="page-item">
-                        <a href="?page={{ page_obj.next_page_number }}" class="page-link">next</a>
-                    </li>
-                    <li class="page-item">
-                        <a href="?page={{ page_obj.paginator.num_pages }}"
-                           class="page-link">last &raquo;</a>
-                    </li>
-                {% endif %}
-            {% else %}
                 <li class="page-item">
-                    <a class="page-link disabled">next</a>
+                    <a href="?page={{ page_obj.next_page_number }}"
+                       class="page-link bg-gray-200 text-gray-700 rounded-md px-4 py-2">
+                        Next
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
                 </li>
-                <li class="page-item">
-                    <a class="page-link disabled">last &raquo;</a>
+            {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link bg-gray-500 text-gray-400 rounded-md px-4 py-2 cursor-not-allowed">
+                        Next
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
                 </li>
             {% endif %}
         </ul>
