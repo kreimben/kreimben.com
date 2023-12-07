@@ -9,40 +9,43 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row justify-content-center">
-        <div class=" col-8">
-            <h1 class="text-center">{{ post.title }}</h1>
-            {% if post.subtitle %}
-                <h5 class="text-center text-muted">{{ post.subtitle }}</h5>
+    <div class="mx-auto w-full md:w-3/4">
+        <h1 class="text-center text-3xl font-semibold">{{ post.title }}</h1>
+
+        {% if post.subtitle %}
+            <p class="text-center text-gray-500 mb-4">{{ post.subtitle }}</p>
+        {% endif %}
+
+        <div class="flex justify-center mb-4">
+            <a href="/blog?category={{ post.category.name }}"
+               class="bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg px-4 py-2 font-semibold">{{ post.category.name }}</a>
+        </div>
+
+        <div class="flex justify-between items-center mb-4">
+            <span class="text-gray-500 text-sm font-semibold tracking-tight">Posted on:</span>
+            <span class="text-gray-700 text-sm">{{ post.created_at | date }}</span>
+
+            <span class="text-gray-500 text-sm font-semibold tracking-tight">Read:</span>
+            <span class="text-blue-500 text-sm font-semibold">{{ post.view_count }} times</span>
+        </div>
+
+        <div class="mt-4">
+            {% if files %}
+                <ul class="list-group list-group-flush">
+                    {% for file in files %}
+                        <li class="list-group-item">
+                            <a href="{% url 'file_download' post.id ip file.id %}"
+                               class="text-gray-900 hover:text-gray-700">{{ file.file.name }}
+                                ({{ file.file.size | filesizeformat }})</a>
+                        </li>
+                    {% endfor %}
+                </ul>
             {% endif %}
+        </div>
 
-            <div class="text-center">
-                <a href="/blog?category={{ post.category.name }}"
-                   class="badge text-bg-dark rounded-pill">{{ post.category.name }}</a>
-            </div>
-
-            <h6 class="text-center my-3">{{ post.created_at }}</h6>
-
-            <p>{{ post.view_count }} times read.</p>
-
-            <div id="fileTimer">
-                {% if files %}
-                    <ul class="list-group">
-                        {% for file in files %}
-                            <div class="list-group-item">
-                                <a href="{% url 'file_download' post.id ip file.id %}">
-                                    {{ file.file.name }} ({{ file.file.size | filesizeformat }})
-                                </a>
-                            </div>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            </div>
-
-            <br/><br/>
-
+        <div class="pt-4">
             <div class="ql-snow">
-                <div class="ql-editor">
+                <div class="ql-editor prose">
                     {{ post.content.html | safe }}
                 </div>
             </div>
