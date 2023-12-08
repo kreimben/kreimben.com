@@ -5,42 +5,38 @@
 {% endblock %}
 
 {% block content %}
-    <a class="btn btn-primary text-white m-4" href={% url 'image_to_ascii_art_view' %}>
-        Generate ascii art
+    <a href="{% url 'image_to_ascii_art_view' %}" class="bg-blue-500 text-white rounded-pill px-3 py-2 m-4">
+        Create ASCII Art
     </a>
 
-    <br/>
-
-    <div class="m-4 d-inline-flex justify-content-center flex-wrap">
+    <div class="mx-auto flex justify-center flex-wrap mt-4">
         {% for result in results %}
             {% load image_to_ascii_art_extras %}
-            <div class="card m-4" style="width: 18rem;">
-                <img src="{{ result.upload_image.image.url }}" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">{{ result.upload_image.image.name | get_last_from_string }}</h5>
-                    <p class="card-text">compress level: {{ result.compress_level }}</p>
-                    <p class="card-text">created at: {{ result.created_at|date:"Y-m-d" }}</p>
-                    <strong class="card-text d-block mb-4">
-                        {% if result.is_public %}
-                            public
-                        {% else %}
-                            private
-                        {% endif %}
-                    </strong>
-                    <a class="btn btn-primary text-white" href={% url 'converting_result_detail' result.pk %}>
-                        See details
-                    </a>
+            <div class="w-auto p-4">
+                <div class="bg-white rounded-lg shadow-md">
+                    <img src="{{ result.upload_image.image.url }}" alt="{{ result.upload_image.image.name }}"
+                         class="rounded-t-lg h-48">
+                    <div class="p-4">
+                        <h5 class="text-lg font-bold">{{ result.upload_image.image.name | get_last_from_string }}</h5>
+                        <p class="text-gray-500 mb-2">Compression Level: {{ result.compress_level }}</p>
+                        <p class="text-gray-500 mb-2">Created At: {{ result.created_at|date:"Y-m-d" }}</p>
+                        <p class="text-gray-500 mb-2">Status: {{ result.is_public | default:'Unknown' }}</p>
+                        <a href="{% url 'converting_result_detail' result.pk %}"
+                           class="bg-blue-500 text-white rounded-pill px-3 py-2">
+                            View Details
+                        </a>
 
-                    <form method="POST" class="mt-4">
-                        {% csrf_token %}
-                        <input id="name" name="pk" value="{{ result.pk }}" style="display:none;"/>
-                        <button class="btn-close" data-dismiss="alert" aria-label="Close"></button>
-                    </form>
+                        <form method="POST" class="mt-4">
+                            {% csrf_token %}
+                            <input id="name" name="pk" value="{{ result.pk }}" style="display:none;"/>
+                            <button class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </form>
+                    </div>
                 </div>
             </div>
         {% empty %}
-            <div class="m-4 fs-1">
-                There are no any converted results!
+            <div class="text-center fs-1 m-4">
+                No conversions have been made yet!
             </div>
         {% endfor %}
     </div>
