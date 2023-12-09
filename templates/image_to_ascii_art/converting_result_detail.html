@@ -7,53 +7,64 @@
 {% endblock %}
 
 {% block content %}
-    <div class="d-grid col-6 mx-auto gap-2">
-        <a class="btn btn-primary text-white" href={% url 'image_to_ascii_art_view' %}>
-            Generate ascii art
+    <div class="grid gap-2 mx-auto">
+        <a href="{% url 'image_to_ascii_art_view' %}" class="bg-blue-500 text-white rounded-pill px-3 py-2">
+            Generate ASCII Art
         </a>
 
-        <a class="btn btn-primary text-white" href={% url 'converting_result' %}>
-            Past results
+        <a href="{% url 'converting_result' %}" class="bg-blue-500 text-white rounded-pill px-3 py-2">
+            Past Results
         </a>
     </div>
 
-    <div class="m-4">
+    <div class="mt-4">
         {% if result %}
             <div>
-                uploaded by: {{ result.upload_image.user.username }}
+                Uploaded by: {{ result.upload_image.user.username }}
             </div>
+
             <div>
-                original image: <img class="block" width="128px"
-                                     src={{ result.upload_image.image.url }} alt={{ result.upload_image.image.name }}/>
+                Original Image:
+                <img src="{{ result.upload_image.image.url }}" alt="{{ result.upload_image.image.name }}"
+                     class="block w-32 object-cover"/>
             </div>
+
             <div>
-                uploaded at: {{ result.upload_image.created_at }}
+                Uploaded At: {{ result.upload_image.created_at }}
             </div>
+
             <div>
-                compression level: {{ result.compress_level }}
+                Compression Level: {{ result.compress_level }}
             </div>
+
             <div>
-                converted at: {{ result.created_at }}
+                Converted At: {{ result.created_at }}
             </div>
-            <div class="m-2">
+
+            <div class="mt-2">
                 {% if result.is_public %}
                     <strong>Public</strong>
-                    <p>anyone can see this.</p>
+                    <p>Anyone can see this.</p>
                 {% else %}
                     <strong>Private</strong>
                     <p>Only you can see this.</p>
                 {% endif %}
             </div>
-            <form method="POST" class="w-25 mx-auto">
+
+            <form method="POST" class="mx-auto w-24">
                 {% csrf_token %}
                 {{ form | crispy }}
-                <button type="submit" class="btn btn-primary text-white">
+
+                <button type="submit"
+                        class="bg-blue-500 text-white rounded-pill px-3 py-2 mt-2">
                     Make Public/Private
                 </button>
             </form>
 
-            <div id="ascii_result" class="m-4"
-                 style="white-space: pre; font-family: monospace;">{{ result.result }}</div>
+            <div id="ascii_result" class="mt-4" style="white-space: pre; font-family: monospace;">
+                {{ result.result }}
+            </div>
+
             <style>
                 #ascii_result {
                     font-size: 3px;
@@ -61,13 +72,12 @@
                 }
             </style>
 
-            <div class="m-4">
-                {{ result.result | get_string_kilo_bytes }}
-                ||
-                {{ result.result | get_string_char_count }}
+            <div class="mt-4">
+                File Size: {{ result.result | get_string_kilo_bytes }} ||
+                Characters: {{ result.result | get_string_char_count }}
             </div>
         {% else %}
-            <div class="m-4">There is no result yet!</div>
+            <div class="mt-4">There is no result yet!</div>
         {% endif %}
     </div>
 {% endblock %}
