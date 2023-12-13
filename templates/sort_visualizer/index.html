@@ -10,35 +10,42 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Sort Visualizer</h1>
+    <h1 class="text-3xl font-bold">Sort Visualizer</h1>
 
-    {# slide bar with numbers #}
-    <div class="slide_container">
-        <input type="range" min="10" max="1000" value="100" class="slider" id="range_slider">
-        <p>Value: <span id="value"></span></p>
-        <button onclick="init_container()">Regenerate</button>
+    <div class="slide_container flex items-center justify-between">
+        <label for="range_slider"></label>
+        <input type="range" min="10" max="1000" value="100" class="slider" id="range_slider"/>
+        <p class="text-lg">Value: <span id="value"></span></p>
+        <button class="bg-blue-500 text-white font-semibold rounded-lg px-4 py-2" onclick="init_container()">
+            Regenerate
+        </button>
     </div>
 
     <div class="my-4" id="info_box">
         {% if sorting %}
-            <select name="selected_sorting_algorithm" id="selected_sorting_algorithm" onchange="describe_sorting()">
+            <select
+                    name="selected_sorting_algorithm"
+                    id="selected_sorting_algorithm"
+                    onchange="describe_sorting()"
+                    class="bg-white border border-gray-300 rounded-md p-2 w-full"
+            >
                 {% for sort in sorting %}
                     <option value="{{ sort.name }}">{{ sort.name }}</option>
                 {% endfor %}
             </select>
         {% else %}
-            <p>No sorting algorithms found.</p>
+            <p class="text-gray-500">No sorting algorithms found.</p>
         {% endif %}
 
         <br/><br/>
         <div id="sorting_describe">
             {% for sort in sorting %}
                 <div id="{{ sort.name }}" hidden="hidden">
-                    <div>Time Complexity: {{ sort.time_complexity | represent | safe }}</div>
-                    <div>Space Complexity: {{ sort.space_complexity | represent | safe }}</div>
-                    <div>Best Case: {{ sort.best_case | represent | safe }}</div>
-                    <div>Worst Case: {{ sort.worst_case | represent | safe }}</div>
-                    <div>Method: {{ sort.method }}</div>
+                    <div class="my-2">Time Complexity: {{ sort.time_complexity | represent | safe }}</div>
+                    <div class="my-2">Space Complexity: {{ sort.space_complexity | represent | safe }}</div>
+                    <div class="my-2">Best Case: {{ sort.best_case | represent | safe }}</div>
+                    <div class="my-2">Worst Case: {{ sort.worst_case | represent | safe }}</div>
+                    <div class="my-2">Method: {{ sort.method }}</div>
                     {% if sort.extra_info %}
                         <div class="my-4">{{ sort.extra_info }}</div>
                     {% endif %}
@@ -47,12 +54,13 @@
         </div>
         <br/>
 
-        <button onclick="start_sorting()">Sort!</button>
+        <button class="bg-blue-500 text-white font-semibold rounded-lg px-4 py-2">Sort!</button>
     </div>
 
     <div id="box" class="mb-4">
         <div id="container"></div>
     </div>
+
 
     <script>
         window.onload = () => {
