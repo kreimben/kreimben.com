@@ -1,4 +1,5 @@
 {% extends 'site_base.html' %}
+{% load crispy_forms_filters %}
 
 {% block title %}
     Login
@@ -11,27 +12,20 @@
 {% block content %}
     {% load crispy_forms_tags %}
     <h2>Sign In</h2>
-    <form method="post">
+    <form method="post" id="loginForm">
         {% csrf_token %}
         {{ form|crispy }}
-        <button type="submit">Log In</button>
-        <br/>
         <input type="hidden" name="passkeys" id="passkeys"/>
-        <button class="btn btn-block btn-dark" type="button" onclick="authn('loginForm')">
+        <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded shadow-md hover:bg-blue-600">
+            Log In
+        </button>
+        <button class="inline-flex items-center px-4 py-2 bg-gray-800 text-white font-bold rounded" type="button"
+                onclick="authn('loginForm')">
+            Sign in With Passkeys
             {% load static %}
-            <img src="{% static 'passkeys/imgs/FIDO-Passkey_Icon-White.png' %}" style="width: 24px">
+            <img src="{% static 'passkeys/imgs/FIDO-Passkey_Icon-White.png' %}" style="width: 24px"
+                 alt="passkeys image">
         </button>
         {% include 'passkeys.js' %}
     </form>
-
-    <div id="pk" class="alert alert-info" style="display: none">Your device supports passkeys, <a
-            href="{% url 'passkeys:enroll' %}">Enroll</a></div>
-    <script type="text/javascript">
-        function register_pk() {
-            $('#pk').show();
-        }
-
-        {% include 'check_passkeys.js'%}
-        $(document).ready(check_passkey(true, register_pk))
-    </script>
 {% endblock %}
