@@ -11,19 +11,20 @@
 
 {% block content %}
     {% if user.is_authenticated %}
-        <div class="alert alert-danger" role="alert">
+        <div class="alert alert-danger p-4 mb-4 rounded-lg border border-red-500 text-red-500 bg-red-100" role="alert">
             Maximum image size is 10MB!
         </div>
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form | crispy }}
-            <button type="submit" class="btn btn-primary mb-4">Generate</button>
+            <button type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded-md">Generate</button>
         </form>
 
         <div class="m-4">
-            <a class="btn btn-primary" style="color:white;" href={% url 'converting_result' %}>Past results</a>
+            <a class="bg-blue-500 text-white font-bold py-2 px-4 rounded-md" href={% url 'converting_result' %}>Past
+                results</a>
         </div>
     {% else %}
-        <div class="m-4 fs-1">You need to have an account of kreimben.com!</div>
+        <div class="mt-4 mb-4 text-3xl">You need to have an account!</div>
     {% endif %}
 {% endblock %}
