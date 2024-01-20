@@ -7,26 +7,23 @@
 {% block content %}
     <!-- Parent div of Every Content. -->
     <div class="m-4 d-flex justify-content-evenly">
-        <div class="card" style="width: 18rem;" id="ascii">
-            <div class="card-body">
-                <h5 class="card-title">Image To Ascii Art</h5>
-                <h6 class="card-subtitle mb-2 text-body-secondary">Photo to Text</h6>
-                <p class="card-text">ASCII art is a graphic design technique that uses computers for presentation and
-                    consists of pictures pieced together from the 95 printable characters defined by the ASCII Standard
-                    from 1963 and ASCII compliant character sets with proprietary extended characters</p>
-                <a href="{% url 'image_to_ascii_art_view' %}" class="card-link">Go!</a>
-            </div>
+        <div class="bg-green-500 text-white shadow-lg rounded-lg p-4 m-4">
+            <h5 class="card-title text-2xl font-bold">Image To Ascii Art</h5>
+            <h6 class="card-subtitle mb-2 text-green-200">Photo to Text</h6>
+            <p class="card-text">ASCII art is a graphic design technique that uses computers for presentation and
+                consists of pictures pieced together from the 95 printable characters defined by the ASCII Standard
+                from 1963 and ASCII compliant character sets with proprietary extended characters</p>
+            <a href="{% url 'image_to_ascii_art_view' %}" class="text-green-600 underline">Go!</a>
         </div>
 
-        <div class="card" style="width: 18rem;" id="sort">
-            <div class="card-body">
-                <h5 class="card-title">Sort Visualizer</h5>
-                <h6 class="card-subtitle mb-2 text-body-secondary">See every stunning sorting!</h6>
-                <p class="card-text">Sort Visualizer presents you every kind of sorting and it's even animated!</p>
-                <a href="{% url 'sort_visualizer' %}" class="card-link">Go!</a>
-            </div>
+        <div class="bg-blue-500 text-white shadow-lg rounded-lg p-4 m-4">
+            <h5 class="card-title text-2xl font-bold">Sort Visualizer</h5>
+            <h6 class="card-subtitle mb-2 text-blue-200">See every stunning sorting!</h6>
+            <p class="card-text">Sort Visualizer presents you every kind of sorting and it's even animated!</p>
+            <a href="{% url 'sort_visualizer' %}" class="text-blue-600 underline">Go!</a>
         </div>
     </div>
+
 
 
     <style>
