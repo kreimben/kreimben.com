@@ -47,8 +47,9 @@ def _get_client_ip(request: HttpRequest):
     return ip
 
 
-class BlogPostDetailView(BaseDetailView):
-    template_name = "../templates/blog/blog_post.html"
+
+class BlogPostDetailView(DetailView):
+    template_name = "blog/blog_post.html"
     model = Post
 
     def get(self, request, **kwargs):
