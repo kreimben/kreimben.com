@@ -11,5 +11,5 @@ cryptography
 fontawesomefree
 Pillow
 python-dotenv
-mysqlclient
+mysqlclient==2.2.4
 zappa
