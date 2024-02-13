@@ -1,51 +1,68 @@
 from django.core.cache import cache
-from django.core.paginator import Paginator
+from django.core.paginator import EmptyPage
 from django.db.models import Q
-from django.http import HttpRequest
 from django.shortcuts import get_object_or_404
-from django.views.generic import ListView, RedirectView
+from django.views.generic import RedirectView, ListView, DetailView
 
-from home.views import BaseTemplateView, BaseDetailView
-from .models import Post, SubmittedFile, Downloader
+from .models import Post, SubmittedFile, Category
+from .utils import _get_client_ip, _save_ip_and_get_file
+
 
 class BlogView(ListView):
     template_name = "blog/blog.html"
     model = Post
     paginate_by = 15
 
-class BlogView(BaseTemplateView):
-    template_name = "../templates/blog/blog.html"
+    def paginate_queryset(self, queryset, page_size):
+        """
+        Due to paginator's limit for dealing with page number fallback,
+        Hereby I re-implement the `paginate_queryset` method.
+        """
+        paginator = self.get_paginator(
+            queryset,
+            page_size,
+            orphans=self.get_paginate_orphans(),
+            allow_empty_first_page=self.get_allow_empty(),
+        )
+        page_kwarg = self.page_kwarg
+        page_num = self.kwargs.get(page_kwarg) or self.request.GET.get(page_kwarg) or 1
 
-    def get(self, request: HttpRequest, *args, **kwargs):
-        category_name = request.GET.get('category', None)
-        context = self.get_context_data()
+        try:
+            page_num = int(page_num)
+        except ValueError:
+            page_num = 1
 
-        if category_name is None:
-            posts = Post.published.all()
-        else:
+        try:
+            page = paginator.page(page_num)
+        except EmptyPage:
+            page_num = paginator.num_pages
+            page = paginator.page(page_num)
+
+        return paginator, page, page.object_list, page.has_other_pages()
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = {
+            "categories": [cate.name for cate in Category.objects.all()],
+            "selected_category_name": self.request.GET.get('category', None)
+        }
+        return super().get_context_data(**context)
+
+    def get_queryset(self):
+        category_name = self.request.GET.get('category', None)
+        query = self.request.GET.get('q', None)
+
+        if category_name:
             posts = Post.published.filter(category__name=category_name)
+        elif query:
+            posts = Post.published.filter(
+                Q(content__icontains=query) |
+                Q(title__icontains=query) |
+                Q(subtitle__icontains=query)
+            )
+        else:
+            posts = Post.published.all()
 
-        categories = set(list(post.category.name for post in posts))
-
-        page = Paginator(posts, 15)
-
-        page_number = request.GET.get('page', 1)
-        page_obj = page.get_page(page_number)
-
-        context["page_obj"] = page_obj
-        context["categories"] = categories
-        context["selected_category_name"] = category_name
-        return self.render_to_response(context)
-
-
-def _get_client_ip(request: HttpRequest):
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0]
-    else:
-        ip = request.META.get('REMOTE_ADDR')
-    return ip
-
+        return posts
 
 
 class BlogPostDetailView(DetailView):
