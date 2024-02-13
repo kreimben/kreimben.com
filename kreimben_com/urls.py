@@ -10,7 +10,7 @@ urlpatterns = [
     path("blog/", include("blog.urls")),
     path('projects/', include('projects.urls')),
 
-    path(f'{os.getenv("DJANGO_REAL_ADMIN_URI")}/', admin.site.urls),
+    path(f'{os.getenv("DJANGO_REAL_ADMIN_URI")}', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('passkeys/', include('passkeys.urls')),
 ]
