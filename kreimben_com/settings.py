@@ -58,7 +58,7 @@ INSTALLED_APPS = [
     "storages",
     'django_extensions',
     'crispy_forms',
-    'crispy_bootstrap5',
+    'crispy_tailwind',
     'silk',
     'passkeys',
 
@@ -228,8 +228,8 @@ else:
     SILKY_PYTHON_PROFILER = False
 
 # django form crispy
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
-CRISPY_TEMPLATE_PACK = "bootstrap5"
+CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
+CRISPY_TEMPLATE_PACK = "tailwind"
 
 # Passkeys
 FIDO_SERVER_ID = 'kreimben.com'
