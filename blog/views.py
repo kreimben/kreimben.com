@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import RedirectView, ListView, DetailView
 
 from .models import Post, SubmittedFile, Category
-from .utils import _get_client_ip, _save_ip_and_get_file
+from .utils import _save_ip_and_get_file, _get_client_ip
 
 
 class BlogView(ListView):
@@ -68,24 +68,30 @@ class BlogView(ListView):
 class BlogPostDetailView(DetailView):
     template_name = "blog/blog_post.html"
     model = Post
+    context_object_name = 'post'  # This automatically adds the Post object to the context as 'post'
 
-    def get(self, request, **kwargs):
-        post = get_object_or_404(Post, Q(id=kwargs["post_id"]) & Q(status='published'))
-        try:
-            files = SubmittedFile.objects.filter(post=post)
-        except SubmittedFile.DoesNotExist:
-            files = None
+    def get_object(self, queryset=None):
+        # Override to use 'post_id' from kwargs and add view count logic
+        post_id = self.kwargs.get("post_id")
+        post = get_object_or_404(self.get_queryset(), id=post_id, status='published')
 
+        # Increment view count if not viewed in this session
         if not cache.get(f"post_{post.id}_viewed"):
             cache.set(f"post_{post.id}_viewed", True)  # use default timeout
             post.view_count += 1
             post.save()
 
-        context = self.get_context_data()
-        context['post'] = post
-        context['files'] = files
-        context['ip'] = _get_client_ip(request)
-        return self.render_to_response(context)
+        return post
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        post = context['post']
+        # Add in the submitted files
+        context['files'] = SubmittedFile.objects.filter(post=post).exists()
+        # Add client IP
+        context['ip'] = _get_client_ip(self.request)
+        return context
 
 
 class BlogFileDownloadCounterView(RedirectView):
