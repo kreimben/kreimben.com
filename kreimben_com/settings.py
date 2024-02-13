@@ -60,7 +60,6 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_tailwind',
     'silk',
-    'passkeys',
 
     "django.contrib.admin",
     "django.contrib.auth",
@@ -86,9 +85,6 @@ MIDDLEWARE = [
 AUTHENTICATION_BACKENDS = [
     # Needed to log in by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
-
-    # passkeys
-    'passkeys.backend.PasskeyModelBackend',
 ]
 
 ROOT_URLCONF = "kreimben_com.urls"
@@ -230,11 +226,3 @@ else:
 # django form crispy
 CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
 CRISPY_TEMPLATE_PACK = "tailwind"
-
-# Passkeys
-FIDO_SERVER_ID = 'kreimben.com'
-FIDO_SERVER_NAME = 'kreimben.com'
-
-import passkeys
-
-KEY_ATTACHMENT = passkeys.Attachment.CROSS_PLATFORM

@@ -3,7 +3,6 @@ django-crispy-forms
 django-extensions
 django-storages
 django-silk
-django-passkeys
 django-quill-editor
 boto3
 crispy-tailwind
