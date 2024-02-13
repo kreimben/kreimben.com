@@ -1,20 +1,35 @@
-<header class="d-flex flex-wrap justify-content-center py-3 mt-2 mx-3 mb-4 border-bottom">
-    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto">
-        <span class="fs-4">Kreimben.com</span>
+<header class="flex justify-between py-3 mt-2 mx-3 mb-4 border-bottom">
+    <a href="/" class="flex items-center mb-3 mb-md-0">
+        <span class="font-bold text-xl">Kreimben.com</span>
     </a>
 
-    <ul class="nav nav-pills">
-        <li class="nav-item"><a href="{% url 'home' %}" class="nav-link" aria-current="page">Home</a></li>
-        <li class="nav-item"><a href="{% url 'blog' %}" class="nav-link">Blog</a></li>
-        <li class="nav-item"><a href="{% url 'projects' %}" class="nav-link">Projects</a></li>
+    <ul class="flex flex-grow gap-4 justify-end">
+        <li>
+            <a href="{% url 'home' %}" class="px-3 py-2 text-gray-700 hover:bg-gray-200">Home</a>
+        </li>
+        <li>
+            <a href="{% url 'blog' %}" class="px-3 py-2 text-gray-700 hover:bg-gray-200">Blog</a>
+        </li>
+        <li>
+            <a href="{% url 'projects' %}" class="px-3 py-2 text-gray-700 hover:bg-gray-200">Projects</a>
+        </li>
+
         {% if user.is_authenticated %}
-            {% csrf_token %}
-            <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link">Log Out</a></li>
-            <li class="nav-item">{{ user.username }}</li>
-        {% else %}
-            <li class="nav-item">
-                {% csrf_token %}<a href="{% url 'login' %}" class="nav-link">Log In</a>
+            <li>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <input class="px-3 py-2 text-gray-700 hover:bg-gray-200" type="submit" value="Sign Out"/>
+                </form>
             </li>
+            <li>{{ user.username }}</li>
+            <li>
+                <a href="{% url 'passkeys:home' %}"
+                   class="rounded-lg shadow-md px-4 py-2 font-medium text-white bg-blue-500 hover:bg-blue-600 transition duration-300 ease-in-out">
+                    Enroll your passkeys!
+                </a>
+            </li>
+        {% else %}
+            <a href="{% url 'login' %}" class="px-3 py-2 text-gray-700 hover:bg-gray-200">Log In</a>
         {% endif %}
     </ul>
 </header>
