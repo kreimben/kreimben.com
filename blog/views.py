@@ -70,17 +70,6 @@ class BlogPostDetailView(BaseDetailView):
         return self.render_to_response(context)
 
 
-def _save_ip_and_get_file(file_id, ip_address):
-    f = get_object_or_404(SubmittedFile, id=file_id)
-
-    d = Downloader.objects.create(
-        file=f,
-        ip_address=ip_address
-    )
-
-    return f
-
-
 class BlogFileDownloadCounterView(RedirectView):
     permanent = True
     query_string = True
@@ -90,17 +79,3 @@ class BlogFileDownloadCounterView(RedirectView):
         f: SubmittedFile = _save_ip_and_get_file(kwargs['file_id'], kwargs['ip'])
         url = f.download
         return url
-
-
-class PostSearchView(ListView):
-    template_name = "blog/blog.html"
-    model = Post
-    paginate_by = 15
-
-    def get_queryset(self):
-        query = self.request.GET.get("q")
-        object_list = (Post.published.filter(
-            Q(content__icontains=query)
-            | Q(title__icontains=query)
-            | Q(subtitle__icontains=query)))
-        return object_list
