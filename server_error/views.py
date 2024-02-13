@@ -1,12 +1,12 @@
 import traceback
 
 from django.http import HttpRequest
+from django.views.generic import TemplateView
 
-from home.views import BaseTemplateView
 from server_error.models import ErrorStatus
 
 
-class ServerErrorView(BaseTemplateView):
+class ServerErrorView(TemplateView):
     template_name = 'error.html'
 
     def get(self, request: HttpRequest, **kwargs):

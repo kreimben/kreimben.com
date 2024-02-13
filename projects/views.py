@@ -1,5 +1,5 @@
-from home.views import BaseTemplateView
+from django.views.generic import TemplateView
 
 
-class ProjectsView(BaseTemplateView):
+class ProjectsView(TemplateView):
     template_name = 'projects/projects.html'

@@ -4,8 +4,8 @@ from django.contrib.auth.models import User, AnonymousUser
 from django.http import HttpRequest
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.views.generic import FormView
 
-from home.views import BaseFormView
 from projects.image_to_ascii_art.forms import ImageUploadForm, UserUploadedImageForm, MakeThisImagePublicForm, \
     DeleteConvertingResult
 from projects.image_to_ascii_art.models import ImageConvertingResult
@@ -17,7 +17,7 @@ def get_user_from_request(request: HttpRequest) -> User | AnonymousUser | None:
     return request.user if bool(request.user) else None
 
 
-class ImageToAsciiView(BaseFormView):
+class ImageToAsciiView(FormView):
     template_name = "image_to_ascii_art/main.html"
     form_class = ImageUploadForm
     view_is_async = True
@@ -59,7 +59,7 @@ class ImageToAsciiView(BaseFormView):
         return self.form_invalid(form)
 
 
-class ImageConvertingResultView(BaseFormView):
+class ImageConvertingResultView(FormView):
     template_name = "image_to_ascii_art/converting_result.html"
     form_class = DeleteConvertingResult
 
@@ -98,7 +98,7 @@ class ImageConvertingResultView(BaseFormView):
             return self.form_invalid(form)
 
 
-class ImageConvertingResultDetailView(BaseFormView):
+class ImageConvertingResultDetailView(FormView):
     template_name = "image_to_ascii_art/converting_result_detail.html"
     form_class = MakeThisImagePublicForm
 

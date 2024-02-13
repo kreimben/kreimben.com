@@ -8,6 +8,10 @@ from django.views.generic import ListView, RedirectView
 from home.views import BaseTemplateView, BaseDetailView
 from .models import Post, SubmittedFile, Downloader
 
+class BlogView(ListView):
+    template_name = "blog/blog.html"
+    model = Post
+    paginate_by = 15
 
 class BlogView(BaseTemplateView):
     template_name = "../templates/blog/blog.html"
