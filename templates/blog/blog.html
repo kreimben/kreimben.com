@@ -10,7 +10,7 @@
 
 {% block content %}
     <!-- search input -->
-    <form class="w-100 col-lg-auto my-3" method="get" action="{% url 'search' %}">
+    <form class="w-100 col-lg-auto my-3" method="get" action="{% url 'blog' %}">
         {% csrf_token %}
         <input
                 name="q"
@@ -30,7 +30,7 @@
     <div class="list-group bg-gray-100 rounded-lg shadow-md p-4">
         {% for post in page_obj %}
             <div class="flex items-center justify-between">
-                <a href="{% url 'post' post.id %}"
+                <a href="{% url 'post_detail' post.id %}"
                    class="text-center mx-auto m-2 p-12 w-full md:w-1/2 lg:w-1/3 xl:w-1/2 list-group-item list-group-item-action rounded-lg bg-white border border-gray-200 flex flex-col hover:shadow-xl">
                     <div class="flex items-center justify-between">
                         <div class="flex flex-col w-full">
@@ -93,9 +93,15 @@
                 </li>
             {% endif %}
 
-            <li class="page-item">
-                <span class="page-link text-gray-800">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
-            </li>
+            <form method="get">
+                {% csrf_token %}
+                <li class="page-item">
+                <span class="page-link text-gray-800">
+                    <label><input style="width: 24px;" name="page"
+                                  value="{{ page_obj.number }}"></label> / {{ page_obj.paginator.num_pages }}
+                </span>
+                </li>
+            </form>
 
             {% if page_obj.has_next %}
                 <li class="page-item">
