@@ -6,7 +6,7 @@ django-silk
 django-passkeys
 django-quill-editor
 boto3
-crispy-bootstrap5
+crispy-tailwind
 cryptography
 fontawesomefree
 Pillow
