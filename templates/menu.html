@@ -1,35 +1,52 @@
-<header class="flex justify-between py-3 mt-2 mx-3 mb-4 border-bottom">
-    <a href="/" class="flex items-center mb-3 mb-md-0">
-        <span class="font-bold text-xl">Kreimben.com</span>
-    </a>
+<div class="bg-gray-100 dark:bg-gray-850">
+    <div class="border-b border-gray-200 dark:border-gray-750">
+        <div class="px-4 md:px-6 lg:px-8 xl:px-12">
+            <nav class="flex items-center justify-between h-14 md:h-20 lg:h-24">
+                <div class="flex items-center space-x-4">
+                    <a class="text-lg font-bold tracking-tight" href="{% url 'home' %}">
+                        Kreimben.com
+                    </a>
 
-    <ul class="flex flex-grow gap-4 justify-end">
-        <li>
-            <a href="{% url 'home' %}" class="px-3 py-2 text-gray-700 hover:bg-gray-200">Home</a>
-        </li>
-        <li>
-            <a href="{% url 'blog' %}" class="px-3 py-2 text-gray-700 hover:bg-gray-200">Blog</a>
-        </li>
-        <li>
-            <a href="{% url 'projects' %}" class="px-3 py-2 text-gray-700 hover:bg-gray-200">Projects</a>
-        </li>
+                    <a class="font-medium" href="{% url 'blog' %}">
+                        Blog
+                    </a>
 
-        {% if user.is_authenticated %}
-            <li>
-                <form action="{% url 'logout' %}" method="post">
-                    {% csrf_token %}
-                    <input class="px-3 py-2 text-gray-700 hover:bg-gray-200" type="submit" value="Sign Out"/>
-                </form>
-            </li>
-            <li>{{ user.username }}</li>
-            <li>
-                <a href="{% url 'passkeys:home' %}"
-                   class="rounded-lg shadow-md px-4 py-2 font-medium text-white bg-blue-500 hover:bg-blue-600 transition duration-300 ease-in-out">
-                    Enroll your passkeys!
-                </a>
-            </li>
-        {% else %}
-            <a href="{% url 'login' %}" class="px-3 py-2 text-gray-700 hover:bg-gray-200">Log In</a>
-        {% endif %}
-    </ul>
-</header>
+                    <a class="font-medium" href="{% url 'projects' %}">
+                        Projects
+                    </a>
+
+                    <a class="font-medium" href="#">
+                        About Me
+                    </a>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    {% if user.is_authenticated %}
+                        {% if user.is_superuser %}
+                            <a class="font-medium" href="{% url 'admin:index' %}">
+                                [ {{ user.username }} ]
+                            </a>
+                        {% else %}
+                            <p class="font-medium">
+                                [ {{ user.username }} ]
+                            </p>
+                        {% endif %}
+
+                        <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <input class="font-medium" type="submit" value="Sign Out"/>
+                        </form>
+                    {% else %}
+                        <a class="font-medium" href="{% url 'login' %}">
+                            Login
+                        </a>
+
+                        <a class="font-medium" href="#">
+                            Sign Up
+                        </a>
+                    {% endif %}
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
