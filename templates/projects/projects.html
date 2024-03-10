@@ -7,6 +7,13 @@
 {% block content %}
     <!-- Parent div of Every Content. -->
     <div class="m-4 d-flex justify-content-evenly">
+        <div class="bg-red-500 text-white shadow-lg rounded-lg p-4 m-4">
+            <h5 class="card-title text-2xl font-bold">Number Classifier</h5>
+            <h6 class="card-subtitle mb-2 text-green-200">Hand-written image predictor</h6>
+            <p class="card-text">trained deep learning model will predict your hand-written number.</p>
+            <a href="{% url 'mnist_classifier' %}" class="text-green-600 underline">Go!</a>
+        </div>
+    
         <div class="bg-green-500 text-white shadow-lg rounded-lg p-4 m-4">
             <h5 class="card-title text-2xl font-bold">Image To Ascii Art</h5>
             <h6 class="card-subtitle mb-2 text-green-200">Photo to Text</h6>
