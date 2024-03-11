@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'projects.apps.ProjectsConfig',
     'projects.image_to_ascii_art.apps.ImageToAsciiArtConfig',
     'projects.sort_visualizer.apps.SortVisualizerConfig',
+    'projects.mnist_classifier.apps.MnistClassifierConfig',
     'server_error.apps.ServerErrorConfig',
 
     "django_quill",
